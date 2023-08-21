@@ -1,4 +1,4 @@
-# One-minute (excluding download time) EVerest demo
+# Quick EVerest demo, 🔋 no setup or software install needed 🔋
 
 ## STEP 1: get access to docker
 
