@@ -166,7 +166,7 @@
         "id": "fc8686af.48d178",
         "type": "mqtt-broker",
         "name": "",
-        "broker": "localhost",
+        "broker": "mqtt-server",
         "port": "1883",
         "clientid": "",
         "usetls": false,
