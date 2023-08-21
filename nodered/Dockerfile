@@ -5,3 +5,5 @@ RUN npm install node-red-node-ui-table
 RUN npm install node-red-contrib-ui-level
 
 COPY config /config
+
+LABEL org.opencontainers.image.source=https://github.com/shankari/everest-demo
