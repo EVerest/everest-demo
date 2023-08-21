@@ -1,7 +1,5 @@
 FROM ghcr.io/everest/build-kit-alpine:latest
 
-RUN echo "Building demo docker image"
-
 RUN echo "Cloning the repo now and copying files over"
 RUN sh -c "git clone https://github.com/EVerest/everest-core.git &&\
              mkdir -p /ext &&\
@@ -15,3 +13,5 @@ RUN /entrypoint.sh run-script compile
 
 # Don't run the test-and-install script since it deletes the build directory!
 RUN /entrypoint.sh run-script install
+
+LABEL org.opencontainers.image.source=https://github.com/shankari/everest-demo
