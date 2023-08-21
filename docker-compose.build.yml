@@ -2,32 +2,24 @@ version: "3.6"
 
 services:
   mqtt-server:
-    image: eclipse-mosquitto:2.0.10
-    volumes:
-      - type: bind
-        source: ./mosquitto/mosquitto.conf
-        target: /mosquitto/config/mosquitto.conf
+    image: ghcr.io/shankari/mqtt-server
+    build: mosquitto
     logging:
       driver: none
 
-  build-kit-debian:
-    build: build-kit
-    # Let's keep it around on run for now
-    # will possibly need change it to some kind of early return later
-    entrypoint: "tail -f /dev/null"
-
   manager:
-    build: demo
+    image: ghcr.io/shankari/manager
+    build: manager
     depends_on:
       - mqtt-server
-      - build-kit-debian
     environment:
       - MQTT_SERVER_ADDRESS=mqtt-server
-    entrypoint: "tail -f /dev/null"
+    entrypoint: "sh ./build/run-scripts/run-sil.sh"
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
 
   node-red:
+    image: ghcr.io/shankari/nodered
     build: nodered
     depends_on:
       - mqtt-server
@@ -35,9 +27,5 @@ services:
       - MQTT_SERVER_ADDRESS=mqtt-server
     ports:
       - 1880:1880
-    volumes:
-      - type: bind
-        source: ./nodered/config/config-sil-flow.json
-        target: /data/flows.json
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
