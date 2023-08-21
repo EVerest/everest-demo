@@ -4,4 +4,4 @@ RUN npm install node-red-contrib-ui-actions
 RUN npm install node-red-node-ui-table
 RUN npm install node-red-contrib-ui-level
 
-COPY config/config-sil-flow.json /data/flows.json
+COPY config /config

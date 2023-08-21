@@ -22,6 +22,7 @@ services:
       - mqtt-server
     environment:
       - MQTT_SERVER_ADDRESS=mqtt-server
+      - FLOWS=/config/config-sil-flow.json
     ports:
       - 1880:1880
     sysctls:
