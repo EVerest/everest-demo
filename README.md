@@ -14,6 +14,8 @@
 ## STEP 2: Run the demo
 - Copy and paste the command for the demo you want to see:
     - simple AC charging station: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.yml && docker compose -p everest up`
+    - two EVSE charging (**basic charging does not seem to work**): `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-two-evse up`
+    - energy management: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-em up`
 
 ## STEP 3: Interact with the demo
 - Open the `nodered` flows to understand the module flows
