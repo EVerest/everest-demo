@@ -1,4 +1,4 @@
-# One-minute (excluding download time) EVerest demo
+# Quick EVerest demo, 🔋 no setup or software install needed 🔋
 
 ## STEP 1: get access to docker
 
@@ -16,22 +16,30 @@
     - simple AC charging station: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.yml && docker compose -p everest up`
 
 ## STEP 3: Interact with the demo
-- Open the nodered flows
-    - On your laptop, go to http://localhost:1880
+- Open the `nodered` flows to understand the module flows
+    - On your laptop, go to http://127.0.0.1:1880
     - On PWD, click on the "open port" button and type in 1880
+      - allow brower popups if requested, or try opening twice
 
 - Open the demo UI
-    - Append `/ui` to the URL above
+    - On your laptop, append `/ui` to the URL above
+    - On PWD, replace the end of the URL, starting with the hash (e.g. `#flow/9aafbf849d4d6e12)` with `/ui`
+
+| Nodered flows | Demo UI | Including simulated error |
+ |-------|--------|------|
+ | ![nodered flows](img/node-red-example.png) | ![demo UI](img/charging-ui.png) | ![including simulated error](img/including-simulated-error.png) |
+ 
+ 
 
 ## STEP 4: See the list of modules loaded and the messages transferred between modules
--![Simple AC charging station log screenshot][img/simple_ac_charging_station.png]
+![Simple AC charging station log screenshot](img/simple_ac_charging_station.png)
 
 ## STEP 5: Clean up after the demo
 - Kill the demo process
-- On your laptop: `docker compose -p everest down && rm docker-compose.yml`
-- On PWD: "Close session"
+- Delete files and containers
+  - On your laptop: `docker compose -p everest down && rm docker-compose.yml`
+  - On PWD: "Close session"
 
 # High level block diagram overview of EVerest capabilities
-
-
-
+From https://everest.github.io/nightly/general/01_framework.html
+![image](https://everest.github.io/nightly/_images/quick-start-high-level-1.png)
