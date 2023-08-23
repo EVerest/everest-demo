@@ -7,7 +7,7 @@ services:
       driver: none
 
   manager:
-    image: ghcr.io/shankari/everest-demo/manager:0.0.1
+    image: ghcr.io/shankari/everest-demo/manager:0.0.2
     depends_on:
       - mqtt-server
     environment:
