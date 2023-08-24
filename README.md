@@ -6,7 +6,8 @@
     - Check that the terminal has access to `docker` and `docker compose`
 - If not, you can get a docker-enabled instance in the cloud using play-with-docker (PWD)
     https://labs.play-with-docker.com/
-    ⚠️  This is a free cloud service, so access may be intermittent. You may not be able to log in, or may run out of space while downloading images even if you login. If this happens, please try again later. When it does work, it works well ⚠️
+
+  🚨  This is a free cloud service, so access may be intermittent. You may not be able to log in, or may run out of space while downloading images even if you login. If this happens, please try again later. When it does work, it works well 🚨
     - Create a docker account at https://hub.docker.com/signup/ (if you do not already have one)
     - Log in with the account at https://labs.play-with-docker.com/
     - Add a new instance
@@ -16,9 +17,9 @@
 
 ## STEP 1: Run the demo
 - Copy and paste the command for the demo you want to see:
-    - simple AC charging station: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.yml && docker compose -p everest up`
-    - two EVSE charging (**basic charging does not seem to work**): `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-two-evse up`
-    - energy management: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-em up`
+    - 🚨simple AC charging station ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.yml && docker compose -p everest up`
+    - 🚨 two EVSE charging (**basic charging does not seem to work**) ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-two-evse up`
+    - 🚨energy management ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-em up`
 
 ## STEP 2: Interact with the demo
 - Open the `nodered` flows to understand the module flows
@@ -67,10 +68,10 @@ highlights the need for such solutions.
         https://github.com/steve-community/steve/issues/320
     - So this demo uses pre-packaged custom images for steve and the database to expedite the launch...
 -  ⚠️  The integration doesn't actually appear to work ⚠️
-    - if you now try to plug in a car using the EVSE demo UI
+    - if you now try to plug in a car using the EVSE demo UI...
 
 <details>
-<summary>we get some promising-looking messages on the server side</summary>
+<summary>we get some promising-looking messages on the server side (open for more) </summary>
 
     ```
         everest-demo-steve-1        | [INFO ] 2023-08-23 05:15:05,608 de.rwth.idsg.steve.ocpp.ws.WebSocketLogger (qtp247162961-36) - [chargeBoxId=cp001, sessionId=3df7f3bc-e076-d275-090f-f2a6eb9d02ac] Received: [2,"ab6930f6-bf8d-477d-9c1e-d9befb11e239","DataTransfer",{"data":"{\"certificateType\":\"V2GCertificate\",\"csr\":\"-----BEGIN CERTIFICATE REQUEST-----\\nMIIBKjCB0QIBADBDMQswCQYDVQQGEwJERTEPMA0GA1UECgwGUGlvbml4MQ4wDAYD\\nVQQDDAVjcDAwMTETMBEGCgmSJomT8ixkARkWA0NQTzBZMBMGByqGSM49AgEGCCqG\\nSM49AwEHA0IABA1ax+CTmpQuDa46+uPqWvSq0Eh0Jl6a1G7K4bUVtHogCYr+GuOb\\nbrkvjd5ZpuNbpDhheUQ15U7ih/5LC6cUUISgLDAqBgkqhkiG9w0BCQ4xHTAbMAsG\\nA1UdDwQEAwIDiDAMBgNVHRMBAf8EAjAAMAoGCCqGSM49BAMCA0gAMEUCIAwi8oUK\\nYfUVdflSSs53+57PHrDxV6ot4n6GuChfB61yAiEAqjK1EkIpY5ARU2M5RRB/zJ2K\\n9OaW5J2mVzfEk8Bfi6A=\\n-----END CERTIFICATE REQUEST-----\\n\"}","messageId":"SignCertificate","vendorId":"org.openchargealliance.iso15118pnc"}]
@@ -87,7 +88,7 @@ highlights the need for such solutions.
 <details>
 
 <summary> but there are errors at the EVSE level, which seem like they are just a
-misconfiguration between the energy management module and the OCPP layer</summary>
+misconfiguration between the energy management module and the OCPP layer (open for more) </summary>
 
 ```
 2023-08-23 05:17:28.938506 [INFO] evse_manager_1:  :: SYS  Session logging started.
@@ -128,13 +129,13 @@ $ curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-
 ```
 
 ## STEP 3: Try to plugin in an EV (will fail)
-On your laptop, go to http://127.0.0.1:1880
+On your laptop, go to http://127.0.0.1:1880/ui
+
 
 ## TEARDOWN: Clean up after the demo
 - Kill the demo process
 - Delete files and containers
   - On your laptop: `docker compose -p everest down && rm docker-compose.yml`
-  - On PWD: "Close session"
 
 # High level block diagram overview of EVerest capabilities
 From https://everest.github.io/nightly/general/01_framework.html
