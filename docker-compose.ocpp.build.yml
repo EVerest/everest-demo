@@ -9,6 +9,7 @@ services:
 
   ocpp-db:
     image: mariadb:10.4.30
+    command: [ "--datadir", "/var/lib/mysql-no-volume" ]
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_DATABASE: ocpp-db
