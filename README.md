@@ -63,9 +63,9 @@ highlights the need for such solutions.
     - So the packaged container only includes the source; when the demo is run, we compile the source code and create the tables
     - per the maintainers (in 2020), "In reality, most people run SteVe to drive 1-2
       charge points as an appliance on a raspberry pi directly attached with
-    database & co all local (a few more use a single VM/vServer)."
+        database & co all local (a few more use a single VM/vServer)."
         https://github.com/steve-community/steve/issues/320
-    - So this demo will take ~ 5 minutes to run. Get yourself a cup of your favorite beverage while waiting...
+    - So this demo uses pre-packaged custom images for steve and the database to expedite the launch...
 -  ⚠️  The integration doesn't actually appear to work ⚠️
     - if you now try to plug in a car using the EVSE demo UI
 
@@ -111,17 +111,10 @@ to get bogged down in software protocol incompatibilities.
 ## STEP 1: Launch the demo
 
 ```
-$ curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.ocpp.build.yml && docker compose -p everest-ocpp up
+$ curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.ocpp.yml && docker compose -p everest-ocpp up
 ```
 
-⚠️  Wait for 5 minutes while steve builds and initializes the database ⚠️
-
-## STEP 2: Create the chargebox
-
-- login to http://127.0.0.1:8180/steve/manager/home (username: admin, password: 1234)
-- add a new entry `cp001` by using "Data Management -> Charge Points -> Add New"
-
-## STEP 3: Check the communication
+## STEP 2: Check the communication
 
 - you should be able to see the communication between the EVSE and the network
 
@@ -134,7 +127,7 @@ $ curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-
 2023-08-23 05:15:05.600821 [INFO] ocpp:OCPP        :: V2GCertificate is invalid in 0 days. Requesting new certificate with certificate signing request
 ```
 
-## STEP 4: Try to plugin in an EV (will fail)
+## STEP 3: Try to plugin in an EV (will fail)
 On your laptop, go to http://127.0.0.1:1880
 
 ## TEARDOWN: Clean up after the demo
