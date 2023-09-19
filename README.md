@@ -1,36 +1,29 @@
 # Quick EVerest Demos
 
-This repository is a repackaging of several simple demos of the [EVerest](https://lfenergy.org/projects/everest/) tech stack. Our intent is to showcase the foundational layers of a charging solution that could address interoperability issues in the industry, not to claim that EVerest is complete or ready for most production use cases in its current state.
+This repository is a repackaging of several simple demos of the [EVerest](https://lfenergy.org/projects/everest/) tech stack. Our intent is to showcase the foundational layers of a charging solution that could address interoperability and reliability issues in the industry. EVerest is currently in the _early adoption_ stage of the [LF Energy Technical Project Lifecycle](https://wiki.lfenergy.org/display/HOME/Technical+Project+Lifecycle).
 
 ## What is EVerest?
 [EVerest](https://lfenergy.org/projects/everest/) is a [Linux Foundation Energy](https://lfenergy.org/) project aiming to provide a modular, open-source framework and tech stack for all manner of electric vehicle chargers. This mission and architecture mean EVerest is well positioned to serve as the base for a reference implementation of a variety of standards that can drive interoperability in the eMobility space.
 
 ### Vision
-The Joint Office plans to use EVerest as a baseline from which to collaboratively build reliable interoperability solutions for EV charging. these may include the following:
-    - reference implementations for standards driving interoperability between network actors including EVs, EVSEs, and CSMSs
-    - interoperability testing tools and test suites
-    - simulated EVs, EVSEs, etc. following interoperability best practices.
+The Joint Office plans to use EVerest as a baseline from which to collaboratively build reliable interoperability solutions for EV charging, including:
+- reference implementations for standards driving interoperability between network actors including EVs, EVSEs, and CSMSs
+- interoperability testing tools and test suites
+- simulated EVs, EVSEs, etc. following interoperability best practices.
 
-### Current Interoperability Feature Highlights
-- Support for protocols/specifications:
-    - EN 61851
-    - ISO 15118 (AC wired charging)
-        - SLAC / ISO 15118-3 in C++
-        - ISO 15118-2 AC
-    - DC DIN SPEC 70121
-    - OCPP 1.6J including profiles and security extensions
-    - Partial OCPP 2.0.1 implementation
-    - Modbus
-    - Sunspec
-
+### EVerest currently supports the following standards
+- EN 61851
+- ISO 15118 (AC wired charging)
+    - SLAC / ISO 15118-3 in C++
+    - ISO 15118-2 AC
+- DC DIN SPEC 70121
+- OCPP 1.6J including profiles and security extensions
+- Partial OCPP 2.0.1 implementation
+    
 ### Roadmap Items in Development
 - Full OCPP 2.0.1 / 2.1
 - ISO 15118-20
 - Robust error handling/reporting
-- Smart charging: based on solar generation and dynamic load balancing
-- Remote System Architecture
-- Simulated ISO 15118-20 AC vehicles
-- Many ISO 15118 features
 
 
 ## SETUP: access docker
