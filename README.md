@@ -38,7 +38,15 @@ The Joint Office plans to use EVerest as a baseline from which to collaborativel
 - If you are a developer, you might already have docker installed on your laptop. If not, [Get Docker](https://docs.docker.com/get-docker/)
     - Check that the terminal has access to `docker` and `docker compose`
  
-## EV <-> Charge station demo
+## EV ↔ EVSE demo
+
+This demo showcases connectivity between one to two EVs and one EVSE.
+The protocol used by the EV can be selected using a UI dropdown. The dropdown can also be used to simulate errors on the EVCC.
+The use cases supported by the two demos are summarized in conceptual block diagrams below.
+
+| One EV ↔ EVSE | Two EV ↔ EVSE |
+|-------|--------|
+| ![one_ev_one_evse](img/one_ev_one_evse.png) | ![two_ev_one_evse](img/two_ev_one_evse.png) |
 
 ### STEP 1: Run the demo
 - Copy and paste the command for the demo you want to see:
