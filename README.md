@@ -33,20 +33,12 @@ The Joint Office plans to use EVerest as a baseline from which to collaborativel
 - Many ISO 15118 features
 
 
-## SETUP: get access to docker
+## SETUP: access docker
 
-- If you are a developer, you might already have docker installed on your laptop
+- If you are a developer, you might already have docker installed on your laptop. If not, [Get Docker](https://docs.docker.com/get-docker/)
     - Check that the terminal has access to `docker` and `docker compose`
-- If not, you can get a docker-enabled instance in the cloud using play-with-docker (PWD)
-    https://labs.play-with-docker.com/
-
-  🚨  This is a free cloud service, so access may be intermittent. You may not be able to log in, or may run out of space while downloading images even if you login. If this happens, please try again later. When it does work, it works well 🚨
-    - Create a docker account at https://hub.docker.com/signup/ (if you do not already have one)
-    - Log in with the account at https://labs.play-with-docker.com/
-    - Add a new instance
-    - Check that the terminal has access to `docker` and `docker compose`
-
-## EV <-> Charge station demo
+ 
+## DEMO 1: EV <-> Charge station demo
 
 ### STEP 1: Run the demo
 - Copy and paste the command for the demo you want to see:
@@ -57,12 +49,9 @@ The Joint Office plans to use EVerest as a baseline from which to collaborativel
 ### STEP 2: Interact with the demo
 - Open the `nodered` flows to understand the module flows
     - On your laptop, go to http://127.0.0.1:1880
-    - On PWD, click on the "open port" button and type in 1880
-      - allow brower popups if requested, or try opening twice
 
 - Open the demo UI
     - On your laptop, append `/ui` to the URL above
-    - On PWD, replace the end of the URL, starting with the hash (e.g. `#flow/9aafbf849d4d6e12)` with `/ui`
 
 | Nodered flows | Demo UI | Including simulated error |
  |-------|--------|------|
