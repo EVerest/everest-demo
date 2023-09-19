@@ -1,4 +1,46 @@
-# Quick EVerest demo (including potential cloud option!)
+# Quick EVerest Demos
+
+This repository is a repackaging of several simple demos of the [EVerest](https://lfenergy.org/projects/everest/) tech stack. Our intent is to showcase the foundational layers of a charging solution that could address interoperability issues in the industry, not to claim that EVerest is complete or ready for most production use cases in its current state.
+
+## What is EVerest?
+[EVerest](https://lfenergy.org/projects/everest/) is a [Linux Foundation Energy](https://lfenergy.org/) project aiming to provide a modular, open-source framework and tech stack for all manner of electric vehicle chargers. This mission and architecture mean EVerest is well positioned to serve as the base for a reference implementation of a variety of standards that can drive interoperability in the eMobility space.
+
+### Vision
+The Joint Office plans to use EVerest as a baseline from which to collaboratively build reliable interoperability solutions for EV charging. these may include the following:
+    - reference implementations for standards driving interoperability between network actors including EVs, EVSEs, and CSMSs
+    - interoperability testing tools and test suites
+    - simulated EVs, EVSEs, etc. following interoperability best practices.
+
+### Current Interoperability Feature Highlights
+- Support for protocols/specifications:
+    - EN 61851
+    - ISO 15118 (AC wired charging)
+        - SLAC / ISO 15118-3 in C++
+        - ISO 15118-2 AC
+    - DC DIN SPEC 70121
+    - OCPP 1.6J including profiles and security extensions
+    - Partial OCPP 2.0.1 implementation
+    - Modbus
+    - Sunspec
+- YAML-based configuration of the entire EVerest stack
+- Loosely-coupled modules communicating using an MQTT message broker
+- Framework interconnecting charging protocols and interfaces
+- Software-in-the-loop simulation
+- Hardware abstraction layer
+- Support for third-party modules
+- Module testing framework
+- NodeRed integration for low-code visual programming
+
+
+### Roadmap Items in Development
+- Full OCPP 2.0.1 / 2.1
+- ISO 15118-20
+- Robust error handling/reporting
+- Smart charging: based on solar generation and dynamic load balancing
+- Remote System Architecture
+- Simulated ISO 15118-20 AC vehicles
+- Many ISO 15118 features
+
 
 ## SETUP: get access to docker
 
@@ -13,15 +55,15 @@
     - Add a new instance
     - Check that the terminal has access to `docker` and `docker compose`
 
-# EV <-> Charge station demos
+## EV <-> Charge station demo
 
-## STEP 1: Run the demo
+### STEP 1: Run the demo
 - Copy and paste the command for the demo you want to see:
     - 🚨simple AC charging station ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.yml && docker compose -p everest up`
     - 🚨 two EVSE charging (**basic charging does not seem to work**) ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-two-evse up`
     - 🚨energy management ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-em up`
 
-## STEP 2: Interact with the demo
+### STEP 2: Interact with the demo
 - Open the `nodered` flows to understand the module flows
     - On your laptop, go to http://127.0.0.1:1880
     - On PWD, click on the "open port" button and type in 1880
@@ -36,16 +78,16 @@
  | ![nodered flows](img/node-red-example.png) | ![demo UI](img/charging-ui.png) | ![including simulated error](img/including-simulated-error.png) |
  
 
-## STEP 3: See the list of modules loaded and the messages transferred between modules
+### STEP 3: See the list of modules loaded and the messages transferred between modules
 ![Simple AC charging station log screenshot](img/simple_ac_charging_station.png)
 
-## TEARDOWN: Clean up after the demo
+### TEARDOWN: Clean up after the demo
 - Kill the demo process
 - Delete files and containers
   - On your laptop: `docker compose -p everest down && rm docker-compose.yml`
   - On PWD: "Close session"
 
-# EV <-> Charge station demos
+## EV <-> Charge station demo
 
 EVerest does not include an implementation of the charging network-side of
 OCPP. Instead they integrate with another open-source project called steve.
@@ -109,13 +151,13 @@ that they work. The plugfests can then focus on hardware issues without having
 to get bogged down in software protocol incompatibilities.
 
 
-## STEP 1: Launch the demo
+### STEP 1: Launch the demo
 
 ```
 $ curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.ocpp.yml && docker compose -p everest-ocpp up
 ```
 
-## STEP 2: Check the communication
+### STEP 2: Check the communication
 
 - you should be able to see the communication between the EVSE and the network
 
@@ -128,15 +170,15 @@ $ curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-
 2023-08-23 05:15:05.600821 [INFO] ocpp:OCPP        :: V2GCertificate is invalid in 0 days. Requesting new certificate with certificate signing request
 ```
 
-## STEP 3: Try to plugin in an EV (will fail)
+### STEP 3: Try to plugin in an EV (will fail)
 On your laptop, go to http://127.0.0.1:1880/ui
 
 
-## TEARDOWN: Clean up after the demo
+### TEARDOWN: Clean up after the demo
 - Kill the demo process
 - Delete files and containers
   - On your laptop: `docker compose -p everest down && rm docker-compose.yml`
 
-# High level block diagram overview of EVerest capabilities
+## High level block diagram overview of EVerest capabilities
 From https://everest.github.io/nightly/general/01_framework.html
 ![image](https://everest.github.io/nightly/_images/quick-start-high-level-1.png)
