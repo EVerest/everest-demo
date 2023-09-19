@@ -42,30 +42,24 @@ The Joint Office plans to use EVerest as a baseline from which to collaborativel
 
 ### STEP 1: Run the demo
 - Copy and paste the command for the demo you want to see:
-    - 🚨simple AC charging station ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.yml && docker compose -p everest up`
-    - 🚨 two EVSE charging (**basic charging does not seem to work**) ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-two-evse up`
-    - 🚨energy management ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/shankari/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-em up`
+    - 🚨simple AC charging station ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/US-JOET/everest-demo/main/docker-compose.yml && docker compose -p everest up`
+    - 🚨 two EVSE charging ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/US-JOET/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-two-evse up`
 
 ### STEP 2: Interact with the demo
-- Open the `nodered` flows to understand the module flows
-    - On your laptop, go to http://127.0.0.1:1880
-
-- Open the demo UI
-    - On your laptop, append `/ui` to the URL above
+- Open the `nodered` flows to understand the module flows at http://127.0.0.1:1880
+- Open the demo UI at http://127.0.0.1:1880/ui
 
 | Nodered flows | Demo UI | Including simulated error |
  |-------|--------|------|
  | ![nodered flows](img/node-red-example.png) | ![demo UI](img/charging-ui.png) | ![including simulated error](img/including-simulated-error.png) |
  
 
-### STEP 3: See the list of modules loaded and the messages transferred between modules
+### STEP 3: See the list of modules loaded and the high level message exchange
 ![Simple AC charging station log screenshot](img/simple_ac_charging_station.png)
 
 ### TEARDOWN: Clean up after the demo
 - Kill the demo process
-- Delete files and containers
-  - On your laptop: `docker compose -p everest down && rm docker-compose.yml`
-  - On PWD: "Close session"
+- Delete files and containers: `docker compose -p everest down && rm docker-compose.yml`
 
 ## High level block diagram overview of EVerest capabilities
 From https://everest.github.io/nightly/general/01_framework.html
