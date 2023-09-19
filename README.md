@@ -22,15 +22,6 @@ The Joint Office plans to use EVerest as a baseline from which to collaborativel
     - Partial OCPP 2.0.1 implementation
     - Modbus
     - Sunspec
-- YAML-based configuration of the entire EVerest stack
-- Loosely-coupled modules communicating using an MQTT message broker
-- Framework interconnecting charging protocols and interfaces
-- Software-in-the-loop simulation
-- Hardware abstraction layer
-- Support for third-party modules
-- Module testing framework
-- NodeRed integration for low-code visual programming
-
 
 ### Roadmap Items in Development
 - Full OCPP 2.0.1 / 2.1
