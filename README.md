@@ -46,6 +46,7 @@ The use cases supported by the three demos are summarized in conceptual block di
 ### STEP 1: Run the demo
 - Copy and paste the command for the demo you want to see:
     - 🚨simple AC charging station ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/US-JOET/everest-demo/main/docker-compose.yml && docker compose -p everest up`
+    - 🚨ISO 15118 DC charging ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/US-JOET/everest-demo/main/docker-compose.iso15118-dc.yml && docker compose -p everest-dc up`
     - 🚨 two EVSE charging ⚡: `curl -o docker-compose.yml https://raw.githubusercontent.com/US-JOET/everest-demo/main/docker-compose.two-evse.yml && docker compose -p everest-two-evse up`
 
 ### STEP 2: Interact with the demo
