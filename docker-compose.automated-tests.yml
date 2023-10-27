@@ -1,0 +1,18 @@
+version: "3.6"
+
+services:
+  mqtt-server:
+    image: ghcr.io/everest/everest-demo/mqtt-server:0.0.1
+    logging:
+      driver: none
+
+  manager:
+    image: ghcr.io/everest/everest-demo/manager:0.0.2
+    depends_on:
+      - mqtt-server
+    environment:
+      - MQTT_SERVER_ADDRESS=mqtt-server
+    working_dir: /ext/source/tests
+    entrypoint: "sh ./run-test.sh"
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0

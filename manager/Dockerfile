@@ -18,9 +18,11 @@ RUN git clone https://github.com/EVerest/everest-core.git \
         # Don't run the test-and-install script since it deletes the build directory!
         && /entrypoint.sh run-script install
 
-# Copy over the custom config *after* the compile
+# Copy over the custom config *after* compilation and installation
 COPY config-docker.json ./dist/share/everest/modules/OCPP/config-docker.json
 
 COPY user-config/ /ext/source/config/user-config/
+
+COPY run-test.sh /ext/source/tests/run-test.sh
 
 LABEL org.opencontainers.image.source=https://github.com/everest/everest-demo
