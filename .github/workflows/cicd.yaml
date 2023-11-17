@@ -30,6 +30,8 @@ jobs:
           - host_namespace: ghcr.io/everest/everest-demo
             image_name: nodered
             context: ./nodered
+          - image: ghcr.io/us-joet/everest-demo/steve-configured
+            context: ./steve
 
     steps:
       - name: Checkout
