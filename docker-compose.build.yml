@@ -4,29 +4,48 @@ services:
   mqtt-server:
     image: ghcr.io/everest/everest-demo/mqtt-server:${TAG}
     build: mosquitto
+    platform: linux/x86_64
     logging:
       driver: none
 
   manager:
     image: ghcr.io/everest/everest-demo/manager:${TAG}
     build: manager
+    platform: linux/x86_64
     depends_on:
       - mqtt-server
     environment:
       - MQTT_SERVER_ADDRESS=mqtt-server
-    entrypoint: "sh ./build/run-scripts/run-sil.sh"
+    entrypoint: "sh ./build/run-scripts/run-sil-ocpp.sh"
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
 
-  node-red:
-    image: ghcr.io/everest/everest-demo/nodered:${TAG}
+  ocpp-db:
+    image: mariadb:10.4.30
+    command: [ "--datadir", "/var/lib/mysql-no-volume" ]
+    ports:
+      - 13306:3306
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: ocpp-db
+      MYSQL_USER: ocpp
+      MYSQL_PASSWORD: ocpp
+
+  steve:
+    build: steve
+    ports:
+      - 8180:8180
+      - 8443:8443
+    depends_on:
+      - ocpp-db
+
+  nodered:
     build: nodered
+    image: ghcr.io/everest/everest-demo/nodered:${TAG}
     depends_on:
       - mqtt-server
-    environment:
-      - MQTT_SERVER_ADDRESS=mqtt-server
-      - FLOWS=/config/config-sil-flow.json
     ports:
       - 1880:1880
-    sysctls:
-      - net.ipv6.conf.all.disable_ipv6=0
+    environment:
+      - MQTT_SERVER_ADDRESS=mqtt-server
+      - FLOWS=/config/config-sil-two-evse-flow.json
