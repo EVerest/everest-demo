@@ -51,3 +51,7 @@ The remainder of the setup process is manual:
     # Remember to replace the X.Y.Z with your new version tag!
     docker push ghcr.io/us-joet/everest-demo/ocpp-db-compiled:X.Y.Z
     ```
+
+> **Note:** The OCPP ID tags are configured so that `DEADBEEF` (the default) can authenticate against two chargers simultaneously (that is, can be involved in two concurrent transactions). In contrast, `ABC12345` can only work one charger at a time, and `VID:AABBCCDDEEFF` is blocked entirely from charging vehicles. Choosing different combinations of demo connectors and OCPP tags (as well as authenticating before/after plugging in a simulated vehicle) can demonstrate a variety of basic authentication scenarios. The configurations for these IDs can be modified within the SteVe administration webapp to support other scenarios.
+>
+> The OCPP Tag IDs themselves are defined in the Node-Red flows for the two EVSE demo.
