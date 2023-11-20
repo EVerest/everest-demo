@@ -1,19 +1,21 @@
-FROM ghcr.io/everest/build-kit-alpine:latest
+FROM --platform=linux/x86_64 ghcr.io/everest/build-kit-alpine:latest
 
-RUN echo "Cloning the repo now and copying files over"
-RUN sh -c "git clone https://github.com/EVerest/everest-core.git &&\
-             mkdir -p /ext &&\
-             mkdir -p /ext/scripts &&\
-             mv everest-core /ext/source &&\
-             cp /ext/source/.ci/build-kit/compile.sh /ext/scripts"
+COPY install.sh ./
 
-ADD install.sh /ext/scripts
-RUN /entrypoint.sh run-script compile
-
-# Don't run the test-and-install script since it deletes the build directory!
-RUN /entrypoint.sh run-script install
+# Cloning the repo now and copying files over
+RUN git clone https://github.com/EVerest/everest-core.git \
+        && cd everest-core \
+        && git checkout 9b99808a28f162f3986a595bf1e01387daa85f5e \
+        && cd .. \
+        && mkdir -p /ext/scripts \
+        && mv install.sh /ext/scripts/install.sh \
+        && mv everest-core /ext/source \
+        && cp /ext/source/.ci/build-kit/compile.sh /ext/scripts \
+        && /entrypoint.sh run-script compile \
+        # Don't run the test-and-install script since it deletes the build directory!
+        && /entrypoint.sh run-script install
 
 # Copy over the custom config *after* the compile
-ADD config-docker.json dist/share/everest/modules/OCPP/config-docker.json
+COPY config-docker.json ./dist/share/everest/modules/OCPP/config-docker.json
 
-LABEL org.opencontainers.image.source=https://github.com/shankari/everest-demo
+LABEL org.opencontainers.image.source=https://github.com/us-joet/everest-demo
