@@ -5,7 +5,7 @@ COPY install.sh ./
 # Cloning the repo now and copying files over
 RUN git clone https://github.com/EVerest/everest-core.git \
         && cd everest-core \
-        && git checkout 9b99808a28f162f3986a595bf1e01387daa85f5e \
+        && git checkout 2023.10.0 \
         && cd .. \
         && mkdir -p /ext/scripts \
         && mv install.sh /ext/scripts/install.sh \
