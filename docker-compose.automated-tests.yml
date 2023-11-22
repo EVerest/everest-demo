@@ -2,12 +2,12 @@ version: "3.6"
 
 services:
   mqtt-server:
-    image: ghcr.io/everest/everest-demo/mqtt-server:0.0.1
+    image: ghcr.io/us-joet/everest-demo/mqtt-server:${TAG}
     logging:
       driver: none
 
   manager:
-    image: ghcr.io/everest/everest-demo/manager:0.0.2
+    image: ghcr.io/us-joet/everest-demo/manager:${TAG}
     depends_on:
       - mqtt-server
     environment:

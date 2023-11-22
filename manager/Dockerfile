@@ -21,7 +21,8 @@ RUN git clone https://github.com/EVerest/everest-core.git \
 # Copy over the custom config *after* compilation and installation
 COPY config-docker.json ./dist/share/everest/modules/OCPP/config-docker.json
 
-COPY user-config/ /ext/source/config/user-config/
+# TODO: This should be removed once added to everest-core
+COPY ./tests/startup_tests.py /ext/source/tests/core_tests/startup_tests.py
 
 COPY run-test.sh /ext/source/tests/run-test.sh
 
