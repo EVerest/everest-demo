@@ -16,4 +16,4 @@ RUN /entrypoint.sh run-script install
 # Copy over the custom config *after* the compile
 ADD config-docker.json dist/share/everest/modules/OCPP/config-docker.json
 
-LABEL org.opencontainers.image.source=https://github.com/shankari/everest-demo
+LABEL org.opencontainers.image.source=https://github.com/us-joet/everest-demo
