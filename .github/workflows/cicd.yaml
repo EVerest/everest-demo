@@ -1,11 +1,6 @@
 name: cicd
 
 on:
-  push:
-    branches:
-      - 'build_pkg_**'
-    tags:
-      - 'v*'
   pull_request:
     branches:
       - 'main'
@@ -31,6 +26,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure Docker image version is not referencing an existing release
+        id: docker-image-version-check
+        run: |
+          if ! [[ -s .docker_image_version  ]]; then
+            echo 'Error: No .docker_image_version file found.'
+            exit 1
+          fi
+
+          SEMVER="$(cat .docker_images_version)"
+          if git show-ref --tags --verify --quiet "refs/tags/v${SEMVER}"; then
+            echo "Error: The tag 'v${SEMVER}' is already a GitHub release.'
+            echo '       Please update the version in .docker_image_version'
+            exit 1
+          else
+            echo "SEMVER=${SEMVER}" >> "${GITHUB_OUTPUT}"
+          fi
 
       - name: Set Docker image metadata
         id: meta
@@ -40,11 +54,9 @@ jobs:
           tags: |
             type=ref,event=branch
             type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern=${{ steps.docker-image-version-check.SEMVER }}
 
       - name: Log into GitHub container registry
-        if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -55,6 +67,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.context }}
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
