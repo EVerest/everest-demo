@@ -2,13 +2,13 @@ version: "3.6"
 
 services:
   mqtt-server:
-    image: ghcr.io/shankari/everest-demo/mqtt-server:0.0.1
+    image: ghcr.io/shankari/everest-demo/mqtt-server:build_pkg_add-15118-dash-2-logs-to-dc-demo
     build: mosquitto
     logging:
       driver: none
 
   manager:
-    image: ghcr.io/shankari/everest-demo/manager:0.0.2
+    image: ghcr.io/shankari/everest-demo/manager:build_pkg_add-15118-dash-2-logs-to-dc-demo
     build: manager
     depends_on:
       - mqtt-server
@@ -19,7 +19,7 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
 
   node-red:
-    image: ghcr.io/shankari/everest-demo/nodered:0.0.1
+    image: ghcr.io/shankari/everest-demo/nodered:build_pkg_add-15118-dash-2-logs-to-dc-demo
     build: nodered
     depends_on:
       - mqtt-server
