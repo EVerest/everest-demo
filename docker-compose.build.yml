@@ -2,13 +2,13 @@ version: "3.6"
 
 services:
   mqtt-server:
-    image: ghcr.io/everest/everest-demo/mqtt-server:0.0.1
+    image: ghcr.io/everest/everest-demo/mqtt-server:0.0.3
     build: mosquitto
     logging:
       driver: none
 
   manager:
-    image: ghcr.io/everest/everest-demo/manager:0.0.2
+    image: ghcr.io/everest/everest-demo/manager:0.0.3
     build: manager
     depends_on:
       - mqtt-server
@@ -19,7 +19,7 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
 
   node-red:
-    image: ghcr.io/everest/everest-demo/nodered:0.0.1
+    image: ghcr.io/everest/everest-demo/nodered:0.0.3
     build: nodered
     depends_on:
       - mqtt-server
