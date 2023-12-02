@@ -1,11 +1,14 @@
 FROM --platform=linux/x86_64 ghcr.io/everest/build-kit-alpine:latest
 
+ARG EVEREST_VERSION=2023.10.0
+ENV EVEREST_VERSION=${EVEREST_VERSION}
+
 COPY install.sh ./
 
 # Cloning the repo now and copying files over
 RUN git clone https://github.com/EVerest/everest-core.git \
         && cd everest-core \
-        && git checkout 2023.10.0 \
+        && git checkout ${EVEREST_VERSION} \
         && cd .. \
         && mkdir -p /ext/scripts \
         && mv install.sh /ext/scripts/install.sh \
