@@ -2,12 +2,12 @@ version: "3.6"
 
 services:
   mqtt-server:
-    image: ghcr.io/shankari/everest-demo/mqtt-server:0.0.1
+    image: ghcr.io/everest/everest-demo/mqtt-server:0.0.1
     logging:
       driver: none
 
   manager:
-    image: ghcr.io/shankari/everest-demo/manager:0.0.2
+    image: ghcr.io/everest/everest-demo/manager:0.0.2
     depends_on:
       - mqtt-server
     environment:
@@ -17,7 +17,7 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
 
   node-red:
-    image: ghcr.io/shankari/everest-demo/nodered:0.0.1
+    image: ghcr.io/everest/everest-demo/nodered:0.0.1
     depends_on:
       - mqtt-server
     environment:
