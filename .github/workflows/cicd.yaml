@@ -50,7 +50,7 @@ jobs:
             exit 1
           fi
 
-          SEMVER="$(cat .docker_images_version)"
+          SEMVER="$(cat .docker_image_version)"
 
           # Fail if any previous Docker image version value matches the one in
           # this PR (excluding the current image version).
