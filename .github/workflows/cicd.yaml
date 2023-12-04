@@ -21,13 +21,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - host_namespace: ghcr.io/us-joet/everest-demo
+          - host_namespace: ghcr.io/everest/everest-demo
             image_name: manager
             context: ./manager
-          - host_namespace: ghcr.io/us-joet/everest-demo
+          - host_namespace: ghcr.io/everest/everest-demo
             image_name: mqtt-server
             context: ./mosquitto
-          - host_namespace: ghcr.io/us-joet/everest-demo
+          - host_namespace: ghcr.io/everest/everest-demo
             image_name: nodered
             context: ./nodered
 
