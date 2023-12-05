@@ -75,3 +75,6 @@ where `[prefix]` is `everest, everest-dc, everest-two-evse...`
 ## High level block diagram overview of EVerest capabilities
 From https://everest.github.io/nightly/general/01_framework.html
 ![image](https://everest.github.io/nightly/_images/quick-start-high-level-1.png)
+
+## Notes for Demo Contributors
+Docker images defined in this repository are built during pull requests, on merges to `main`, and on pushes of semantic version tags. The labels for newly-built images are determined by the `TAG` environment variable specified in the root level `.env` file in this repository. The value of `TAG` is also used throughout the demo `docker-compose.*.yml`.
