@@ -21,4 +21,4 @@ RUN git clone https://github.com/EVerest/everest-core.git \
 # Copy over the custom config *after* the compile
 COPY config-docker.json ./dist/share/everest/modules/OCPP/config-docker.json
 
-LABEL org.opencontainers.image.source=https://github.com/us-joet/everest-demo
+LABEL org.opencontainers.image.source=https://github.com/everest/everest-demo
