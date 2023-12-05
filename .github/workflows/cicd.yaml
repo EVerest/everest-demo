@@ -39,13 +39,14 @@ jobs:
 
       - name: Ensure Docker image version is not referencing an existing release
         id: docker-image-version-check
+        shell: bash
         run: |
-          if ! [[ -s .env  ]]; then
+          if ! [[ -s '.env'  ]]; then
             echo 'Error: No .env file found.'
             exit 1
           fi
 
-          if ! [[ grep -qE '^TAG=' .env ]]; then
+          if ! grep -qE '^TAG=' .env; then
             echo 'Error: .env must contain a TAG variable.'
             exit 1
           fi
@@ -64,7 +65,7 @@ jobs:
           done
 
           if git show-ref --tags --verify --quiet "refs/tags/v${TAG}"; then
-            echo "Error: The tag 'v${TAG}' is already a GitHub release.'
+            echo "Error: The tag 'v${TAG}' is already a GitHub release."
             echo '       Please update the version in .env'
             exit 1
           else
