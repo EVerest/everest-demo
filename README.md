@@ -49,6 +49,7 @@ The use cases supported by the three demos are summarized in conceptual block di
     - 🚨 AC Charging ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-ac.sh | bash`
     - 🚨 ISO 15118 DC Charging ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-dc.sh | bash`
     - 🚨 Two EVSE Charging ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-two-evse.sh | bash`
+    - 🚨 E2E Automated Tests ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-automated-testing.sh | bash`
 
 ### STEP 2: Interact with the demo
 - Open the `nodered` flows to understand the module flows at http://127.0.0.1:1880
