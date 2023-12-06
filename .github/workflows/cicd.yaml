@@ -84,9 +84,7 @@ jobs:
         with:
           images: ${{ matrix.host_namespace }}/${{ matrix.image_name }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern=${{ steps.docker-image-version-check.outputs.TAG }}
+            type=semver,pattern={{version}},value=v${{ steps.docker-image-version-check.outputs.TAG }}
 
       - name: Log into GitHub container registry
         if: github.event_name != 'pull_request'
