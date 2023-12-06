@@ -50,7 +50,7 @@ The use cases supported by the three demos are summarized in conceptual block di
     - 🚨 ISO 15118 DC Charging ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-dc.sh | bash`
     - 🚨 Two EVSE Charging ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-two-evse.sh | bash`
     - 🚨 E2E Automated Tests ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-automated-testing.sh | bash`
-    - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 1.6J CSMS ⚡: `curl https://raw.githubusercontent.com/US-JOET/everest-demo/main/demo-iso15118-2-ac-plus-ocpp16j.sh | bash`
+    - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 1.6J CSMS ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp16j.sh | bash`
 
 ### STEP 2: Interact with the demo
 - Open the `nodered` flows to understand the module flows at http://127.0.0.1:1880

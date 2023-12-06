@@ -2,13 +2,13 @@ version: "3.6"
 
 services:
   mqtt-server:
-    image: ghcr.io/us-joet/everest-demo/mqtt-server:${TAG}
+    image: ghcr.io/everest/everest-demo/mqtt-server:${TAG}
     platform: linux/x86_64
     logging:
       driver: none
 
   manager:
-    image: ghcr.io/us-joet/everest-demo/manager:${TAG}
+    image: ghcr.io/everest/everest-demo/manager:${TAG}
     platform: linux/x86_64
     depends_on:
       - mqtt-server
@@ -19,7 +19,7 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
 
   ocpp-db:
-    image: ghcr.io/us-joet/everest-demo/ocpp-db-compiled:0.0.1
+    image: ghcr.io/everest/everest-demo/ocpp-db-compiled:0.0.1
     command: [ "--datadir", "/var/lib/mysql-no-volume" ]
     ports:
       - 13306:3306
@@ -30,7 +30,7 @@ services:
       MYSQL_PASSWORD: ocpp
 
   steve:
-    image: ghcr.io/us-joet/everest-demo/steve-configured:0.0.1
+    image: ghcr.io/everest/everest-demo/steve-configured:0.0.1
     ports:
       - 8180:8180
       - 8443:8443
@@ -38,7 +38,7 @@ services:
       - ocpp-db
 
   nodered:
-    image: ghcr.io/us-joet/everest-demo/nodered:${TAG}
+    image: ghcr.io/everest/everest-demo/nodered:${TAG}
     depends_on:
       - mqtt-server
     ports:
