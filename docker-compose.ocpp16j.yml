@@ -19,7 +19,7 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
 
   ocpp-db:
-    image: ghcr.io/everest/everest-demo/ocpp-db-compiled:0.0.1
+    image: ghcr.io/us-joet/everest-demo/ocpp-db-compiled:0.0.1
     command: [ "--datadir", "/var/lib/mysql-no-volume" ]
     ports:
       - 13306:3306
@@ -30,7 +30,7 @@ services:
       MYSQL_PASSWORD: ocpp
 
   steve:
-    image: ghcr.io/everest/everest-demo/steve-configured:0.0.1
+    image: ghcr.io/us-joet/everest-demo/steve-configured:0.0.1
     ports:
       - 8180:8180
       - 8443:8443
