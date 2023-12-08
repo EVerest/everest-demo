@@ -10,6 +10,11 @@ services:
   manager:
     image: ghcr.io/everest/everest-demo/manager:${TAG}
     platform: linux/x86_64
+    deploy:
+      resources:
+        limits:
+          cpus: "${EVEREST_MANAGER_CPUS}"
+          memory: "${EVEREST_MANAGER_MEMORY}"
     depends_on:
       - mqtt-server
     environment:
