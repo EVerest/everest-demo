@@ -11,7 +11,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash - && sudo ap
 
 # install dependencies
 RUN sudo apt install -y python3-pip git rsync wget cmake doxygen graphviz build-essential clang-tidy cppcheck openjdk-17-jdk \
-    libboost-all-dev libssl-dev libsqlite3-dev rfkill libpcap-dev libevent-dev pkg-config libcap-dev
+    libboost-all-dev libssl-dev libsqlite3-dev rfkill libpcap-dev libevent-dev pkg-config libcap-dev zip
 # note, removed the following packages from this command: npm docker docker-compose nodejs curl
 
 # install python dependencies
@@ -44,14 +44,20 @@ RUN mkdir -p ~/checkout/everest-workspace/everest-core/build \
 
 # download and untar the bullseye-toolchain
 RUN wget http://build.pionix.de:8888/release/toolchains/bullseye-toolchain.tgz && tar xfz bullseye-toolchain.tgz
+RUN rm bullseye-toolchain.tgz
 
 # cross-compile by changing the given paths accordingly and build EVerest
 RUN cd ~/checkout/everest-workspace/everest-core \
     && cmake \
-    -DCMAKE_TOOLCHAIN_FILE=/full-path-to/bullseye-toolchain/toolchain.cmake \
+    -DCMAKE_TOOLCHAIN_FILE=/bullseye-toolchain/toolchain.cmake \
     -DCMAKE_INSTALL_PREFIX=/mnt/user_data/opt/everest \
     -S . -B build-cross \
-    && make -j$(nproc) -C build-cross \
-    && make -j$(nproc) DESTDIR=./dist -C build-cross install
+    && make -C build-cross \
+    && make DESTDIR=./dist -C build-cross install
+# && make -j$(nproc) -C build-cross \
+# && make -j$(nproc) DESTDIR=./dist -C build-cross install
+
+RUN cd ~/checkout/everest-workspace/everest-core/build-cross/dist/mnt/user_data/opt/ && \
+    zip -r /everest.zip everest
 
 ENTRYPOINT ["/bin/bash"]

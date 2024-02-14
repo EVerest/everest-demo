@@ -10,11 +10,6 @@ services:
     #     limits:
     #       cpus: "4"
     #       memory: "1024M"
-    # volumes:
-    #   - C:\Users\jhoshiko\Desktop\EVerest\benchmarks\qemu-volume:/qemu-volume
+
     stdin_open: true
     tty: true
-    # entrypoint: [ "/bin/bash" ]
-    # volumes:
-    #   qemu-volume:
-    #     external: true
