@@ -67,10 +67,16 @@ in your terminal before one of the one-liners presented in the next section.
 ### STEP 2: Interact with the demo
 - Open the `nodered` flows to understand the module flows at http://127.0.0.1:1880
 - Open the demo UI at http://127.0.0.1:1880/ui
+- When running the Basic and ISO 15118-2 AC Charging with OCPP 1.6J CSMS demo, you can open the SteVe wep portal at http://localhost:8180/steve/manager/home. Login with username: admin, password: 1234
 
 | Nodered flows | Demo UI | Including simulated error |
  |-------|--------|------|
  | ![nodered flows](img/node-red-example.png) | ![demo UI](img/charging-ui.png) | ![including simulated error](img/including-simulated-error.png) |
+
+ | SteVe web portal |
+ |-------|
+ | ![SteVe web portal](img/steve-web-portal.png) |
+
  
 
 ### STEP 3: See the list of modules loaded and the high level message exchange
