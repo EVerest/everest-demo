@@ -1,7 +1,9 @@
 FROM debian:trixie-slim
 
+# add a user to run bitbake
 RUN useradd -ms /bin/bash user1
 
+# install dependencies 
 RUN apt-get update \
     && apt-get --no-install-recommends -y install \
     tini \
@@ -33,11 +35,21 @@ RUN apt-get update \
 # install additional dependencies
 RUN apt-get update && apt-get install vim python-is-python3 bzip2 binutils cpio chrpath cpp diffstat file g++ gawk git lz4 make zstd -y 
 
+# add yocto release files
 RUN mkdir yocto_release
 ADD poky-bf9f2f6f60387b3a7cd570919cef6c4570edcb82.tar.bz2 ./yocto_release
 
+# reconfigure locales
 RUN apt-get clean && apt-get update && apt-get install -y locales
-RUN locale-gen en_US.UTF-8
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8    
 
-
-ENTRYPOINT ["/bin/bash"]
+# build yocto image
+USER user1
+RUN cp -r yocto_release ~/ \
+    && cd ~/yocto_release/poky/ \
+    && . ./oe-init-build-env \
+    && bitbake core-image-minimal

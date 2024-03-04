@@ -1,20 +1,8 @@
 version: "3"
 
 services:
-  qemu-tester:
-    container_name: yocto-builder
+  yocto-builder:
     build:
       dockerfile: "yocto-builder.dockerfile"
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: "4"
-    #       memory: "1024M"
-    # volumes:
-    #   - C:\Users\jhoshiko\Desktop\EVerest\benchmarks\qemu-volume:/qemu-volume
     stdin_open: true
     tty: true
-    # entrypoint: [ "/bin/bash" ]
-    # volumes:
-    #   qemu-volume:
-    #     external: true
