@@ -19,7 +19,8 @@ RUN git clone https://github.com/EVerest/everest-core.git \
         && /entrypoint.sh run-script install
 
 # Copy over the custom config *after* compilation and installation
-COPY config-docker.json ./dist/share/everest/modules/OCPP/config-docker.json
+COPY config-docker-16j.json ./dist/share/everest/modules/OCPP/config-docker-16j.json
+COPY config-docker-201.json ./dist/share/everest/modules/OCPP/config-docker-201.json
 
 # TODO: This should be removed once added to everest-core
 COPY ./tests/startup_tests.py /ext/source/tests/core_tests/startup_tests.py
