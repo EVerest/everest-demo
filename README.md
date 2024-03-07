@@ -70,8 +70,8 @@ in your terminal before one of the one-liners presented in the next section.
 - Open the demo UI at http://127.0.0.1:1880/ui
 - When running the Basic and ISO 15118-2 AC Charging with OCPP 1.6J CSMS demo, you can open the SteVe wep portal at http://localhost:8180/steve/manager/home. Login with username: admin, password: 1234
 - When running the Basic and ISO 15118-2 AC Charging with OCPP 201 CSMS demo, the script currently checks out the maeve repository and builds it, so it is fairly slow.
-    - It starts the Maeve containers in detached mode, so you would need to use docker desktop or `docker logs` to see the logs
-    - Note that the OCPP logs are available at `/tmp/everest_ocpp_logs/` on the EVerest manager and can be downloaded using the docker desktop or `docker cp`
+  - It starts the Maeve containers in detached mode, so you would need to use docker desktop or `docker logs` to see the logs
+  - Note that the OCPP logs are available at `/tmp/everest_ocpp_logs/` on the EVerest manager and can be downloaded using the docker desktop or `docker cp`
 
 | Nodered flows | Demo UI | Including simulated error |
  |-------|--------|------|
