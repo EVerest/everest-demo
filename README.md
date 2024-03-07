@@ -81,6 +81,9 @@ in your terminal before one of the one-liners presented in the next section.
  |-------|
  | ![SteVe web portal](img/steve-web-portal.png) |
 
+ | OCPP 201 with successful connection |
+ |-------|
+ | ![OCPP 201 connection](img/ocpp201-connection.png) |
  
 
 ### STEP 3: See the list of modules loaded and the high level message exchange
