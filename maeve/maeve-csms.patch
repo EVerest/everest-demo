@@ -1,0 +1,20 @@
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 11e927f..1c24691 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -51,8 +51,6 @@ services:
+       - "serve"
+       - "--ws-addr"
+       - ":9310"
+-      - "--wss-addr"
+-      - ":9311"
+       - "--status-addr"
+       - ":9312"
+       - "--tls-server-cert"
+@@ -141,4 +139,4 @@ services:
+     volumes:
+       - ./prometheus:/etc/prometheus
+     command:
+-      - '--config.file=/etc/prometheus/prometheus.yml'
+\ No newline at end of file
++      - '--config.file=/etc/prometheus/prometheus.yml'
