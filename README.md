@@ -63,7 +63,7 @@ in your terminal before one of the one-liners presented in the next section.
     - 🚨 Two EVSE Charging ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-two-evse.sh | bash`
     - 🚨 E2E Automated Tests ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-automated-testing.sh | bash`
     - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 1.6J CSMS ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp16j.sh | bash`
-    - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 1.6J CSMS ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp16j.sh | bash`
+    - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 1.6J CSMS ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp201.sh | bash`
 
 ### STEP 2: Interact with the demo
 - Open the `nodered` flows to understand the module flows at http://127.0.0.1:1880
