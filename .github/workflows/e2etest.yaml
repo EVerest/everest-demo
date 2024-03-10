@@ -26,6 +26,7 @@ jobs:
         run: |
           docker --version
           docker compose version
+          colima --version
       - name: Download and launch
         id: curl-download-and-launch
         shell: bash
