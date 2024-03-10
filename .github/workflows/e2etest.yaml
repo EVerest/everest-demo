@@ -1,0 +1,20 @@
+name: e2etest
+
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '5 4 * * *'
+
+jobs:
+  pull-and-run-tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Download and launch
+        id: curl-download-and-launch
+        shell: bash
+        run: |
+          curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp201.sh | bash
