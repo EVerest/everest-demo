@@ -22,4 +22,4 @@ jobs:
         shell: bash
         timeout-minutes: 10
         run: |
-          curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp201.sh | bash
+          timeout curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp201.sh | bash
