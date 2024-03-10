@@ -20,5 +20,6 @@ jobs:
       - name: Download and launch
         id: curl-download-and-launch
         shell: bash
+        timeout-minutes: 10
         run: |
           curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp201.sh | bash
