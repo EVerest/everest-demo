@@ -14,9 +14,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [macos-latest]
 
     steps:
+      - name: Setup Docker on macOS using Colima, Lima-VM, and Homebrew.
+        uses: douglascamata/setup-docker-macos-action@v1-alpha # Uses an action in the root directory
+        id: docker-install
+      - name: Verify install
+        id: docker-verify
+        shell: bash
+        run: |
+          docker --version
+          docker compose --version
       - name: Download and launch
         id: curl-download-and-launch
         shell: bash
