@@ -27,6 +27,7 @@ jobs:
           docker --version
           docker compose version
           colima --version
+          mkdir -p /var/folders
       - name: Download and launch
         id: curl-download-and-launch
         shell: bash
