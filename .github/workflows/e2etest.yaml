@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           docker --version
-          docker compose --version
+          docker compose version
       - name: Download and launch
         id: curl-download-and-launch
         shell: bash
