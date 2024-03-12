@@ -1,0 +1,35 @@
+version: "3.6"
+
+services:
+  mqtt-server:
+    image: ghcr.io/everest/everest-demo/mqtt-server:${TAG}
+    platform: linux/x86_64
+    logging:
+      driver: none
+
+  manager:
+    image: ghcr.io/everest/everest-demo/manager:${TAG}
+    platform: linux/x86_64
+    deploy:
+      resources:
+        limits:
+          cpus: "${EVEREST_MANAGER_CPUS}"
+          memory: "${EVEREST_MANAGER_MEMORY}"
+    depends_on:
+      - mqtt-server
+    environment:
+      - MQTT_SERVER_ADDRESS=mqtt-server
+    # entrypoint: "sh ./build/run-scripts/run-sil-ocpp201.sh"
+    entrypoint: "tail -f /dev/null"
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+
+  nodered:
+    image: ghcr.io/everest/everest-demo/nodered:${TAG}
+    depends_on:
+      - mqtt-server
+    ports:
+      - 1880:1880
+    environment:
+      - MQTT_SERVER_ADDRESS=mqtt-server
+      - FLOWS=/config/config-sil-two-evse-flow.json
