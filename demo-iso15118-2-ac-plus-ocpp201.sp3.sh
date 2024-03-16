@@ -96,7 +96,7 @@ echo "Configured everest certs, validating that the chain is set up correctly"
 docker exec everest-ac-demo-manager-1 /bin/bash -c "openssl verify -show_chain -CAfile dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem dist/etc/everest/certs/client/csms/CSMS_LEAF.pem"
 
 echo "Copying device DB, configured to SecurityProfile: 3"
-docker cp manager/device_model_storage_maeve_preconfigured.db everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+docker cp manager/device_model_storage_maeve_sp3.db everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
 
 echo "Adding host.docker.internal address to EVerest manager"
 docker exec -it everest-ac-demo-manager-1 sh -c "echo -e \"\$(ip route | grep default | cut -d' ' -f3)\thost.docker.internal\" >> /etc/hosts"
