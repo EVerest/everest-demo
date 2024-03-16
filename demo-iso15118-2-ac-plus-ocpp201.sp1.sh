@@ -62,8 +62,9 @@ docker compose up -d
 echo "Waiting 10s for CSMS to start..."
 sleep 10
 
-echo "MaEVe CSMS started, adding charge station. Note that profiles in MaEVe start with 0 so SP 2 == OCPP SP 3"
-curl http://localhost:9410/api/v0/cs/cp001 -H 'content-type: application/json' -d '{"securityProfile": 2}'
+echo "MaEVe CSMS started, adding charge station. Note that profiles in MaEVe start with 0 so SP 0 == OCPP SP 1"
+curl http://localhost:9410/api/v0/cs/cp001 -H 'content-type: application/json' \
+    -d '{"securityProfile": 0, "base64SHA256Password": "3oGi4B5I+Y9iEkYtL7xvuUxrvGOXM/X2LQrsCwf/knA="}'
 
 echo "Charge station added, adding user token"
 curl http://localhost:9410/api/v0/token -H 'content-type: application/json' -d '{
@@ -86,14 +87,8 @@ docker compose --project-name everest-ac-demo \
 
 ls -al manager
 
-docker cp manager/cached_certs_correct_name.tar.gz everest-ac-demo-manager-1:/workspace/
-docker exec everest-ac-demo-manager-1 /bin/bash -c "tar xf cached_certs_correct_name.tar.gz"
-
-echo "Configured everest certs, validating that the chain is set up correctly"
-docker exec everest-ac-demo-manager-1 /bin/bash -c "openssl verify -show_chain -CAfile dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem dist/etc/everest/certs/client/csms/CSMS_LEAF.pem"
-
-echo "Copying device DB, configured to SecurityProfile: 3"
-docker cp manager/device_model_storage_maeve_sp3.db everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+echo "Copying device DB, configured to SecurityProfile: 1"
+docker cp manager/device_model_storage_maeve_sp1.db everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
 
 echo "Starting software in the loop simulation"
 docker exec -it everest-ac-demo-manager-1 sh /workspace/build/run-scripts/run-sil-ocpp201.sh
