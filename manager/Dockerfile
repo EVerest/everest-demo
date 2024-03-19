@@ -21,7 +21,7 @@ RUN git clone https://github.com/EVerest/everest-core.git \
 # Copy over the custom config *after* compilation and installation
 COPY config-docker.json ./dist/share/everest/modules/OCPP/config-docker.json
 COPY config.json ./dist/share/everest/modules/OCPP201/config.json
-COPY device_model_storage_maeve_preconfigured.db ./dist/share/everest/modules/OCPP201/device_model_storage.db
+COPY device_model_storage_maeve_sp1.db ./dist/share/everest/modules/OCPP201/device_model_storage.db
 
 # TODO: This should be removed once added to everest-core
 COPY ./tests/startup_tests.py /ext/source/tests/core_tests/startup_tests.py
