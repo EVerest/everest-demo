@@ -62,8 +62,12 @@ in your terminal before one of the one-liners presented in the next section.
     - 🚨 ISO 15118 DC Charging ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-dc.sh | bash`
     - 🚨 Two EVSE Charging ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-two-evse.sh | bash`
     - 🚨 E2E Automated Tests ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-automated-testing.sh | bash`
-    - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 1.6J CSMS (StEVe) ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp16j.sh | bash`
-    - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 201 CSMS (MaEVe) ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp201.sh | bash`
+    - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 1.6J CSMS (StEVe) ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp.sh | bash -s -- -j`
+    - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 2.0.1 CSMS (MaEVe Security Profile 1) ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp.sh | bash -s -- -1`
+    - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 2.0.1 CSMS (MaEVe Security Profile 2) ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp.sh | bash -s -- -2`
+    - 🚨 Basic and ISO 15118-2 AC Charging with OCPP 2.0.1 CSMS (MaEVe Security Profile 3) ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp.sh | bash -s -- -3`
+
+> NOTE: the `Basic and ISO 15118-2 AC Charging with OCPP 1.6J CSMS (StEVe)` demo is known to fail intermittently, and will not be fixed.
 
 ### STEP 2: Interact with the demo
 - Open the `nodered` flows to understand the module flows at http://127.0.0.1:1880
