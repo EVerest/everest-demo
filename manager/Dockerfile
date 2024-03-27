@@ -1,6 +1,6 @@
 FROM --platform=linux/x86_64 ghcr.io/everest/build-kit-alpine:latest
 
-ARG EVEREST_VERSION=2024.2.0
+ARG EVEREST_VERSION=2024.3.0-rc1
 ENV EVEREST_VERSION=${EVEREST_VERSION}
 
 COPY install.sh ./
