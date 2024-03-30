@@ -92,14 +92,14 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
   pushd maeve-csms || exit 1
 
   git reset --hard ${MAEVE_BRANCH}
-  cp ../everest-demo/manager/cached_certs_correct_name.tar.gz .
+  cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
 
   echo "Patching the CSMS to disable load balancer"
   patch -p1 -i ../everest-demo/maeve/maeve-csms-no-lb.patch
 
   if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
     echo "Copying certs into ${DEMO_DIR}/maeve-csms/config/certificates"
-    tar xf cached_certs_correct_name.tar.gz
+    tar xf cached_certs_correct_name_emaid.tar.gz
     cat dist/etc/everest/certs/client/csms/CSMS_LEAF.pem \
         dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem \
         dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem \
@@ -109,6 +109,7 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
       > config/certificates/trust.pem
     cp dist/etc/everest/certs/client/csms/CSMS_LEAF.key config/certificates/csms.key
     cp dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem config/certificates/root-V2G-cert.pem
+    cp dist/etc/everest/certs/ca/mo/MO_ROOT_CA.pem config/certificates/root-MO-cert.pem
 
     echo "Validating that the certificates are set up correctly"
     openssl verify -show_chain \
@@ -118,6 +119,12 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
 
     echo "Patching the CSMS to enable EVerest organization"
     patch -p1 -i ../everest-demo/maeve/maeve-csms-everest-org.patch
+    
+    echo "Patching the CSMS to enable local mo root"
+    patch -p1 -i ../everest-demo/maeve/maeve-csms-local-mo-root.patch
+    
+    echo "Patching the CSMS to enable local mo root"
+    patch -p1 -i ../everest-demo/maeve/maeve-csms-ignore-ocsp.patch
   else
     echo "Patching the CSMS to disable WSS"
     patch -p1 -i ../everest-demo/maeve/maeve-csms-no-wss.patch
@@ -155,6 +162,7 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
     "cacheMode": "ALWAYS"
   }'
 
+  curl http://localhost:9410/api/v0/token -H 'content-type: application/json' -d '{"countryCode": "UK", "partyId": "Switch", "contractId": "UKSWI123456789G", "uid": "UKSWI123456789G", "issuer": "Switch", "valid": true, "cacheMode": "ALWAYS"}'
   echo "User token added, starting EVerest..."
 
   popd || exit 1
@@ -163,10 +171,10 @@ fi
 
 pushd everest-demo || exit 1
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
-
+docker cp config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
-  docker cp manager/cached_certs_correct_name.tar.gz everest-ac-demo-manager-1:/workspace/
-  docker exec everest-ac-demo-manager-1 /bin/bash -c "tar xf cached_certs_correct_name.tar.gz"
+  docker cp manager/cached_certs_correct_name_emaid.tar.gz everest-ac-demo-manager-1:/workspace/
+  docker exec everest-ac-demo-manager-1 /bin/bash -c "tar xf cached_certs_correct_name_emaid.tar.gz"
 
   echo "Configured everest certs, validating that the chain is set up correctly"
   docker exec everest-ac-demo-manager-1 /bin/bash -c "openssl verify -show_chain -CAfile dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem dist/etc/everest/certs/client/csms/CSMS_LEAF.pem"
@@ -188,5 +196,5 @@ fi
 
 if [[ "$DEMO_VERSION" =~ v2.0.1 ]]; then
   echo "Starting software in the loop simulation"
-  docker exec everest-ac-demo-manager-1 sh /workspace/build/run-scripts/run-sil-ocpp201.sh
+  docker exec everest-ac-demo-manager-1 sh /workspace/build/run-scripts/run-sil-ocpp201-pnc.sh
 fi
