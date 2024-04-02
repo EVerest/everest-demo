@@ -1,6 +1,8 @@
 #!/bin/sh
-ninja -j$(nproc) -C build install
 
-# install everestpy via cmake target from everest-framework
-ninja -C build everestpy_pip_install_dist
-ninja -C build install_everest_testing
+cd /ext/source \
+&& mkdir build \
+&& cd build \
+&& cmake -DBUILD_TESTING=ON ..\
+&& make install -j6 \
+&& make install_everest_testing \
