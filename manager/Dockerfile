@@ -13,8 +13,6 @@ RUN git clone https://github.com/EVerest/everest-core.git \
         && mkdir -p /ext/scripts \
         && mv install.sh /ext/scripts/install.sh \
         && mv everest-core /ext/source \
-        #&& cp /ext/source/.ci/build-kit/compile.sh /ext/scripts \
-        #&& /entrypoint.sh run-script compile 
         # Don't run the test-and-install script since it deletes the build directory!
         && /entrypoint.sh run-script install
 
