@@ -14,6 +14,8 @@ services:
     platform: linux/x86_64
     depends_on:
       - mqtt-server
+    ports:
+      - 9000:9000
     environment:
       - MQTT_SERVER_ADDRESS=mqtt-server
     entrypoint: "sh ./build/run-scripts/run-sil-ocpp.sh"
