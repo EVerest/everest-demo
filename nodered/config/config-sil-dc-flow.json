@@ -1475,7 +1475,7 @@
         "type": "function",
         "z": "ed603c51db9dcbb9",
         "name": "",
-        "func": "if (msg.topic.indexOf('totalKw')>=0) {\n    context.data.totalKw = msg.payload;\n}\nelse if (msg.topic.indexOf('state_string')>=0) {\n    context.data.state_string = msg.payload;\n}\n\n//node.warn(msg.topic);\nmsg.payload = context.data.totalKw;\nmsg.label = context.data.state_string;\nreturn msg;",
+        "func": "if (msg.topic.indexOf('totalKw')>=0) {\n    console.warn(\"Received totalKw message\");\n    if (context.data.stop_updating_kw) {\n        console.error(\"stopping kw updates because this is annoying\")\n    } else {\n        context.data.totalKw = msg.payload;\n    }\n}\nelse if (msg.topic.indexOf('state_string')>=0) {\n    console.error(\"how can I show the logs\");\n    context.data.state_string = msg.payload;\n    if (msg.payload === 'Charging') {\n        context.data.totalKw = 200;\n        context.data.stop_updating_kw = true;\n    } else {\n        context.data.stop_updating_kw = false;\n    }\n}\n\n//node.warn(msg.topic);\nmsg.payload = context.data.totalKw;\nmsg.label = context.data.state_string;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "// Code added here will be run once\n// whenever the node is started.\ncontext.data = {}",
