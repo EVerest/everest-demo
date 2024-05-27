@@ -1,3 +1,3 @@
 #! /bin/sh
-
-pytest --everest-prefix /workspace/dist core_tests/startup_tests.py 
+pip install pytest
+pytest --everest-prefix ../build/dist core_tests/startup_tests.py 

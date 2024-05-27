@@ -13,8 +13,6 @@ RUN git clone https://github.com/EVerest/everest-core.git \
         && mkdir -p /ext/scripts \
         && mv install.sh /ext/scripts/install.sh \
         && mv everest-core /ext/source \
-        && cp /ext/source/.ci/build-kit/compile.sh /ext/scripts \
-        && /entrypoint.sh run-script compile \
         # Don't run the test-and-install script since it deletes the build directory!
         && /entrypoint.sh run-script install
 
@@ -22,9 +20,6 @@ RUN git clone https://github.com/EVerest/everest-core.git \
 COPY config-docker.json ./dist/share/everest/modules/OCPP/config-docker.json
 COPY config.json ./dist/share/everest/modules/OCPP201/config.json
 COPY device_model_storage_maeve_sp1.db ./dist/share/everest/modules/OCPP201/device_model_storage.db
-
-# TODO: This should be removed once added to everest-core
-COPY ./tests/startup_tests.py /ext/source/tests/core_tests/startup_tests.py
 
 COPY run-test.sh /ext/source/tests/run-test.sh
 
