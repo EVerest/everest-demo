@@ -8,7 +8,7 @@ MAEVE_REPO="https://github.com/thoughtworks/maeve-csms.git"
 MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
 
 
-usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-j|1|2|3] [-h]
+usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-j|1|2|3|m|c] [-h]
 
 This script will run EVerest ISO 15118-2 AC charging with OCPP demos.
 
@@ -22,15 +22,18 @@ where:
     -1   OCPP v2.0.1 Security Profile 1
     -2   OCPP v2.0.1 Security Profile 2
     -3   OCPP v2.0.1 Security Profile 3
+    -m   MaEVe CSMS
+    -c   CitrineOS CSMS
     -h   Show this message"
 
 
 DEMO_VERSION=
 DEMO_COMPOSE_FILE_NAME=
+DEMO_CSMS=
 
 
 # loop through positional options/arguments
-while getopts ':r:b:j123h' option; do
+while getopts ':r:b:j123mch' option; do
   case "$option" in
     r)  DEMO_REPO="$OPTARG" ;;
     b)  DEMO_BRANCH="$OPTARG" ;;
@@ -42,6 +45,8 @@ while getopts ':r:b:j123h' option; do
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
     3)  DEMO_VERSION="v2.0.1-sp3"
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
+    m)  DEMO_CSMS="maeve" ;;
+    c)  DEMO_CSMS="citrineos" ;;
     h)  echo -e "$usage"; exit ;;
     \?) echo -e "illegal option: -$OPTARG\n" >&2
         echo -e "$usage" >&2
@@ -57,7 +62,14 @@ if [[ ! "${DEMO_VERSION}" ]]; then
 
   exit 1
 fi
+if [[ "${DEMO_VERSION}" != "v1.6j" && -z "${DEMO_CSMS}" ]]; then
+  echo 'Error: no 2.0.1 csms option provided.'
+  echo 'Use -c for CitrineOS or -m MaEVe'
+  echo
+  echo -e "$usage"
 
+  exit 1
+fi
 
 DEMO_DIR="$(mktemp -d)"
 
@@ -77,15 +89,17 @@ echo "DEMO BRANCH:  $DEMO_BRANCH"
 echo "DEMO VERSION: $DEMO_VERSION"
 echo "DEMO CONFIG:  $DEMO_COMPOSE_FILE_NAME"
 echo "DEMO DIR:     $DEMO_DIR"
+echo "DEMO CSMS:    $DEMO_CSMS"
 
 
 cd "${DEMO_DIR}" || exit 1
 
+ls -la
 
 echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
 
-if [[ "$DEMO_VERSION" != v1.6j ]]; then
+if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
   echo "Cloning MaEVe CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/maeve-csms and starting it"
   git clone ${MAEVE_REPO} maeve-csms
 
@@ -130,10 +144,10 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
     patch -p1 -i ../everest-demo/maeve/maeve-csms-no-wss.patch
   fi
 
-  echo "Starting the CSMS"
+  echo "Starting the MaEVe CSMS"
   docker compose up -d
 
-  echo "Waiting 5s for CSMS to start..."
+  echo "Waiting 5s for MaEVe CSMS to start..."
   sleep 5
 
   if [[ "$DEMO_VERSION" =~ sp1 ]]; then
@@ -167,9 +181,26 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
 
   popd || exit 1
 fi
-
-
+ls -la
 pushd everest-demo || exit 1
+ls -la
+if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == 'citrineos' ]]; then
+  echo "Starting the CitrineOS CSMS"
+  pushd citrineos || exit 1
+  if ! docker compose --project-name citrineos-csms -f ./docker-compose.yml up -d --wait; then
+      echo "Failed to start CitrineOS."
+      exit 1
+  fi
+
+  ./add-charger.sh
+  # TODO add SP2 and 3 support here
+  popd || exit 1
+
+
+fi
+
+
+
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
 docker cp config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
