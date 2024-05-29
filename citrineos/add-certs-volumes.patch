@@ -1,0 +1,13 @@
+--- docker-compose.yml	2024-05-29 16:26:46
++++ docker-compose-modified.yml	2024-05-29 16:34:45
+@@ -88,6 +88,10 @@
+       - /usr/local/apps/citrineos/03_Modules/Reporting/dist/
+       - /usr/local/apps/citrineos/03_Modules/SmartCharging/dist/
+       - /usr/local/apps/citrineos/03_Modules/Transactions/dist/
++      - ./data/certificates/leafKey.pem:/usr/local/apps/citrineos/Server/src/assets/certificates/leafKey.pem
++      - ./data/certificates/certChain.pem:/usr/local/apps/citrineos/Server/src/assets/certificates/certChain.pem
++      - ./data/certificates/subCAKey.pem:usr/local/apps/citrineos/Server/src/assets/certificates/subCAKey.pem
++      - ./data/certificates/rootCertificate.pem:/usr/local/apps/citrineos/Server/src/assets/certificates/rootCertificate.pem
+     environment:
+       APP_NAME: 'all'
+       APP_ENV: 'docker'

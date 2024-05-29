@@ -7,6 +7,10 @@ DEMO_BRANCH="main"
 MAEVE_REPO="https://github.com/thoughtworks/maeve-csms.git"
 MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
 
+CITRINEOS_REPO="https://github.com/citrineos/citrineos-core.git"
+CITRINEOS_BRANCH="feature/authorization-c07"
+
+
 
 usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-j|1|2|3|m|c] [-h]
 
@@ -22,18 +26,17 @@ where:
     -1   OCPP v2.0.1 Security Profile 1
     -2   OCPP v2.0.1 Security Profile 2
     -3   OCPP v2.0.1 Security Profile 3
-    -m   MaEVe CSMS
-    -c   CitrineOS CSMS
+    -c   Use CitrineOS CSMS (default: MaEVe)
     -h   Show this message"
 
 
 DEMO_VERSION=
 DEMO_COMPOSE_FILE_NAME=
-DEMO_CSMS=
+DEMO_CSMS=citrineos
 
 
 # loop through positional options/arguments
-while getopts ':r:b:j123mch' option; do
+while getopts ':r:b:j123ch' option; do
   case "$option" in
     r)  DEMO_REPO="$OPTARG" ;;
     b)  DEMO_BRANCH="$OPTARG" ;;
@@ -45,7 +48,6 @@ while getopts ':r:b:j123mch' option; do
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
     3)  DEMO_VERSION="v2.0.1-sp3"
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
-    m)  DEMO_CSMS="maeve" ;;
     c)  DEMO_CSMS="citrineos" ;;
     h)  echo -e "$usage"; exit ;;
     \?) echo -e "illegal option: -$OPTARG\n" >&2
@@ -94,7 +96,6 @@ echo "DEMO CSMS:    $DEMO_CSMS"
 
 cd "${DEMO_DIR}" || exit 1
 
-ls -la
 
 echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
@@ -181,26 +182,58 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
 
   popd || exit 1
 fi
-ls -la
-pushd everest-demo || exit 1
-ls -la
+
 if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == 'citrineos' ]]; then
+  echo "Cloning CitrineOS CSMS from ${CITRINEOS_REPO} into ${DEMO_DIR}/citrineos-csms and starting it"
+  git clone --branch "${CITRINEOS_BRANCH}" "${CITRINEOS_REPO}" citrineos-csms
+
+  pushd citrineos-csms || exit 1
+
+  cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
+
+  mkdir -p Server/data/certificates
+
+  echo "Copying certs into ${DEMO_DIR}/citrineos-csms/Server/data/certificates"
+  tar xf cached_certs_correct_name_emaid.tar.gz
+
+  # Leaf key
+  cp dist/etc/everest/certs/client/csms/CSMS_LEAF.key Server/data/certificates/csms.key
+
+  #Cert chain
+  cat dist/etc/everest/certs/client/csms/CSMS_LEAF.pem \
+    dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem \
+    dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem \
+  > Server/data/certificates/csms.pem
+
+  # SubCA
+  cp dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.key Server/data/certificates/subCAKey.pem
+
+  #RootCert
+  cp dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem Server/data/certificates/rootCertificate.pem
+
+  echo "Copying patch and then patching docker compose to take certs from volume"
+  cp ../everest-demo/citrineos/add-certs-volumes.patch Server/data/certificates
+
+  pushd Server || exit 1
+  patch -p1 -i ./data/certificates/add-certs-volumes.patch
   echo "Starting the CitrineOS CSMS"
-  pushd citrineos || exit 1
-  if ! docker compose --project-name citrineos-csms -f ./docker-compose.yml up -d --wait; then
+
+  if ! docker compose -f ./docker-compose.yml build && docker compose --project-name citrineos-csms f ./docker-compose.yml up -d --wait; then
       echo "Failed to start CitrineOS."
       exit 1
   fi
 
-  ./add-charger.sh
-  # TODO add SP2 and 3 support here
+  echo "Adding a charger to CitrineOS"
+  ../../everest-demo/citrineos/add-charger.sh
+
+  popd || exit 1
   popd || exit 1
 
 
 fi
 
-
-
+pushd everest-demo || exit 1
+echo "Starting everest"
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
 docker cp config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
