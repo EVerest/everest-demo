@@ -5,7 +5,7 @@ DEMO_REPO="https://github.com/everest/everest-demo.git"
 DEMO_BRANCH="main"
 
 CSMS_REPO="https://github.com/thoughtworks/maeve-csms.git"
-# MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
+MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
 CSMS="maeve"
 
 
@@ -166,23 +166,141 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
 
     if [[ -f "$CITRINE_DOCKER" ]]; then
       # Use sed to find and replace the string
-      sed -i '' 's/8081:8081/80:8081/g' "$CITRINE_DOCKER"
+      sed -i '' 's/8082:8082/80:8082/g' "$CITRINE_DOCKER"
       echo "Replaced mapping CitrineOS 8081 to 80 completed successfully."
     else
       echo "Error: File $CITRINE_DOCKER does not exist."
       exit 1
     fi
-
-    docker-compose -f ./docker-compose.yml up -d
-  else
-    docker compose up -d
   fi
+
+  docker compose up -d
 
   echo "Waiting 5s for CSMS to start..."
   sleep 5
 
+
+
   if [[ ${CSMS} == "citrine" ]]; then 
     echo "TODO: Fill in Citrine API calls here!"
+    # Configuration
+    DIRECTUS_API_URL="http://localhost:8055"
+    CHARGEPOINT_ID="cp001"
+    CP_PASSWORD="DEADBEEFDEADBEEF"
+    DIRECTUS_EMAIL="admin@citrineos.com"
+    DIRECTUS_PASSWORD="CitrineOS!"
+    
+    # Function to get the Directus token
+    get_directus_token() {
+        local login_url="${DIRECTUS_API_URL}/auth/login"
+        local json_body=$(printf '{"email": "%s", "password": "%s"}' "$DIRECTUS_EMAIL" "$DIRECTUS_PASSWORD")
+        local response=$(curl -s -X POST "$login_url" -H "Content-Type: application/json" -d "$json_body")
+
+        # Extract token from the response
+        local token=$(jq -r '.data.access_token' <<< "$response")
+        echo "$token"
+    }
+
+    # Create new charger location
+    add_location() {
+      local token=$1
+      local response=$(curl -s -X POST "${DIRECTUS_API_URL}/items/Locations" \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer ${token}" \
+          -d '{
+              "id": "2",
+              "name": "New EVerst",
+              "coordinates": {
+                  "type": "Point",
+                  "coordinates": [-74.0620872, 41.041548]
+              }
+          }' | tee /dev/tty && echo)
+
+      local location_id=$(jq -r '.data.id' <<< "$response")
+      echo "$location_id"
+    }
+
+    # Function to add a charging station
+    add_charging_station() {
+        local token=$1
+        local location_id=$2
+        local chargepointId=$3
+        curl -s --request POST \
+            --url "${DIRECTUS_API_URL}/items/ChargingStations" \
+            --header "Authorization: Bearer $token" \
+            --header "Content-Type: application/json" \
+            --data '{
+                "id": "'$chargepointId'",
+                "locationId": "'$location_id'"
+            }' | tee /dev/tty && echo
+      }
+
+    
+    # Function to update SP1 password
+    add_cp001_password() {
+        local response
+        local success=false
+        local attempt=1
+        local passwordString=$1
+
+        until $success; do
+            echo "Attempt $attempt: Updating SP1 password..."
+            response=$(curl -s -o /dev/null -w "%{http_code}" --location --request PUT "http://localhost:8080/data/monitoring/variableAttribute?stationId=${CHARGEPOINT_ID}&setOnCharger=true" \
+                --header "Content-Type: application/json" \
+                --data-raw '{
+                    "component": {
+                        "name": "SecurityCtrlr"
+                    },
+                    "variable": {
+                        "name": "BasicAuthPassword"
+                    },
+                    "variableAttribute": [
+                        {
+                            "value": "'$passwordString'"
+                        }
+                    ],
+                    "variableCharacteristics": {
+                        "dataType": "passwordString",
+                        "supportsMonitoring": false
+                    }
+                }' | tee /dev/tty)
+
+
+            if [[ $response -ge 200 && $response -lt 300 ]]; then
+                echo "Password update successful."
+                success=true
+            else
+                echo "Password update failed with HTTP status: $response.  Retrying in 2 second..."
+                sleep 2
+                ((attempt++))
+            fi
+        done
+    }
+
+    # Main script execution
+    TOKEN=$(get_directus_token)
+    echo "Received Token: $TOKEN"
+
+    if [ -z "$TOKEN" ]; then
+        echo "Failed to retrieve access token."
+        exit 1
+    fi
+
+    echo "Adding a new location..."
+    LOCATION_ID=$(add_location "$TOKEN")
+
+    if [ -z "$LOCATION_ID" ]; then
+        echo "Failed to add new location."
+        exit 1
+    fi
+
+    echo "Location ID: $LOCATION_ID"
+
+    echo "Adding new station..."
+    add_charging_station "$TOKEN" "$LOCATION_ID" "$CHARGEPOINT_ID"
+
+    echo "Add cp001 password to citrine..."
+    add_cp001_password "$CP_PASSWORD"
   else
     if [[ "$DEMO_VERSION" =~ sp1 ]]; then
       echo "MaEVe CSMS started, adding charge station with Security Profile 1 (note: profiles in MaEVe start with 0 so SP-0 == OCPP SP-1)"
