@@ -5,7 +5,7 @@ DEMO_REPO="https://github.com/everest/everest-demo.git"
 DEMO_BRANCH="main"
 
 CSMS_REPO="https://github.com/thoughtworks/maeve-csms.git"
-MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
+CSMS_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
 CSMS="maeve"
 
 
@@ -38,7 +38,8 @@ while getopts ':r:b:cj123h' option; do
     r)  DEMO_REPO="$OPTARG" ;;
     b)  DEMO_BRANCH="$OPTARG" ;;
     c)  CSMS="citrine"
-        CSMS_REPO="https://github.com/citrineos/citrineos-core" ;;
+        CSMS_REPO="https://github.com/citrineos/citrineos-core" 
+        CSMS_BRANCH="63670f3adc09266a0977862d972b0f7e440c577f" ;;
     j)  DEMO_VERSION="v1.6j"
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp16j.yml" ;;
     1)  DEMO_VERSION="v2.0.1-sp1"
@@ -90,6 +91,8 @@ cd "${DEMO_DIR}" || exit 1
 echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
 
+git reset --hard ${CSMS_BRANCH}
+
 if [[ "$DEMO_VERSION" != v1.6j ]]; then
   echo "Cloning ${CSMS} CSMS from ${CSMS_REPO} into ${DEMO_DIR}/${CSMS}-csms and starting it"
   git clone ${CSMS_REPO} ${CSMS}-csms
@@ -110,7 +113,6 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
       exit 1
     fi
   else
-    git reset --hard ${MAEVE_BRANCH}
     cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
 
     echo "Patching the CSMS to disable load balancer"
@@ -167,7 +169,7 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
     if [[ -f "$CITRINE_DOCKER" ]]; then
       # Use sed to find and replace the string
       sed -i '' 's/8082:8082/80:8082/g' "$CITRINE_DOCKER"
-      echo "Replaced mapping CitrineOS 8081 to 80 completed successfully."
+      echo "Replaced mapping CitrineOS 8082 to 80 completed successfully."
     else
       echo "Error: File $CITRINE_DOCKER does not exist."
       exit 1
@@ -182,7 +184,6 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
 
 
   if [[ ${CSMS} == "citrine" ]]; then 
-    echo "TODO: Fill in Citrine API calls here!"
     # Configuration
     DIRECTUS_API_URL="http://localhost:8055"
     CHARGEPOINT_ID="cp001"
@@ -230,8 +231,8 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
             --header "Authorization: Bearer $token" \
             --header "Content-Type: application/json" \
             --data '{
-                "id": "'$chargepointId'",
-                "locationId": "'$location_id'"
+                "id": "'"$chargepointId"'",
+                "locationId": "'"$location_id"'"
             }' | tee /dev/tty && echo
       }
 
@@ -256,7 +257,7 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
                     },
                     "variableAttribute": [
                         {
-                            "value": "'$passwordString'"
+                            "value": "'"$passwordString"'"
                         }
                     ],
                     "variableCharacteristics": {
