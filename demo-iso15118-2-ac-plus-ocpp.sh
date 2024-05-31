@@ -350,7 +350,7 @@ if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
 fi
 
 if [[ ${CSMS} == "citrine" ]]; then 
-  echo "TODO: Copy over certs for Citrine!"
+  echo "TODO: Set up device model correctly!"
 else 
   if [[ "$DEMO_VERSION" =~ sp1 ]]; then
     echo "Copying device DB, configured to SecurityProfile: 1"
