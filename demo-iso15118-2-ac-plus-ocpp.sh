@@ -91,13 +91,13 @@ cd "${DEMO_DIR}" || exit 1
 echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
 
-git reset --hard ${CSMS_BRANCH}
-
 if [[ "$DEMO_VERSION" != v1.6j ]]; then
   echo "Cloning ${CSMS} CSMS from ${CSMS_REPO} into ${DEMO_DIR}/${CSMS}-csms and starting it"
   git clone ${CSMS_REPO} ${CSMS}-csms
 
   pushd ${CSMS}-csms || exit 1
+
+  git reset --hard ${CSMS_BRANCH}
 
   # Set up CSMS
   echo "Setting up ${CSMS}"
