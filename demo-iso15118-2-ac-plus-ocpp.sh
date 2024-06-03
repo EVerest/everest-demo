@@ -8,7 +8,7 @@ MAEVE_REPO="https://github.com/thoughtworks/maeve-csms.git"
 MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
 
 CITRINEOS_REPO="https://github.com/citrineos/citrineos-core.git"
-CITRINEOS_BRANCH="feature/authorization-c07"
+CITRINEOS_BRANCH="feature/everest-demo"
 
 
 
@@ -208,8 +208,10 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == 'citrineos' ]]; then
   # SubCA
   cp dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.key Server/data/certificates/subCAKey.pem
 
-  #RootCert
-  cp dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem Server/data/certificates/rootCertificate.pem
+  #TrustedSubCAChain
+  cat dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem \
+    dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem \
+  > Server/data/certificates/rootCertificate.pem
 
   #ACME key
   cp ../everest-demo/citrineos/acme_account_key.pem Server/data/certificates/acme_account_key.pem
@@ -218,7 +220,6 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == 'citrineos' ]]; then
   cp ../everest-demo/citrineos/add-certs-volumes.patch Server/data/certificates
 
   pushd Server || exit 1
-  patch -p1 -i ./data/certificates/add-certs-volumes.patch
   echo "Starting the CitrineOS CSMS"
   cat ./docker-compose.yml
   docker compose -f ./docker-compose.yml build directus
