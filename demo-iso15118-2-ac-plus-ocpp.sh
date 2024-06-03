@@ -222,7 +222,7 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == 'citrineos' ]]; then
   pushd Server || exit 1
   echo "Starting the CitrineOS CSMS"
   cat ./docker-compose.yml
-  docker compose -f ./docker-compose.yml build directus
+  docker compose -f ./docker-compose.yml build
   if ! docker compose --project-name citrineos-csms -f ./docker-compose.yml up -d --wait; then
       echo "Failed to start CitrineOS."
       exit 1
