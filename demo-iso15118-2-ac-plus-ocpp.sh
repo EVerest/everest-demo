@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 
-DEMO_REPO="https://github.com/ChrisWeissmann/everest-demo.git"
-DEMO_BRANCH="feature/citrine-support"
+DEMO_REPO="https://github.com/everest/everest-demo.git"
+DEMO_BRANCH="main"
 
 MAEVE_REPO="https://github.com/thoughtworks/maeve-csms.git"
 MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
@@ -238,32 +238,31 @@ fi
 
 pushd everest-demo || exit 1
 echo "Starting everest"
-export TAG=0.0.14
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
 docker cp config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
-  docker cp manager/cached_certs_correct_name_emaid.tar.gz everest-ac-demo-manager-1:/workspace/
+  docker cp manager/cached_certs_correct_name_emaid.tar.gz everest-ac-demo-manager-1:/ext/source/build/
   docker exec everest-ac-demo-manager-1 /bin/bash -c "tar xf cached_certs_correct_name_emaid.tar.gz"
 
   echo "Configured everest certs, validating that the chain is set up correctly"
-  docker exec everest-ac-demo-manager-1 /bin/bash -c "openssl verify -show_chain -CAfile dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem dist/etc/everest/certs/client/csms/CSMS_LEAF.pem"
+  docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source/build && openssl verify -show_chain -CAfile dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem dist/etc/everest/certs/client/csms/CSMS_LEAF.pem"
 fi
 
 if [[ "$DEMO_VERSION" =~ sp1 ]]; then
   echo "Copying device DB, configured to SecurityProfile: 1"
   docker cp manager/device_model_storage_sp1.db \
-    everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+    everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
 elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
   echo "Copying device DB, configured to SecurityProfile: 2"
   docker cp manager/device_model_storage_sp2.db \
-    everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+    everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
 elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
   echo "Copying device DB, configured to SecurityProfile: 3"
   docker cp manager/device_model_storage_sp3.db \
-    everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+    everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
 fi
 
 if [[ "$DEMO_VERSION" =~ v2.0.1 ]]; then
   echo "Starting software in the loop simulation"
-  docker exec everest-ac-demo-manager-1 sh /workspace/build/run-scripts/run-sil-ocpp201-pnc.sh
+  docker exec everest-ac-demo-manager-1 sh /ext/source/build/build/run-scripts/run-sil-ocpp201-pnc.sh
 fi
