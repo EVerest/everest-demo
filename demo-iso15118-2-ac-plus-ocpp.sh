@@ -245,18 +245,36 @@ if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
   docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source/build && openssl verify -show_chain -CAfile dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem dist/etc/everest/certs/client/csms/CSMS_LEAF.pem"
 fi
 
-if [[ "$DEMO_VERSION" =~ sp1 ]]; then
-  echo "Copying device DB, configured to SecurityProfile: 1"
-  docker cp manager/device_model_storage_sp1.db \
-    everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
-elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
-  echo "Copying device DB, configured to SecurityProfile: 2"
-  docker cp manager/device_model_storage_sp2.db \
-    everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
-elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
-  echo "Copying device DB, configured to SecurityProfile: 3"
-  docker cp manager/device_model_storage_sp3.db \
-    everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
+if [[ "$DEMO_CSMS" == 'maeve' ]]; then
+  if [[ "$DEMO_VERSION" =~ sp1 ]]; then
+    echo "Copying device DB, configured to SecurityProfile: 1"
+    docker cp manager/device_model_storage_maeve_sp1.db \
+      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+  elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
+    echo "Copying device DB, configured to SecurityProfile: 2"
+    docker cp manager/device_model_storage_maeve_sp2.db \
+      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+  elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
+    echo "Copying device DB, configured to SecurityProfile: 3"
+    docker cp manager/device_model_storage_maeve_sp3.db \
+      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+  fi
+fi
+
+if [[ "$DEMO_CSMS" == 'citrineos' ]]; then
+  if [[ "$DEMO_VERSION" =~ sp1 ]]; then
+    echo "Copying device DB, configured to SecurityProfile: 1"
+    docker cp manager/device_model_storage_sp1.db \
+      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+  elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
+    echo "Copying device DB, configured to SecurityProfile: 2"
+    docker cp manager/device_model_storage_sp2.db \
+      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+  elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
+    echo "Copying device DB, configured to SecurityProfile: 3"
+    docker cp manager/device_model_storage_sp3.db \
+      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+  fi
 fi
 
 if [[ "$DEMO_VERSION" =~ v2.0.1 ]]; then
