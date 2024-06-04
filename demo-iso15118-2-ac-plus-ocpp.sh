@@ -216,9 +216,6 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == 'citrineos' ]]; then
   #ACME key
   cp ../everest-demo/citrineos/acme_account_key.pem Server/data/certificates/acme_account_key.pem
 
-  echo "Copying patch and then patching docker compose to take certs from volume"
-  cp ../everest-demo/citrineos/add-certs-volumes.patch Server/data/certificates
-
   pushd Server || exit 1
   echo "Starting the CitrineOS CSMS"
   cat ./docker-compose.yml
