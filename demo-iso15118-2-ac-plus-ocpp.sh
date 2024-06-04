@@ -32,7 +32,7 @@ where:
 
 DEMO_VERSION=
 DEMO_COMPOSE_FILE_NAME=
-DEMO_CSMS=citrineos
+DEMO_CSMS=maeve
 
 
 # loop through positional options/arguments
