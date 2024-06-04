@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 
-DEMO_REPO="https://github.com/everest/everest-demo.git"
-DEMO_BRANCH="main"
+DEMO_REPO="https://github.com/ChrisWeissmann/everest-demo.git"
+DEMO_BRANCH="feature/citrine-support"
 
 MAEVE_REPO="https://github.com/thoughtworks/maeve-csms.git"
 MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
