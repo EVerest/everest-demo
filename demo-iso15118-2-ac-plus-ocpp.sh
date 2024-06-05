@@ -349,7 +349,7 @@ if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
   docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source/build && openssl verify -show_chain -CAfile dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem dist/etc/everest/certs/client/csms/CSMS_LEAF.pem"
 fi
 
-if [[ ${CSMS} == "citrine" ]]; then 
+if [[ ${CSMS} == "citrine" && ! ("$DEMO_VERSION" =~ sp1) ]]; then
   echo "TODO: Set up device model correctly!"
 else 
   if [[ "$DEMO_VERSION" =~ sp1 ]]; then
