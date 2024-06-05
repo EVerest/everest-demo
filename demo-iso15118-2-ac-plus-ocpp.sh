@@ -94,11 +94,11 @@ git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
 
 if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
   echo "Cloning MaEVe CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/maeve-csms and starting it"
-  git clone ${MAEVE_REPO} maeve-csms
+  git clone "${MAEVE_REPO}" maeve-csms
 
   pushd maeve-csms || exit 1
 
-  git reset --hard ${MAEVE_BRANCH}
+  git reset --hard "${MAEVE_BRANCH}"
   cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
 
   echo "Patching the CSMS to disable load balancer"
