@@ -223,15 +223,15 @@ if [[ "$DEMO_CSMS" == 'maeve' ]]; then
   if [[ "$DEMO_VERSION" =~ sp1 ]]; then
     echo "Copying device DB, configured to SecurityProfile: 1"
     docker cp manager/device_model_storage_maeve_sp1.db \
-      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
   elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
     echo "Copying device DB, configured to SecurityProfile: 2"
     docker cp manager/device_model_storage_maeve_sp2.db \
-      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
   elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
     echo "Copying device DB, configured to SecurityProfile: 3"
     docker cp manager/device_model_storage_maeve_sp3.db \
-      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
   fi
 fi
 
