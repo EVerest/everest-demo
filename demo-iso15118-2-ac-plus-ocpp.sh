@@ -4,8 +4,9 @@
 DEMO_REPO="https://github.com/everest/everest-demo.git"
 DEMO_BRANCH="main"
 
-CSMS_REPO="https://github.com/thoughtworks/maeve-csms.git"
-CSMS_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
+CSMS_REPO="https://github.com/louisg1337/maeve-csms.git"
+# CSMS_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
+CSMS_BRANCH="set_charging_profile"
 CSMS="maeve"
 
 
@@ -102,7 +103,7 @@ fi
 
 if [[ "$DEMO_VERSION" != v1.6j ]]; then
   echo "Cloning ${CSMS} CSMS from ${CSMS_REPO} into ${DEMO_DIR}/${CSMS}-csms and starting it"
-  git clone ${CSMS_REPO} ${CSMS}-csms
+  git clone --branch "${CSMS_BRANCH}" "${CSMS_REPO}" ${CSMS}-csms
 
   pushd ${CSMS}-csms || exit 1
 
@@ -185,6 +186,7 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
     fi
   fi
 
+  docker compose build 
   docker compose up -d
 
   echo "Waiting 5s for CSMS to start..."
