@@ -4,8 +4,9 @@
 DEMO_REPO="https://github.com/everest/everest-demo.git"
 DEMO_BRANCH="main"
 
-CSMS_REPO="https://github.com/thoughtworks/maeve-csms.git"
-CSMS_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
+CSMS_REPO="https://github.com/louisg1337/maeve-csms.git"
+# CSMS_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
+CSMS_BRANCH="set_charging_profile"
 
 CITRINEOS_REPO="https://github.com/citrineos/citrineos-core.git"
 CITRINEOS_BRANCH="feature/everest-demo"
@@ -93,12 +94,11 @@ echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
 
 if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
-  echo "Cloning MaEVe CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/maeve-csms and starting it"
-  git clone "${MAEVE_REPO}" maeve-csms
+  echo "Cloning ${DEMO_CSMS} CSMS from ${CSMS_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
+  git clone --branch "${CSMS_BRANCH}" "${CSMS_REPO}" ${CSMS}-csms
 
   pushd maeve-csms || exit 1
 
-  git reset --hard "${MAEVE_BRANCH}"
   cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
 
   echo "Patching the CSMS to disable load balancer"
@@ -139,7 +139,7 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
     patch -p1 -i ../everest-demo/maeve/maeve-csms-no-wss.patch
   fi
 
-  echo "Starting the MaEVe CSMS"
+  docker compose build 
   docker compose up -d
 
   echo "Waiting 5s for MaEVe CSMS to start..."
