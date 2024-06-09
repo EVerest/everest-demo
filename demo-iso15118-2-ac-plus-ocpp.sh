@@ -92,6 +92,7 @@ cd "${DEMO_DIR}" || exit 1
 
 echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
+# cp -r "${DEMO_REPO}" everest-demo
 
 echo "Run with Edgeshark? $RUN_WITH_EDGESHARK"
 
@@ -129,9 +130,6 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
     fi
   else
     cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
-
-    echo "Patching the CSMS to disable load balancer"
-    patch -p1 -i ../everest-demo/maeve/maeve-csms-no-lb.patch
   fi 
 
   # Set up certificates for SP2 and SP3
@@ -356,7 +354,17 @@ fi
 
 pushd everest-demo || exit 1
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
+
+# Configure and restart nodered
+docker cp nodered/config/config-sil-iso15118-ac-flow.json everest-ac-demo-nodered-1:/config/config-sil-two-evse-flow.json
+docker restart everest-ac-demo-nodered-1
+
+# Configure and restart EVerest
 docker cp config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
+docker cp manager/enable_payment_method.patch everest-ac-demo-manager-1:/tmp/
+docker cp manager/enable_evcc_logging.cfg everest-ac-demo-manager-1:/ext/source/build/dist/etc/everest/default_logging.cfg
+docker exec everest-ac-demo-manager-1 /bin/bash -c "apk add patch && cd /ext && patch -p0 -i /tmp/enable_payment_method.patch"
+
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
   docker cp manager/cached_certs_correct_name_emaid.tar.gz everest-ac-demo-manager-1:/ext/source/build
   docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source/build && tar xf cached_certs_correct_name_emaid.tar.gz"
