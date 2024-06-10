@@ -95,7 +95,7 @@ git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
 
 if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
   echo "Cloning ${DEMO_CSMS} CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
-  git clone --branch "${MAEVE_BRANCH}" "${MAEVE_REPO}" ${CSMS}-csms
+  git clone --branch "${MAEVE_BRANCH}" "${MAEVE_REPO}" "${CSMS}-csms"
 
   pushd maeve-csms || exit 1
 
