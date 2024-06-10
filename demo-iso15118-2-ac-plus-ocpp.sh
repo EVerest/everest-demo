@@ -4,8 +4,8 @@
 DEMO_REPO="https://github.com/everest/everest-demo.git"
 DEMO_BRANCH="main"
 
-CSMS_REPO="https://github.com/thoughtworks/maeve-csms.git"
-CSMS_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
+CSMMAEVEPO="https://github.com/thoughtworks/maeve-csms.git"
+MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
 
 CITRINEOS_REPO="https://github.com/citrineos/citrineos-core.git"
 CITRINEOS_BRANCH="feature/everest-demo"
