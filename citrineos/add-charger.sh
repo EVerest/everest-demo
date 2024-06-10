@@ -79,16 +79,16 @@ add_location() {
 
 # Function to add a charging station
 add_charging_station() {
-    local token=$1
-    local location_id=$2
-    local chargepointId=$3
+    local token="$1"
+    local location_id="$2"
+    local chargepointId="$3"
     curl -s --request POST \
         --url "${DIRECTUS_API_URL}/items/ChargingStations" \
         --header "Authorization: Bearer $token" \
         --header "Content-Type: application/json" \
         --data '{
-            "id": "'$chargepointId'",
-            "locationId": "'$location_id'"
+            "id": "'"$chargepointId"'",
+            "locationId": "'"$location_id"'"
         }' | tee /dev/tty && echo
 }
 
@@ -112,7 +112,7 @@ add_cp001_password() {
                  },
                  "variableAttribute": [
                      {
-                         "value": "'$passwordString'"
+                         "value": "'"$passwordString"'"
                      }
                  ],
                  "variableCharacteristics": {

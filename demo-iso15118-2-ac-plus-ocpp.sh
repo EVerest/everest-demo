@@ -4,15 +4,16 @@
 DEMO_REPO="https://github.com/everest/everest-demo.git"
 DEMO_BRANCH="main"
 
-CSMMAEVEPO="https://github.com/thoughtworks/maeve-csms.git"
-MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
+MAEVE_REPO="https://github.com/louisg1337/maeve-csms.git"
+# MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
+MAEVE_BRANCH="set_charging_profile"
 
 CITRINEOS_REPO="https://github.com/citrineos/citrineos-core.git"
 CITRINEOS_BRANCH="feature/everest-demo"
 
 
 
-usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-j|1|2|3|m|c] [-h]
+usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-j|1|2|3|c] [-h]
 
 This script will run EVerest ISO 15118-2 AC charging with OCPP demos.
 
@@ -64,14 +65,6 @@ if [[ ! "${DEMO_VERSION}" ]]; then
 
   exit 1
 fi
-if [[ "${DEMO_VERSION}" != "v1.6j" && -z "${DEMO_CSMS}" ]]; then
-  echo 'Error: no 2.0.1 csms option provided.'
-  echo 'Use -c for CitrineOS or -m MaEVe'
-  echo
-  echo -e "$usage"
-
-  exit 1
-fi
 
 DEMO_DIR="$(mktemp -d)"
 
@@ -101,17 +94,15 @@ echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
 
 if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
-  echo "Cloning MaEVe CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/maeve-csms and starting it"
-  git clone ${MAEVE_REPO} maeve-csms
+  echo "Cloning ${DEMO_CSMS} CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
+  git clone --branch "${MAEVE_BRANCH}" "${MAEVE_REPO}" ${CSMS}-csms
 
   pushd maeve-csms || exit 1
 
-  git reset --hard ${MAEVE_BRANCH}
   cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
 
-    echo "Patching the CSMS to disable load balancer"
-    patch -p1 -i ../everest-demo/maeve/maeve-csms-no-lb.patch
-  fi 
+  echo "Patching the CSMS to disable load balancer"
+  patch -p1 -i ../everest-demo/maeve/maeve-csms-no-lb.patch
 
   # Set up certificates for SP2 and SP3
   if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
@@ -148,7 +139,7 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
     patch -p1 -i ../everest-demo/maeve/maeve-csms-no-wss.patch
   fi
 
-  echo "Starting the MaEVe CSMS"
+  docker compose build 
   docker compose up -d
 
   echo "Waiting 5s for MaEVe CSMS to start..."
@@ -156,6 +147,7 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
 
   popd || exit 1
 fi
+
 
 if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == 'citrineos' ]]; then
   echo "Cloning CitrineOS CSMS from ${CITRINEOS_REPO} into ${DEMO_DIR}/citrineos-csms and starting it"
@@ -223,31 +215,31 @@ if [[ "$DEMO_CSMS" == 'maeve' ]]; then
   if [[ "$DEMO_VERSION" =~ sp1 ]]; then
     echo "Copying device DB, configured to SecurityProfile: 1"
     docker cp manager/device_model_storage_maeve_sp1.db \
-      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
   elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
     echo "Copying device DB, configured to SecurityProfile: 2"
     docker cp manager/device_model_storage_maeve_sp2.db \
-      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
   elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
     echo "Copying device DB, configured to SecurityProfile: 3"
     docker cp manager/device_model_storage_maeve_sp3.db \
-      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
   fi
 fi
 
 if [[ "$DEMO_CSMS" == 'citrineos' ]]; then
   if [[ "$DEMO_VERSION" =~ sp1 ]]; then
     echo "Copying device DB, configured to SecurityProfile: 1"
-    docker cp manager/device_model_storage_sp1.db \
-      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+    docker cp manager/device_model_storage_citrineos_sp1.db \
+      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
   elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
     echo "Copying device DB, configured to SecurityProfile: 2"
-    docker cp manager/device_model_storage_sp2.db \
-      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+    docker cp manager/device_model_storage_citrineos_sp2.db \
+      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
   elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
     echo "Copying device DB, configured to SecurityProfile: 3"
-    docker cp manager/device_model_storage_sp3.db \
-      everest-ac-demo-manager-1:/workspace/dist/share/everest/modules/OCPP201/device_model_storage.db
+    docker cp manager/device_model_storage_citrineos_sp3.db \
+      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
   fi
 fi
 
