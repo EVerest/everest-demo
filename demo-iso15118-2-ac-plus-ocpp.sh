@@ -11,7 +11,7 @@ CSMS="maeve"
 
 
 
-usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-c <csms>] [-j|1|2|3] [-h]
+usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-c <csms>] [-s] [-j|1|2|3] [-h]
 
 This script will run EVerest ISO 15118-2 AC charging with OCPP demos.
 
@@ -22,6 +22,7 @@ where:
     -r   URL to everest-demo repo to use (default: $DEMO_REPO)
     -b   Branch of everest-demo repo to use (default: $DEMO_BRANCH)
     -c   Use CitrineOS CSMS (default: MaEVe)
+    -s   Run with Edgeshark
     -j   OCPP v1.6j
     -1   OCPP v2.0.1 Security Profile 1
     -2   OCPP v2.0.1 Security Profile 2
@@ -31,16 +32,17 @@ where:
 
 DEMO_VERSION=
 DEMO_COMPOSE_FILE_NAME=
-
+RUN_WITH_EDGESHARK=false
 
 # loop through positional options/arguments
-while getopts ':r:b:cj123h' option; do
+while getopts ':r:b:c:sj123h' option; do
   case "$option" in
     r)  DEMO_REPO="$OPTARG" ;;
     b)  DEMO_BRANCH="$OPTARG" ;;
     c)  CSMS="citrine"
         CSMS_REPO="https://github.com/citrineos/citrineos-core" 
         CSMS_BRANCH="63670f3adc09266a0977862d972b0f7e440c577f" ;;
+    s)  RUN_WITH_EDGESHARK=true ;;
     j)  DEMO_VERSION="v1.6j"
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp16j.yml" ;;
     1)  DEMO_VERSION="v2.0.1-sp1"
@@ -85,13 +87,20 @@ echo "DEMO VERSION: $DEMO_VERSION"
 echo "DEMO CONFIG:  $DEMO_COMPOSE_FILE_NAME"
 echo "DEMO DIR:     $DEMO_DIR"
 
-
 cd "${DEMO_DIR}" || exit 1
 
 
 echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
 # cp -r "${DEMO_REPO}" everest-demo
+
+echo "Run with Edgeshark? $RUN_WITH_EDGESHARK"
+
+if [[ "$RUN_WITH_EDGESHARK" = true ]]; then
+  wget -q --no-cache -O - \
+  https://github.com/siemens/edgeshark/raw/main/deployments/wget/docker-compose-localhost.yaml \
+  | docker compose -f - up -d
+fi
 
 if [[ "$DEMO_VERSION" != v1.6j ]]; then
   echo "Cloning ${CSMS} CSMS from ${CSMS_REPO} into ${DEMO_DIR}/${CSMS}-csms and starting it"
