@@ -102,7 +102,7 @@ in your terminal before one of the one-liners presented in the next section.
 ### OPTIONAL: Explore a demo with Edgeshark
 - For each demo of ISO 15118-2 AC Charging with OCPP, the demo may be ran alongside [Edgeshark](httpos://github.com/siemans/edgeshark?tab=readme-ov-file#edgeshark) for additional information on the network connection between each container.
 - To launch a Edgeshark alongside one of these demos, include the -s flag when running the demo 
-  - 🦈 Example Profile 2 ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp.sh | bash -s - -s - -2`
+  - 🦈 Example Profile 2 ⚡: `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp.sh | bash -s -- -s -2`
 - Using your preferred web browser, navigate to http://localhost:5001 and explore the connections via the discovery engine.
   - If you have installed the [cshargextcap plugin](https://github.com/siemens/cshargextcap?tab=readme-ov-file#containershark-extcap-plugin-for-wireshark), you may launch [Wireshark Desktop](https://www.wireshark.org/download.html) from the discovery engine, to perform a live capture.
 
