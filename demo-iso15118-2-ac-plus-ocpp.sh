@@ -11,7 +11,7 @@ CSMS="maeve"
 
 
 
-usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-c <csms>] [-s] [-j|1|2|3] [-h]
+usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-c <csms>] [-s] [-e] [-j|1|2|3] [-h]
 
 This script will run EVerest ISO 15118-2 AC charging with OCPP demos.
 
@@ -23,6 +23,7 @@ where:
     -b   Branch of everest-demo repo to use (default: $DEMO_BRANCH)
     -c   Use CitrineOS CSMS (default: MaEVe)
     -s   Run with Edgeshark
+    -e   Use EonTi Certificates (with OCPP v2.0.1 Security Profile 2 or 3)
     -j   OCPP v1.6j
     -1   OCPP v2.0.1 Security Profile 1
     -2   OCPP v2.0.1 Security Profile 2
@@ -33,9 +34,10 @@ where:
 DEMO_VERSION=
 DEMO_COMPOSE_FILE_NAME=
 RUN_WITH_EDGESHARK=false
+CERTS="self_signed"
 
 # loop through positional options/arguments
-while getopts ':r:b:c:sj123h' option; do
+while getopts ':r:b:c:sej123h' option; do
   case "$option" in
     r)  DEMO_REPO="$OPTARG" ;;
     b)  DEMO_BRANCH="$OPTARG" ;;
@@ -43,6 +45,7 @@ while getopts ':r:b:c:sj123h' option; do
         CSMS_REPO="https://github.com/citrineos/citrineos-core" 
         CSMS_BRANCH="63670f3adc09266a0977862d972b0f7e440c577f" ;;
     s)  RUN_WITH_EDGESHARK=true ;;
+    e)  CERTS="eonti" ;;
     j)  DEMO_VERSION="v1.6j"
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp16j.yml" ;;
     1)  DEMO_VERSION="v2.0.1-sp1"
@@ -137,7 +140,21 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
     if [[ "$CSMS" == "citrine" ]]; then 
       echo "Security profile 2/3 is not supported with Citrine yet!"
       exit 1
-    else
+    fi
+    if [[ "$CERTS" == "eonti" ]]; then 
+      echo "Copying EonTi certs into ${DEMO_DIR}/maeve-csms/config/certificates"
+      tar xf cached_certs_correct_name_emaid.tar.gz
+      cat dist/etc/everest/certs/eonti/evse_leaf_primary \
+        dist/etc/everest/certs/eonti/cpo_p256_CA2 \
+        dist/etc/everest/certs/eonti/cpo_CA1 \
+        > config/certificates/csms.pem
+      cat dist/etc/everest/certs/eonti/cpo_p256_CA2 \
+          dist/etc/everest/certs/eonti/cpo_CA1 \
+        > config/certificates/trust.pem
+      cp dist/etc/everest/certs/eonti/valid_evse_key config/certificates/csms.key
+      cp dist/etc/everest/certs/eonti/V2G_root config/certificates/root-V2G-cert.pem
+      cp dist/etc/everest/certs/eonti/MO_root config/certificates/root-MO-cert.pem
+    else # Use self-signed certs
       echo "Copying certs into ${DEMO_DIR}/maeve-csms/config/certificates"
       tar xf cached_certs_correct_name_emaid.tar.gz
       cat dist/etc/everest/certs/client/csms/CSMS_LEAF.pem \
@@ -150,23 +167,23 @@ if [[ "$DEMO_VERSION" != v1.6j ]]; then
       cp dist/etc/everest/certs/client/csms/CSMS_LEAF.key config/certificates/csms.key
       cp dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem config/certificates/root-V2G-cert.pem
       cp dist/etc/everest/certs/ca/mo/MO_ROOT_CA.pem config/certificates/root-MO-cert.pem
-
-      echo "Validating that the certificates are set up correctly"
-      openssl verify -show_chain \
-        -CAfile config/certificates/root-V2G-cert.pem \
-        -untrusted config/certificates/trust.pem \
-        config/certificates/csms.pem
-
-      echo "Patching the CSMS to enable EVerest organization"
-      patch -p1 -i ../everest-demo/maeve/maeve-csms-everest-org.patch
-      
-      echo "Patching the CSMS to enable local mo root"
-      patch -p1 -i ../everest-demo/maeve/maeve-csms-local-mo-root.patch
-      
-      echo "Patching the CSMS to enable local mo root"
-      patch -p1 -i ../everest-demo/maeve/maeve-csms-ignore-ocsp.patch
-
     fi
+
+    echo "Validating that the certificates are set up correctly"
+    openssl verify -show_chain \
+      -CAfile config/certificates/root-V2G-cert.pem \
+      -untrusted config/certificates/trust.pem \
+      config/certificates/csms.pem
+
+    echo "Patching the CSMS to enable EVerest organization"
+    patch -p1 -i ../everest-demo/maeve/maeve-csms-everest-org.patch
+    
+    echo "Patching the CSMS to enable local mo root"
+    patch -p1 -i ../everest-demo/maeve/maeve-csms-local-mo-root.patch
+    
+    echo "Patching the CSMS to enable local mo root"
+    patch -p1 -i ../everest-demo/maeve/maeve-csms-ignore-ocsp.patch
+
   elif [[ ${CSMS} == "maeve" ]]; then 
     echo "Patching the CSMS to disable WSS"
     patch -p1 -i ../everest-demo/maeve/maeve-csms-no-wss.patch
