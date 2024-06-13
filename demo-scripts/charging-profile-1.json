@@ -1,0 +1,75 @@
+{
+    "chargingProfileKind": "Recurring",
+    "chargingProfilePurpose": "TxDefaultProfile",
+    "chargingSchedule": [
+      {
+        "chargingRateUnit": "A",
+        "chargingSchedulePeriod": [
+          {
+            "limit": 30.0,
+            "startPeriod": 0,
+            "numberPhases": 1
+          },
+          {
+            "limit": 25.0,
+            "startPeriod": 1800,
+            "numberPhases": 1
+          },
+          {
+            "limit": 15.0,
+            "startPeriod": 3600,
+            "numberPhases": 1
+          }
+        ],
+        "id": 2,
+        "minChargingRate": 10.0,
+        "salesTariff": {
+          "id": 2,
+          "numEPriceLevels": 3,
+          "salesTariffDescription": "Discount Tariff",
+          "salesTariffEntry": [
+            {
+              "relativeTimeInterval": {
+                "start": 0,
+                "duration": 1800
+              },
+              "consumptionCost": [
+                {
+                  "cost": [
+                    {
+                      "amount": 10,
+                      "costKind": "RelativePricePercentage"
+                    }
+                  ],
+                  "startValue": 5.0
+                }
+              ]
+            },
+            {
+              "relativeTimeInterval": {
+                "start": 1800,
+                "duration": 3600
+              },
+              "consumptionCost": [
+                {
+                  "cost": [
+                    {
+                      "amount": 12,
+                      "costKind": "RelativePricePercentage"
+                    }
+                  ],
+                  "startValue": 7.0
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "id": 2,
+    "stackLevel": 1,
+    "transactionId": "67890",
+    "validFrom": "2024-06-08T08:00:00Z",
+    "validTo": "2024-06-08T20:00:00Z"
+}
+  
