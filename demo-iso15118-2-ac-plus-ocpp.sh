@@ -219,8 +219,8 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == 'citrineos' ]]; then
       exit 1
   fi
 
-  echo "Adding a charger to CitrineOS"
-  ../../everest-demo/citrineos/add-charger.sh
+  echo "Adding a charger and RFID card to CitrineOS"
+  ../../everest-demo/citrineos/add-charger-and-rfid-card.sh
 
   popd || exit 1
   popd || exit 1
