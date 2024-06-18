@@ -93,9 +93,9 @@ cd "${DEMO_DIR}" || exit 1
 echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
 
-if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
+if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == maeve ]]; then
   echo "Cloning ${DEMO_CSMS} CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
-  git clone --branch "${MAEVE_BRANCH}" "${MAEVE_REPO}" "${CSMS}-csms"
+  git clone --branch "${MAEVE_BRANCH}" "${MAEVE_REPO}" ${DEMO_CSMS}-csms
 
   pushd maeve-csms || exit 1
 
@@ -144,6 +144,34 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == meave ]]; then
 
   echo "Waiting 5s for MaEVe CSMS to start..."
   sleep 5
+
+  if [[ "$DEMO_VERSION" =~ sp1 ]]; then
+    echo "MaEVe CSMS started, adding charge station with Security Profile 1 (note: profiles in MaEVe start with 0 so SP-0 == OCPP SP-1)"
+    curl http://localhost:9410/api/v0/cs/cp001 -H 'content-type: application/json' \
+      -d '{"securityProfile": 0, "base64SHA256Password": "3oGi4B5I+Y9iEkYtL7xvuUxrvGOXM/X2LQrsCwf/knA="}'
+  elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
+    echo "MaEVe CSMS started, adding charge station with Security Profile 2 (note: profiles in MaEVe start with 0 so SP-1 == OCPP SP-2)"
+    curl http://localhost:9410/api/v0/cs/cp001 -H 'content-type: application/json' \
+      -d '{"securityProfile": 1, "base64SHA256Password": "3oGi4B5I+Y9iEkYtL7xvuUxrvGOXM/X2LQrsCwf/knA="}'
+  elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
+    echo "MaEVe CSMS started, adding charge station with Security Profile 3 (note: profiles in MaEVe start with 0 so SP-2 == OCPP SP-3)"
+    curl http://localhost:9410/api/v0/cs/cp001 -H 'content-type: application/json' -d '{"securityProfile": 2}'
+  fi
+
+  echo "Charge station added, adding user token"
+
+  curl http://localhost:9410/api/v0/token -H 'content-type: application/json' -d '{
+    "countryCode": "GB",
+    "partyId": "TWK",
+    "type": "RFID",
+    "uid": "DEADBEEF",
+    "contractId": "GBTWK012345678V",
+    "issuer": "Thoughtworks",
+    "valid": true,
+    "cacheMode": "ALWAYS"
+  }'
+
+  curl http://localhost:9410/api/v0/token -H 'content-type: application/json' -d '{"countryCode": "UK", "partyId": "Switch", "contractId": "UKSWI123456789G", "uid": "UKSWI123456789G", "issuer": "Switch", "valid": true, "cacheMode": "ALWAYS"}'
 
   popd || exit 1
 fi
@@ -200,7 +228,7 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == 'citrineos' ]]; then
 fi
 
 pushd everest-demo || exit 1
-echo "Starting everest"
+echo "API calls to CSMS finished, Starting everest"
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
 docker cp config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
