@@ -212,4 +212,4 @@ echo "Add cp001 password to citrine..."
 add_cp001_password "$CP_PASSWORD"
 
 echo "Add ev driver rfid authorization to citrine..."
-add_cp001_password "$ID_TOKEN" "$ID_TOKEN_TYPE"
+add_evdriver_authorization "$ID_TOKEN" "$ID_TOKEN_TYPE"
