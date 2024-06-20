@@ -34,6 +34,7 @@ jobs:
           if [ "$RUNNER_OS" == "macOS" ]; then
             colima --version
             mkdir -p /var/folders
+          fi
 
       - name: Download and launch automated-testing.sh
         id: curl-download-and-launch-automated-testing
