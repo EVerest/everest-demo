@@ -2,11 +2,9 @@ name: e2etest
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ automate-tests-merge ]
   push:
-    branches:
-      - main
+    branches: [ automate-tests-actions, automate-tests-merge ]
 
   schedule:
     # * is a special character in YAML so you have to quote this string
