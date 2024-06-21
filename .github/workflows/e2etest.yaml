@@ -17,14 +17,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # os: [macos-latest]
         os: [ubuntu-latest, macos-13]
 
     steps:
       - name: Setup Docker on macOS using Colima, Lima-VM, and Homebrew.
         id: docker-install
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'macos-13'
         uses: douglascamata/setup-docker-macos-action@v1-alpha # Uses an action in the root directory
+
+      - name: Print action outputs containing docker version
+        id: print-outputs
+        run: |
+          echo "Docker client version: ${{ steps.docker-install.outputs.docker-client-version}}"
+          echo "Docker compose version: ${{ steps.docker-install.outputs.docker-compose-version}}"
         
       - name: Verify install for both macOS and Ubuntu
         id: docker-verify
