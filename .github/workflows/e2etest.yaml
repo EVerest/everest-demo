@@ -15,9 +15,10 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         # os: [macos-latest]
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest-large]
 
     steps:
       - name: Setup Docker on macOS using Colima, Lima-VM, and Homebrew.
