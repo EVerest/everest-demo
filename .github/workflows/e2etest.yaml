@@ -24,12 +24,6 @@ jobs:
         id: docker-install
         if: matrix.os == 'macos-13'
         uses: douglascamata/setup-docker-macos-action@v1-alpha # Uses an action in the root directory
-
-      - name: Print action outputs containing docker version
-        id: print-outputs
-        run: |
-          echo "Docker client version: ${{ steps.docker-install.outputs.docker-client-version}}"
-          echo "Docker compose version: ${{ steps.docker-install.outputs.docker-compose-version}}"
         
       - name: Verify install for both macOS and Ubuntu
         id: docker-verify
@@ -45,7 +39,7 @@ jobs:
       - name: Download and launch automated-testing.sh
         id: curl-download-and-launch-automated-testing
         shell: bash
-        timeout-minutes: 30
+        timeout-minutes: 60
         run: |
           curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-automated-testing.sh | bash
           # curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ac-plus-ocpp201.sh | bash
