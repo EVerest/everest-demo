@@ -1,10 +1,15 @@
 name: e2etest
 
 on:
-  pull_request:
-    branches: [ automate-tests-merge ]
-  push:
-    branches: [ automate-tests-actions, automate-tests-merge ]
+  # Adding this to indicate that this workflow will be triggered from another workflow
+  workflow_dispatch:
+    inputs:
+      parent_workflow:
+        description: "Name of the parent workflow that triggered this workflow"
+        required: true
+      event_name:
+          description: "Type of event that triggered this workflow (e.g. push, pull_request)"
+          required: true
 
   schedule:
     # * is a special character in YAML so you have to quote this string
@@ -12,6 +17,7 @@ on:
 
 jobs:
   pull-and-run-tests:
+    if: github.event.inputs.parent_workflow == 'cicd.yaml' && github.event.inputs.event_name != 'pull_request'
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -20,6 +26,12 @@ jobs:
         os: [ubuntu-latest, macos-13]
 
     steps:
+
+      - name: Verify parent workflow name
+        id: verify-parent-workflow
+        run: |
+          echo "Workflow triggered by parent workflow: ${{ github.event.inputs.parent_workflow }}"
+
       - name: Setup Docker on macOS using Colima, Lima-VM, and Homebrew.
         id: docker-install
         if: matrix.os == 'macos-13'

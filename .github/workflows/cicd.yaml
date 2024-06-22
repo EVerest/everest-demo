@@ -1,12 +1,11 @@
 name: cicd
 
 on:
+  # TODO: Remove [automate-tests-actions, automate-tests-merge] branch once changes are final
   pull_request:
-    branches:
-      - main
+    branches: [ main, automate-tests-merge ]
   push:
-    branches:
-      - main
+    branches: [ main, automate-tests-actions, automate-tests-merge ]
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
@@ -31,75 +30,93 @@ jobs:
             image_name: nodered
             context: ./nodered
 
+    # steps:
+      # - name: Checkout
+      #   uses: actions/checkout@v4
+      #   with:
+      #     fetch-depth: 0
+
+      # - name: Ensure Docker image version is not referencing an existing release
+      #   id: docker-image-version-check
+      #   shell: bash
+      #   run: |
+      #     if ! [[ -s '.env'  ]]; then
+      #       echo 'Error: No .env file found.'
+      #       exit 1
+      #     fi
+
+      #     if ! grep -qE '^TAG=' .env; then
+      #       echo 'Error: .env must contain a TAG variable.'
+      #       exit 1
+      #     fi
+
+      #     source .env
+
+      #     # Fail if any previous Docker image version value matches the one in
+      #     # this PR (excluding the current image version).
+      #     for commit in $(git --no-pager log --first-parent --format=%H -- .env | tail -n +2); do
+      #       if git --no-pager grep -hF "${TAG}" $commit -- .env | grep -qx ${TAG}; then
+      #         echo 'Error: The version in .env matches an'
+      #         echo '       earlier version on main. Please update the value in'
+      #         echo '       .env to a new version.'
+      #         exit 1
+      #       fi
+      #     done
+
+      #     if git show-ref --tags --verify --quiet "refs/tags/v${TAG}"; then
+      #       echo "Error: The tag 'v${TAG}' is already a GitHub release."
+      #       echo '       Please update the version in .env'
+      #       exit 1
+      #     else
+      #       echo "TAG=${TAG}" >> "${GITHUB_OUTPUT}"
+      #     fi
+
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+
+      # - name: Set Docker image metadata
+      #   id: meta
+      #   uses: docker/metadata-action@v5
+      #   with:
+          # images: ${{ matrix.host_namespace }}/${{ matrix.image_name }}
+      #     tags: |
+      #       type=semver,pattern={{version}},value=v${{ steps.docker-image-version-check.outputs.TAG }}
+
+      # - name: Log into GitHub container registry
+      #   if: github.event_name != 'pull_request'
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Build and push
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: ${{ matrix.context }}
+      #     push: ${{ github.event_name != 'pull_request' }}
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     labels: ${{ steps.meta.outputs.labels }}
+      #     cache-from: type=gha,scope=${{ matrix.image_name }}
+      #     cache-to: type=gha,mode=max,scope=${{ matrix.image_name }}
+
+  dispatch:
+    needs: docker-build-and-push-images
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Ensure Docker image version is not referencing an existing release
-        id: docker-image-version-check
-        shell: bash
+      - name: Trigger e2etest workflow
+        # TODO: Change repo owner from MukuFlash03 to EVerest; branch ref to main;  once changes are final
         run: |
-          if ! [[ -s '.env'  ]]; then
-            echo 'Error: No .env file found.'
-            exit 1
-          fi
-
-          if ! grep -qE '^TAG=' .env; then
-            echo 'Error: .env must contain a TAG variable.'
-            exit 1
-          fi
-
-          source .env
-
-          # Fail if any previous Docker image version value matches the one in
-          # this PR (excluding the current image version).
-          for commit in $(git --no-pager log --first-parent --format=%H -- .env | tail -n +2); do
-            if git --no-pager grep -hF "${TAG}" $commit -- .env | grep -qx ${TAG}; then
-              echo 'Error: The version in .env matches an'
-              echo '       earlier version on main. Please update the value in'
-              echo '       .env to a new version.'
-              exit 1
-            fi
-          done
-
-          if git show-ref --tags --verify --quiet "refs/tags/v${TAG}"; then
-            echo "Error: The tag 'v${TAG}' is already a GitHub release."
-            echo '       Please update the version in .env'
-            exit 1
-          else
-            echo "TAG=${TAG}" >> "${GITHUB_OUTPUT}"
-          fi
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Set Docker image metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ matrix.host_namespace }}/${{ matrix.image_name }}
-          tags: |
-            type=semver,pattern={{version}},value=v${{ steps.docker-image-version-check.outputs.TAG }}
-
-      - name: Log into GitHub container registry
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: ${{ matrix.context }}
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=${{ matrix.image_name }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.image_name }}
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/MukuFlash03/everest-demo/actions/workflows/e2etest.yaml/dispatches \
+            -d '{"ref":"automate-tests-actions", "inputs": {"parent_workflow": "cicd.yaml", }}'
+            -d '{"ref":"automate-tests-actions", "inputs": {"parent_workflow": "cicd.yaml", "event_name": "${{ github.event_name }}" }}'
