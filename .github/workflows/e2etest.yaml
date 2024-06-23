@@ -8,7 +8,7 @@ on:
         description: "Name of the parent workflow that triggered this workflow"
         required: true
       event_name:
-          description: "Type of event that triggered this workflow (e.g. push, pull_request)"
+          description: "Event type that triggered this workflow (e.g. push, pull_request)"
           required: true
 
   schedule:
