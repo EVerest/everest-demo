@@ -16,6 +16,14 @@ RUN git clone https://github.com/EVerest/everest-core.git \
         # Don't run the test-and-install script since it deletes the build directory!
         && /entrypoint.sh run-script install
 
+#Add lightweight python server to serve ocpp logs formatted as html files
+RUN for file in /workspace/build/run-scripts/run-sil*; do \
+        echo "python3 -m http.server 9000 --directory /tmp/everest_ocpp_logs &" > temp_file.sh && \
+        cat "$file" >> temp_file.sh && \
+        mv temp_file.sh "$file" && \
+        chmod +x "$file"; \
+    done
+
 # Copy over the custom config *after* compilation and installation
 COPY config-docker.json ./dist/share/everest/modules/OCPP/config-docker.json
 COPY config.json ./dist/share/everest/modules/OCPP201/config.json
