@@ -21,10 +21,22 @@ jobs:
       - name: List Docker images
         run: docker images
 
-      - name: Run automated test script
+      - name: Run automated tests using docker-compose.automated-tests.yml
         timeout-minutes: 30
         run: |
-          bash demo-automated-testing.sh 
+          echo "Running docker compose up..."
+          docker compose --project-name everest-ac-demo \
+                  --file "docker-compose.automated-tests.yml" up \
+                    --build \
+                    --abort-on-container-exit \
+                    --exit-code-from manager
+
+          exit_code=$?            
+          echo "Docker-compose up exit code from manager service: $exit_code"       
+
+          echo "Running docker compose down..."
+          docker compose --project-name everest-ac-demo \
+                  --file "docker-compose.automated-tests.yml" down
 
       - name: List Docker images
         run: docker images
