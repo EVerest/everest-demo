@@ -94,8 +94,31 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v6
+        with:
+          load: true
+          context: ${{ matrix.context }}
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=${{ matrix.image_name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image_name }}
+    
+      - name: Run automated tests using docker-compose.automated-tests.yml
+        if: ${{ matrix.image_name == 'manager' }}
+        run: |
+          echo "Running docker compose up..."
+          docker compose --project-name everest-ac-demo \
+                  --file "docker-compose.automated-tests.yml" up \
+                    --abort-on-container-exit \
+                    --exit-code-from manager
+
+          exit_code=$?            
+          echo "Docker-compose up exit code from manager service: $exit_code"
+      
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
           push: ${{ github.event_name != 'pull_request' }}
