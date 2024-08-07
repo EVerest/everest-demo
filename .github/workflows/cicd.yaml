@@ -105,9 +105,11 @@ jobs:
           cache-from: type=gha,scope=${{ matrix.image_name }}
           cache-to: type=gha,mode=max,scope=${{ matrix.image_name }}
 
-      # Following fours steps are specifically for running automated steps which includes loading the 
+      # Following four steps are specifically for running automated tests which includes loading the 
       # mqtt-server image from the GitHub Actions Cache so that the docker compose automated tests can 
       # use this already built image instead of pulling it from GitHub Container Registry
+      # Note: These steps are only for the mqtt-server and the manager images and not for the nodered image.
+      # This is because, currently, docker-compose.automated-tests.yml uses only these two images for running automated tests.
       - name: Save Docker image
         if: ${{ matrix.image_name == 'mqtt-server' }}
         id: save-mqtt-image
@@ -143,7 +145,7 @@ jobs:
         run: |
           docker images
           echo "Running docker compose up..."
-          docker compose --project-name everest-ac-demo \
+          docker compose --project-name everest-ac-automated-testing \
                   --file "docker-compose.automated-tests.yml" up \
                     --abort-on-container-exit \
                     --exit-code-from manager
