@@ -37,13 +37,15 @@ Below is a table of demonstrations that are currently available.
 
    - Note: The terminal should return "Docker version x.x.x".
 
-3. Open the Docker desktop application and navigate to the terminal at the bottom of the screen. 
+3. Open the Docker desktop application
+   
+4. Open your machines terminal
 
 # Step 1: Select the Demo
 
-Copy and paste the command for the demo you wish to run into the Docker terminal within the Docker desktop.
+Copy and paste the command for the demo you wish to run into the machines terminal.
 
-   - Note: Each demonstration has a brief description in the "Content" column and high-level diagram in the "Diagram" column. 
+   - Note: After you enter the command into the terminal, the docker application should open the associated containers
 
 ### Demo Commands 
 
@@ -134,6 +136,12 @@ the EVerest Demo Repository
 3. Add the `curl` script to the "Demo Commands" list
 4. If there is any additional functionality not covered in the current documentation
 please add the details to the "Additional Functionality" section
+
+# Reference Material
+
+- [ISO 15118-2 Documentation](https://www.typhoon-hil.com/documentation/typhoon-hil-software-manual/References/iso15118_protocol.html)
+- [OCPP 2.0.1 Documentation](https://openchargealliance.org/my-oca/ocpp/)
+  
 
 # Appendix Diagrams
 
