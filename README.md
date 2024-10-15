@@ -156,9 +156,6 @@ sequenceDiagram
     participant EV as Electric Vehicle (EV)
     participant EVSE as Electric Vehicle Supply Equipment (EVSE)
     EV->>EVSE: Plug-in
-    EVSE-->>EV: Proximity Check (PP Signal)
-    EV->>EVSE: Detect Proximity
-    EVSE-->>EV: Control Pilot Signal
     EV->>EVSE: Signal Response (State A to State B1)
     EVSE-->>EV: Power Available?
     EV-->>EVSE: Ready to Charge (State B2)
@@ -166,7 +163,6 @@ sequenceDiagram
     Note over EVSE, EV: Charging in progress
     EV->>EVSE: Request Stop (State C2 to State B)
     EVSE-->>EV: Power Cut Off
-    EVSE-->>EV: Control Pilot Signal (State B)
     EV->>EVSE: Unplug (State A)
     Note over EVSE, EV: Session Ends
  
@@ -182,17 +178,7 @@ sequenceDiagram
    participant EVSE as Electric Vehicle Supply Equipment (EVSE)
    Note over EV,EVSE: Connection Establishment
    EV ->> EVSE: Physical Connection (PLC)
-   EVSE ->> EV: SECC Discovery Response
-   Note over EV,EVSE: Session Setup
-   EV ->> EVSE: Session Setup Request
-   EVSE -->> EV: Session Setup Response
-   Note over EV,EVSE: Service Discovery
-   EV ->> EVSE: Service Discovery Request
-   EVSE -->> EV: Service Discovery Response
-   Note over EV,EVSE: Service Selection
-   EV ->> EVSE: Service Selection Request
-   EVSE -->> EV: Service Selection Response
-   Note over EV,EVSE: Authorization
+   EVSE <<->> EV: ISO 15118-2 communications
    EV ->> EVSE: Authorization Request (e.g., Plug & Charge, Contract-based)
    EVSE -->> EV: Authorization Response
    Note over EV,EVSE: Charging Parameters Setup
@@ -225,25 +211,13 @@ sequenceDiagram
    participant EVSE as Electric Vehicle Supply Equipment (EVSE)
    Note over EV1,EVSE: EV1 connects and starts charging
    EV1 ->> EVSE: Physical Connection (PLC)
-   EVSE ->> EV1: SECC Discovery Response
-   EV1 ->> EVSE: Session Setup Request
-   EVSE -->> EV1: Session Setup Response
-   EV1 ->> EVSE: Service Discovery Request
-   EVSE -->> EV1: Service Discovery Response
-   EV1 ->> EVSE: Authorization Request
-   EVSE -->> EV1: Authorization Response
+   EVSE <<->> EV1: ISO 15118-2 communications
    EV1 ->> EVSE: Power Delivery Request (Start Charging)
    EVSE -->> EV1: Power Delivery Response
    EVSE ->> EV1: Power Flow (100%)
    Note over EV1 and EV2: EV2 connects while EV1 is charging
    EV2 ->> EVSE: Physical Connection (PLC)
-   EVSE ->> EV2: SECC Discovery Response
-   EV2 ->> EVSE: Session Setup Request
-   EVSE -->> EV2: Session Setup Response
-   EV2 ->> EVSE: Service Discovery Request
-   EVSE -->> EV2: Service Discovery Response
-   EV2 ->> EVSE: Authorization Request
-   EVSE -->> EV2: Authorization Response
+   EVSE ->> EV2: ISO 15118-2 communications
    Note over EV1 and EV2: Power shift occurs
    EVSE ->> EV1: Power Reduction Request (50%)
    EV1 -->> EVSE: Power Reduction Acknowledgment
