@@ -33,8 +33,6 @@ Below is a table of demonstrations that are currently available.
 
 1. Install docker with the following link [Get Docker](https://docs.docker.com/get-docker/)
 
-   - Note: When running the demonstrations, use the Docker desktop terminal for the best results. However, demonstration commands can be posted directly into your machine's terminal if running on Windows or Linux systems.
-
 2. Ensure that docker is installed by opening your machines terminal and typing `docker --version`
 
    - Note: The terminal should return "Docker version x.x.x".
