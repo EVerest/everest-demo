@@ -117,6 +117,24 @@ export EVEREST_MANAGER_CPUS='2.0' EVEREST_MANAGER_MEMORY='1536mb'
   
 - Access the visual representation at http://localhost:8849
 
+# Contributing to The Demonstration Repository
+
+First, thank you for your interest in contributing to the demo repository. Please
+ follow the steps outlined below to not only contribute your demonstration,
+but update the documentation associated with the Demo:
+
+1. Submit a Pull Request with a functional `curl` script based demonstration to
+the EVerest Demo Repository
+2. Add the following content to the "Hosted Demos" section:
+    1. Demo Column, add the demo's name
+    2. Content Column, add a one sentence description of function of the demo
+    3. Diagram Column, create a high-level [mermaid diagram](https://mermaid.js.org/intro/getting-started.html) of the demo functionality and add the diagram to the
+    "Appendix Diagrams" section with a
+    hyperlink to the section in the column
+3. Add the `curl` script to the "Demo Commands" list
+4. If there is any additional functionality not covered in the current documentation
+please add the details to the "Additional Functionality" section
+
 # Appendix Diagrams
 
 The following diagrams provide a visual representation of the above demos.
