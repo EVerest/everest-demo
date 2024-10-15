@@ -8,7 +8,7 @@ This repository includes several demos of the [EVerest](https://lfenergy.org/pro
 
 # Hosted Demos
 
-Below is a table of demonstrations that are currently avaialble.
+Below is a table of demonstrations that are currently available.
 
 | Demo | Content | Diagram |
 | ---- | -- | :---: |
@@ -21,7 +21,7 @@ Below is a table of demonstrations that are currently avaialble.
 # Operating System Specific Instructions 
 
 - Mac OS
-   - EVerest Demos are curently NOT supported on M1 chips
+   - EVerest Demos are currently NOT supported on M1 chips
 - Linux
    - No additional steps needed, move to [Install and Set-up](Install-and-Set-up)
 - Windows
@@ -33,7 +33,7 @@ Below is a table of demonstrations that are currently avaialble.
 
 1. Install docker with the following link [Get Docker](https://docs.docker.com/get-docker/)
 
-   - Note: When runing the demonstrations, use the Docker desktop terminal for the best results. However, demonstration commands can be posted directly into your machine's terminal if running on Windows or Linux systems.
+   - Note: When running the demonstrations, use the Docker desktop terminal for the best results. However, demonstration commands can be posted directly into your machine's terminal if running on Windows or Linux systems.
 
 2. Ensure that docker is installed by opening your machines terminal and typing `docker --version`
 
@@ -64,7 +64,7 @@ Copy and paste the command for the demo you wish to run into the Docker terminal
 
 1. Open the demo UI at http://127.0.0.1:1880/ui
 
-   - Note: The demo UI will vary based on the demonstration that is selected. For the best results, having the demo UI and Docker desktop applciation up side-by-side will allow the user to understand what messages are being sent back-and-fourth across the demo actors. 
+   - Note: The demo UI will vary based on the demonstration that is selected. For the best results, having the demo UI and Docker desktop application up side-by-side will allow the user to understand what messages are being sent back-and-fourth across the demo actors. 
      
 2. Open the `nodered` flows to understand the module flows at http://127.0.0.1:1880
 
@@ -97,7 +97,7 @@ Note: Only one demonstration can be run at a time, in order to spin up a new dem
 
 # Additional Functionality  
 
-There are many different variables that the user can experiment with thorughout the demonstrations. See below:
+There are many different variables that the user can experiment with throughout the demonstrations. See below:
 
 ### One EV ↔ EVSE (ISO 15118 AC) Demo
 
