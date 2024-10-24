@@ -17,6 +17,8 @@ services:
           memory: "${EVEREST_MANAGER_MEMORY}"
     depends_on:
       - mqtt-server
+    ports:
+      - 9000:9000
     environment:
       - MQTT_SERVER_ADDRESS=mqtt-server
     entrypoint: "sh /ext/source/build/run-scripts/run-sil-dc.sh"
