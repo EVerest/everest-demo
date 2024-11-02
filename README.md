@@ -31,6 +31,7 @@ Below is a table of demonstrations that are currently available.
 
 - Mac OS
   - EVerest Demos are currently NOT supported on M1 chips
+  - On x86 chips, no additional steps needed, move to [Install and Set-up](Install-and-Set-up)
 - Linux
   - No additional steps needed, move to [Install and Set-up](Install-and-Set-up)
 - Windows
@@ -175,7 +176,7 @@ please add the details to the "Additional Functionality" section
 For more information around ISO 15118-2 and OCPP messaging,
 see the below standards documentation.
 
-- [ISO 15118-2 Documentation](https://www.typhoon-hil.com/documentation/typhoon-hil-software-manual/References/iso15118_protocol.html)
+- [ISO 15118-2 Documentation](https://www.iso.org/obp/ui/en/#iso:std:iso:15118:-2:ed-1:v1:en)
 - [OCPP 2.0.1 Documentation](https://openchargealliance.org/my-oca/ocpp/)
   
 ## Appendix Diagrams
