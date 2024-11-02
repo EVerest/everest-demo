@@ -13,7 +13,7 @@ CITRINEOS_BRANCH="feature/everest-demo"
 
 
 
-usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-j|1|2|3|c] [-h]
+usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-c <csms>] [1|2|3] [-h]
 
 This script will run EVerest ISO 15118-2 AC charging with OCPP demos.
 
@@ -23,7 +23,6 @@ directory to the -r option (e.g., '-r \$(pwd)').
 where:
     -r   URL to everest-demo repo to use (default: $DEMO_REPO)
     -b   Branch of everest-demo repo to use (default: $DEMO_BRANCH)
-    -j   OCPP v1.6j
     -1   OCPP v2.0.1 Security Profile 1
     -2   OCPP v2.0.1 Security Profile 2
     -3   OCPP v2.0.1 Security Profile 3
@@ -37,12 +36,10 @@ DEMO_CSMS=maeve
 
 
 # loop through positional options/arguments
-while getopts ':r:b:j123ch' option; do
+while getopts ':r:b:c123h' option; do
   case "$option" in
     r)  DEMO_REPO="$OPTARG" ;;
     b)  DEMO_BRANCH="$OPTARG" ;;
-    j)  DEMO_VERSION="v1.6j"
-        DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp16j.yml" ;;
     1)  DEMO_VERSION="v2.0.1-sp1"
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
     2)  DEMO_VERSION="v2.0.1-sp2"
@@ -93,7 +90,7 @@ cd "${DEMO_DIR}" || exit 1
 echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
 
-if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == maeve ]]; then
+if [[ "$DEMO_CSMS" == maeve ]]; then
   echo "Cloning ${DEMO_CSMS} CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
   git clone --branch "${MAEVE_BRANCH}" "${MAEVE_REPO}" ${DEMO_CSMS}-csms
 
@@ -176,8 +173,7 @@ if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == maeve ]]; then
   popd || exit 1
 fi
 
-
-if [[ "$DEMO_VERSION" != v1.6j  && "$DEMO_CSMS" == 'citrineos' ]]; then
+if [[ "$DEMO_CSMS" == 'citrineos' ]]; then
   echo "Cloning CitrineOS CSMS from ${CITRINEOS_REPO} into ${DEMO_DIR}/citrineos-csms and starting it"
   git clone --branch "${CITRINEOS_BRANCH}" "${CITRINEOS_REPO}" citrineos-csms
 
