@@ -98,9 +98,6 @@ if [[ "$DEMO_CSMS" == maeve ]]; then
 
   cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
 
-  echo "Patching the CSMS to disable load balancer"
-  patch -p1 -i ../everest-demo/maeve/maeve-csms-no-lb.patch
-
   # Set up certificates for SP2 and SP3
   if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
     echo "Copying certs into ${DEMO_DIR}/maeve-csms/config/certificates"
