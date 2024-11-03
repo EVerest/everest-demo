@@ -25,7 +25,7 @@ Below is a table of demonstrations that are currently available.
 | **One EV ↔ EVSE (ISO 15118-2 DC)** | ISO 15118-2 compliant charging session with one EV connecting to one EVSE | [One EV ↔ EVSE (ISO 15118-2 DC) Diagram](#one-ev-to-evse-iso-15118-2-dc)|
 | **Two EV ↔ EVSE** | Two EVSE connector points showcasing EVerests ability to work with a CSMS in a multi-station context | [Two EV ↔ EVSE Diagram](#two-ev-to-evse) |
 | **E2E Automated Tests** | Performs an automated test of a full charging session| [E2E Automated Tests Diagram](e2e-automated-tests) |
-| **OCPP Demos** | Various OCPP 1.6J and 2.0.1 compliant charging sessions with differing security profiles| [OCPP Demo Diagram](#ocpp-demos)|
+| **OCPP Demos** | Various OCPP 2.0.1 compliant charging sessions with differing security profiles| [OCPP Demo Diagram](#ocpp-demos)|
 
 ## Operating System Specific Instructions
 
@@ -120,8 +120,6 @@ the demonstrations. See below:
 
 ### One EV ↔ EVSE (ISO 15118 AC) Demo
 
-- You can open the SteVe wep portal at <http://localhost:8180/steve/manager/home>.
-Login with username: admin, password: 1234 when running the OCPP Demos
 - When running the Basic and ISO 15118-2 AC Charging with OCPP 201 CSMS demo,
 the script currently checks out the maeve repository and builds it, so it is
 fairly slow.
