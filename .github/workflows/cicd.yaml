@@ -116,7 +116,7 @@ jobs:
         shell: bash
         run: |
           echo "TAG=${{ steps.docker-image-version-check.outputs.TAG }}"
-          docker save --output /tmp/mqtt-server_${{ steps.docker-image-version-check.outputs.TAG }}.tar ghcr.io/everest/everest-demo/mqtt-server:${{ steps.docker-image-version-check.outputs.TAG }}
+          docker save --output /tmp/mqtt-server_${{ steps.docker-image-version-check.outputs.TAG }}.tar ${{ matrix.host_namespace }}/mqtt-server:${{ steps.docker-image-version-check.outputs.TAG }}
       
       - name: Upload mqtt-server image as Artifact
         if: ${{ matrix.image_name == 'mqtt-server' }}
