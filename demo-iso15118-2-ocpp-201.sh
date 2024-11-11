@@ -36,7 +36,7 @@ DEMO_CSMS=maeve
 
 
 # loop through positional options/arguments
-while getopts ':r:b:c123h' option; do
+while getopts ':r:b:123ch' option; do
   case "$option" in
     r)  DEMO_REPO="$OPTARG" ;;
     b)  DEMO_BRANCH="$OPTARG" ;;
@@ -89,6 +89,7 @@ cd "${DEMO_DIR}" || exit 1
 
 echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
 git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
+# cp -r "${DEMO_REPO}" everest-demo
 
 if [[ "$DEMO_CSMS" == maeve ]]; then
   echo "Cloning ${DEMO_CSMS} CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
@@ -223,7 +224,20 @@ fi
 pushd everest-demo || exit 1
 echo "API calls to CSMS finished, Starting everest"
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
-docker cp config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
+docker cp manager/config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
+
+echo "Configuring and restarting nodered"
+docker cp nodered/config/config-sil-iso15118-ac-flow.json everest-ac-demo-nodered-1:/config/config-sil-two-evse-flow.json
+docker restart everest-ac-demo-nodered-1
+
+echo "Copying over EVerest patches"
+docker cp manager/enable_payment_method_in_python.patch everest-ac-demo-manager-1:/tmp/
+
+echo "Now applying the patches"
+docker cp manager/enable_evcc_logging.cfg everest-ac-demo-manager-1:/ext/source/build/dist/etc/everest/default_logging.cfg
+docker exec everest-ac-demo-manager-1 /bin/bash -c "apk add patch"
+docker exec everest-ac-demo-manager-1 /bin/bash -c "cd /ext && patch -p0 -i /tmp/enable_payment_method_in_python.patch"
+
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
   docker cp manager/cached_certs_correct_name_emaid.tar.gz everest-ac-demo-manager-1:/ext/source/build
   docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source/build && tar xf cached_certs_correct_name_emaid.tar.gz"
