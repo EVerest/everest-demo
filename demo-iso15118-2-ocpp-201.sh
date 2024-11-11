@@ -104,20 +104,8 @@ if [[ "$DEMO_CSMS" == maeve ]]; then
 
   cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
 
-  # Set up certificates for SP2 and SP3
   if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
-    echo "Copying certs into ${DEMO_DIR}/maeve-csms/config/certificates"
-    tar xf cached_certs_correct_name_emaid.tar.gz
-    cat dist/etc/everest/certs/client/csms/CSMS_LEAF.pem \
-        dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem \
-        dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem \
-      > config/certificates/csms.pem
-    cat dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem \
-        dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem \
-      > config/certificates/trust.pem
-    cp dist/etc/everest/certs/client/csms/CSMS_LEAF.key config/certificates/csms.key
-    cp dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem config/certificates/root-V2G-cert.pem
-    cp dist/etc/everest/certs/ca/mo/MO_ROOT_CA.pem config/certificates/root-MO-cert.pem
+    source ../everest-demo/maeve/copy-certs.sh
 
     echo "Validating that the certificates are set up correctly"
     openssl verify -show_chain \
@@ -160,29 +148,7 @@ if [[ "$DEMO_CSMS" == 'citrineos' ]]; then
   cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
 
   mkdir -p Server/data/certificates
-
-  echo "Copying certs into ${DEMO_DIR}/citrineos-csms/Server/data/certificates"
-  tar xf cached_certs_correct_name_emaid.tar.gz
-
-  # Leaf key
-  cp dist/etc/everest/certs/client/csms/CSMS_LEAF.key Server/data/certificates/leafKey.pem
-
-  #Cert chain
-  cat dist/etc/everest/certs/client/csms/CSMS_LEAF.pem \
-    dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem \
-    dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem \
-  > Server/data/certificates/certChain.pem
-
-  # SubCA
-  cp dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.key Server/data/certificates/subCAKey.pem
-
-  #TrustedSubCAChain
-  cat dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem \
-    dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem \
-  > Server/data/certificates/rootCertificate.pem
-
-  #ACME key
-  cp ../everest-demo/citrineos/acme_account_key.pem Server/data/certificates/acme_account_key.pem
+  source ../everest-demo/citrineos/copy-certs.sh
 
   pushd Server || exit 1
   echo "Starting the CitrineOS CSMS"
@@ -192,13 +158,12 @@ if [[ "$DEMO_CSMS" == 'citrineos' ]]; then
       echo "Failed to start CitrineOS."
       exit 1
   fi
+  popd || exit 1
 
   echo "Adding a charger and RFID card to CitrineOS"
-  ../../everest-demo/citrineos/add-charger-and-rfid-card.sh
+  ../everest-demo/citrineos/add-charger-and-rfid-card.sh
 
   popd || exit 1
-  popd || exit 1
-
 fi
 
 pushd everest-demo || exit 1
