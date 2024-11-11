@@ -11,7 +11,7 @@ MAEVE_BRANCH="set_charging_profile"
 CITRINEOS_REPO="https://github.com/citrineos/citrineos-core.git"
 CITRINEOS_BRANCH="feature/everest-demo"
 
-
+START_OPTION="auto"
 
 usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-c <csms>] [1|2|3] [-h]
 
@@ -21,12 +21,13 @@ Pro Tip: to use a local copy of this everest-demo repo, provide the current
 directory to the -r option (e.g., '-r \$(pwd)').
 
 where:
-    -r   URL to everest-demo repo to use (default: $DEMO_REPO)
+    -r   URL to everest-demo repo to use (default: $DEMO_REPO, "$PWD" uses the current dir)
     -b   Branch of everest-demo repo to use (default: $DEMO_BRANCH)
     -1   OCPP v2.0.1 Security Profile 1
     -2   OCPP v2.0.1 Security Profile 2
     -3   OCPP v2.0.1 Security Profile 3
     -c   Use CitrineOS CSMS (default: MaEVe)
+    -m   Start the manager manually (useful while debugging to stop and restart)
     -h   Show this message"
 
 
@@ -36,7 +37,7 @@ DEMO_CSMS=maeve
 
 
 # loop through positional options/arguments
-while getopts ':r:b:123ch' option; do
+while getopts ':r:b:123chm' option; do
   case "$option" in
     r)  DEMO_REPO="$OPTARG" ;;
     b)  DEMO_BRANCH="$OPTARG" ;;
@@ -47,6 +48,7 @@ while getopts ':r:b:123ch' option; do
     3)  DEMO_VERSION="v2.0.1-sp3"
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
     c)  DEMO_CSMS="citrineos" ;;
+    m)  START_OPTION="manual" ;;
     h)  echo -e "$usage"; exit ;;
     \?) echo -e "illegal option: -$OPTARG\n" >&2
         echo -e "$usage" >&2
@@ -88,8 +90,11 @@ cd "${DEMO_DIR}" || exit 1
 
 
 echo "Cloning EVerest from ${DEMO_REPO} into ${DEMO_DIR}/everest-demo"
-git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
-# cp -r "${DEMO_REPO}" everest-demo
+if [[ "$DEMO_REPO" =~ "http" || "$DEMO_REPO" =~ "git" ]]; then
+    git clone --branch "${DEMO_BRANCH}" "${DEMO_REPO}" everest-demo
+else
+    cp -r "$DEMO_REPO" everest-demo
+fi
 
 if [[ "$DEMO_CSMS" == maeve ]]; then
   echo "Cloning ${DEMO_CSMS} CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
@@ -278,7 +283,12 @@ if [[ "$DEMO_CSMS" == 'citrineos' ]]; then
   fi
 fi
 
-if [[ "$DEMO_VERSION" =~ v2.0.1 ]]; then
-  echo "Starting software in the loop simulation"
+if [[ "$START_OPTION" == "auto" ]]; then
+  echo "Starting software in the loop simulation automatically"
   docker exec everest-ac-demo-manager-1 sh /ext/source/build/run-scripts/run-sil-ocpp201-pnc.sh
+else
+  echo "Please start the software in the loop simulation manually by running"
+  echo "on your laptop: docker exec -it everest-ac-demo-manager-1 /bin/bash"
+  echo "in the container: sh /ext/source/build/run-scripts/run-sil-ocpp201-pnc.sh"
+  echo "You can now stop and restart the manager without re-creating the container"
 fi
