@@ -1,5 +1,8 @@
 echo "Build and run"
 
+echo "CitrineOS does not currently build due to issues with npm dependencies. It is disabled until we roll forward. Apologies for the inconvenience!"
+exit 1
+
 pushd Server || exit 1
 
 docker compose build

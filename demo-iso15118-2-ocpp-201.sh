@@ -158,10 +158,14 @@ if [[ "$DEMO_VERSION" =~ sp1 ]]; then
 echo "Copying device DB, configured to SecurityProfile: 1"
 docker cp manager/device_model_storage_${DEMO_CSMS}_sp1.db \
   everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
+docker cp manager/disable_iso_tls.patch everest-ac-demo-manager-1:/tmp/
+docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source && patch -p0 -i /tmp/disable_iso_tls.patch"
 elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
 echo "Copying device DB, configured to SecurityProfile: 2"
 docker cp manager/device_model_storage_${DEMO_CSMS}_sp2.db \
   everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
+docker cp manager/disable_iso_tls.patch everest-ac-demo-manager-1:/tmp/
+docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source && patch -p0 -i /tmp/disable_iso_tls.patch"
 elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
 echo "Copying device DB, configured to SecurityProfile: 3"
 docker cp manager/device_model_storage_${DEMO_CSMS}_sp3.db \
