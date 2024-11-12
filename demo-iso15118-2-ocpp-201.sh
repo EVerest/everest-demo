@@ -21,7 +21,7 @@ Pro Tip: to use a local copy of this everest-demo repo, provide the current
 directory to the -r option (e.g., '-r \$(pwd)').
 
 where:
-    -r   URL to everest-demo repo to use (default: $DEMO_REPO, "$PWD" uses the current dir)
+    -r   URL to everest-demo repo to use (default: $DEMO_REPO, '$PWD' uses the current dir)
     -b   Branch of everest-demo repo to use (default: $DEMO_BRANCH)
     -1   OCPP v2.0.1 Security Profile 1
     -2   OCPP v2.0.1 Security Profile 2

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 echo "While running subscript, DEMO_VERSION is " $DEMO_VERSION
 
 if [[ "$DEMO_VERSION" =~ sp1 ]]; then
