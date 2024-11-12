@@ -12,3 +12,9 @@
     cp dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem config/certificates/root-V2G-cert.pem
     cp dist/etc/everest/certs/ca/mo/MO_ROOT_CA.pem config/certificates/root-MO-cert.pem
 
+    echo "Validating that the certificates are set up correctly"
+    openssl verify -show_chain \
+      -CAfile config/certificates/root-V2G-cert.pem \
+      -untrusted config/certificates/trust.pem \
+      config/certificates/csms.pem
+
