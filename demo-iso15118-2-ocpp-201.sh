@@ -34,7 +34,8 @@ where:
 DEMO_VERSION=
 DEMO_COMPOSE_FILE_NAME=
 DEMO_CSMS=maeve
-
+DEMO_CSMS_REPO=$MAEVE_REPO
+DEMO_CSMS_BRANCH=$MAEVE_BRANCH
 
 # loop through positional options/arguments
 while getopts ':r:b:123chm' option; do
@@ -47,7 +48,9 @@ while getopts ':r:b:123chm' option; do
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
     3)  DEMO_VERSION="v2.0.1-sp3"
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
-    c)  DEMO_CSMS="citrineos" ;;
+    c)  DEMO_CSMS="citrineos"
+        DEMO_CSMS_REPO=$CITRINEOS_REPO
+        DEMO_CSMS_BRANCH=$CITRINEOS_BRANCH ;;
     m)  START_OPTION="manual" ;;
     h)  echo -e "$usage"; exit ;;
     \?) echo -e "illegal option: -$OPTARG\n" >&2
@@ -78,12 +81,14 @@ delete_temporary_directory() { rm -rf "${DEMO_DIR}"; }
 trap delete_temporary_directory EXIT
 
 
-echo "DEMO REPO:    $DEMO_REPO"
-echo "DEMO BRANCH:  $DEMO_BRANCH"
-echo "DEMO VERSION: $DEMO_VERSION"
-echo "DEMO CONFIG:  $DEMO_COMPOSE_FILE_NAME"
-echo "DEMO DIR:     $DEMO_DIR"
-echo "DEMO CSMS:    $DEMO_CSMS"
+echo "DEMO REPO:        $DEMO_REPO"
+echo "DEMO BRANCH:      $DEMO_BRANCH"
+echo "DEMO VERSION:     $DEMO_VERSION"
+echo "DEMO CONFIG:      $DEMO_COMPOSE_FILE_NAME"
+echo "DEMO DIR:         $DEMO_DIR"
+echo "DEMO CSMS:        $DEMO_CSMS"
+echo "DEMO CSMS REPO:   $DEMO_CSMS_REPO"
+echo "DEMO CSMS BRANCH: $DEMO_CSMS_BRANCH"
 
 
 cd "${DEMO_DIR}" || exit 1
@@ -96,75 +101,33 @@ else
     cp -r "$DEMO_REPO" everest-demo
 fi
 
-if [[ "$DEMO_CSMS" == maeve ]]; then
-  echo "Cloning ${DEMO_CSMS} CSMS from ${MAEVE_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
-  git clone --branch "${MAEVE_BRANCH}" "${MAEVE_REPO}" ${DEMO_CSMS}-csms
+# BEGIN: Setting up the CSMS
+  echo "Cloning ${DEMO_CSMS} CSMS from ${DEMO_CSMS_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
+  git clone --branch "${DEMO_CSMS_BRANCH}" "${DEMO_CSMS_REPO}" ${DEMO_CSMS}-csms
 
-  pushd maeve-csms || exit 1
+  pushd ${DEMO_CSMS}-csms || exit 1
 
   cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
 
   if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
-    source ../everest-demo/maeve/copy-certs.sh
-
-    echo "Validating that the certificates are set up correctly"
-    openssl verify -show_chain \
-      -CAfile config/certificates/root-V2G-cert.pem \
-      -untrusted config/certificates/trust.pem \
-      config/certificates/csms.pem
-
-    echo "Patching the CSMS to enable EVerest organization"
-    patch -p1 -i ../everest-demo/maeve/maeve-csms-everest-org.patch
-
-    echo "Patching the CSMS to enable local mo root"
-    patch -p1 -i ../everest-demo/maeve/maeve-csms-local-mo-root.patch
-
-    echo "Patching the CSMS to enable local mo root"
-    patch -p1 -i ../everest-demo/maeve/maeve-csms-ignore-ocsp.patch
-
-  else
-    echo "Patching the CSMS to disable WSS"
-    patch -p1 -i ../everest-demo/maeve/maeve-csms-no-wss.patch
+    source ../everest-demo/${DEMO_CSMS}/copy-certs.sh
   fi
 
-  docker compose build
-  docker compose up -d
+  source ../everest-demo/${DEMO_CSMS}/apply-patches.sh
 
-  echo "Waiting 5s for MaEVe CSMS to start..."
+  source ../everest-demo/${DEMO_CSMS}/build-and-run.sh
+
+  # note that docker compose --wait only waits for the
+  # containers to be up, not necessarily the services in those
+  # containers.
+  echo "Waiting 5s for ${DEMO_CSMS} services to finish starting..."
   sleep 5
 
-  echo "Adding a charger and RFID card to maeve"
-  source ../everest-demo/maeve/add-charger-and-rfid-card.sh
+  echo "Adding a charger and RFID card to ${DEMO_CSMS}"
+  source ../everest-demo/${DEMO_CSMS}/add-charger-and-rfid-card.sh
 
   popd || exit 1
-fi
-
-if [[ "$DEMO_CSMS" == 'citrineos' ]]; then
-  echo "Cloning CitrineOS CSMS from ${CITRINEOS_REPO} into ${DEMO_DIR}/citrineos-csms and starting it"
-  git clone --branch "${CITRINEOS_BRANCH}" "${CITRINEOS_REPO}" citrineos-csms
-
-  pushd citrineos-csms || exit 1
-
-  cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
-
-  mkdir -p Server/data/certificates
-  source ../everest-demo/citrineos/copy-certs.sh
-
-  pushd Server || exit 1
-  echo "Starting the CitrineOS CSMS"
-  cat ./docker-compose.yml
-  docker compose -f ./docker-compose.yml build
-  if ! docker compose --project-name citrineos-csms -f ./docker-compose.yml up -d --wait; then
-      echo "Failed to start CitrineOS."
-      exit 1
-  fi
-  popd || exit 1
-
-  echo "Adding a charger and RFID card to CitrineOS"
-  ../everest-demo/citrineos/add-charger-and-rfid-card.sh
-
-  popd || exit 1
-fi
+# END: Setting up the CSMS
 
 pushd everest-demo || exit 1
 echo "API calls to CSMS finished, Starting everest"
@@ -191,36 +154,18 @@ if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
   docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source/build && openssl verify -show_chain -CAfile dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem dist/etc/everest/certs/client/csms/CSMS_LEAF.pem"
 fi
 
-if [[ "$DEMO_CSMS" == 'maeve' ]]; then
-  if [[ "$DEMO_VERSION" =~ sp1 ]]; then
-    echo "Copying device DB, configured to SecurityProfile: 1"
-    docker cp manager/device_model_storage_maeve_sp1.db \
-      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
-  elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
-    echo "Copying device DB, configured to SecurityProfile: 2"
-    docker cp manager/device_model_storage_maeve_sp2.db \
-      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
-  elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
-    echo "Copying device DB, configured to SecurityProfile: 3"
-    docker cp manager/device_model_storage_maeve_sp3.db \
-      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
-  fi
-fi
-
-if [[ "$DEMO_CSMS" == 'citrineos' ]]; then
-  if [[ "$DEMO_VERSION" =~ sp1 ]]; then
-    echo "Copying device DB, configured to SecurityProfile: 1"
-    docker cp manager/device_model_storage_citrineos_sp1.db \
-      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
-  elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
-    echo "Copying device DB, configured to SecurityProfile: 2"
-    docker cp manager/device_model_storage_citrineos_sp2.db \
-      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
-  elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
-    echo "Copying device DB, configured to SecurityProfile: 3"
-    docker cp manager/device_model_storage_citrineos_sp3.db \
-      everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
-  fi
+if [[ "$DEMO_VERSION" =~ sp1 ]]; then
+echo "Copying device DB, configured to SecurityProfile: 1"
+docker cp manager/device_model_storage_${DEMO_CSMS}_sp1.db \
+  everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
+elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
+echo "Copying device DB, configured to SecurityProfile: 2"
+docker cp manager/device_model_storage_${DEMO_CSMS}_sp2.db \
+  everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
+elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
+echo "Copying device DB, configured to SecurityProfile: 3"
+docker cp manager/device_model_storage_${DEMO_CSMS}_sp3.db \
+  everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
 fi
 
 if [[ "$START_OPTION" == "auto" ]]; then
