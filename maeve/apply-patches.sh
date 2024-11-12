@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
   if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
     echo "Patching the CSMS to enable EVerest organization"
     patch -p1 -i ../everest-demo/maeve/maeve-csms-everest-org.patch

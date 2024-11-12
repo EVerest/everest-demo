@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
   mkdir -p Server/data/certificates
 
   echo "Copying certs into ${DEMO_DIR}/citrineos-csms/Server/data/certificates"

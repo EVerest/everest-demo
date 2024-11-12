@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
   # Set up certificates for SP2 and SP3
     echo "Copying certs into ${DEMO_DIR}/maeve-csms/config/certificates"
     tar xf cached_certs_correct_name_emaid.tar.gz
