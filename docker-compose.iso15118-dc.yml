@@ -19,7 +19,7 @@ services:
       - mqtt-server
     environment:
       - MQTT_SERVER_ADDRESS=mqtt-server
-    entrypoint: "sh /ext/source/build/run-scripts/run-sil-dc.sh"
+    entrypoint: "sh /ext/build/run-scripts/run-sil-dc.sh"
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
 
