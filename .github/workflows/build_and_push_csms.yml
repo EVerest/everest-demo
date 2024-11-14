@@ -29,13 +29,13 @@ jobs:
             csms_branch: set_charging_profile
             image_name: manager
             context: ./maeve-csms/manager
-            host_namespace: ghcr.io/US-JOET/everest-demo
+            host_namespace: ghcr.io/everest/everest-demo
           - csms: maeve
             csms_repo: louisg1337/maeve-csms
             csms_branch: set_charging_profile
             image_name: gateway
             context: ./maeve-csms/gateway
-            host_namespace: ghcr.io/US-JOET/everest-demo
+            host_namespace: ghcr.io/everest/everest-demo
 #           - csms_dir: citrineos
 #             csms_repo: https://github.com/citrineos/citrineos-core.git
 #             csms_branch: feature/everest-demo
@@ -134,6 +134,7 @@ jobs:
             type=semver,pattern={{version}},value=v${{ steps.docker-image-version-check.outputs.TAG }}
 
       - name: Log into GitHub container registry
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
