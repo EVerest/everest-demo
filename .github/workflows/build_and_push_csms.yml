@@ -1,0 +1,161 @@
+name: build_and_push_csms
+
+on:
+  pull_request:
+    branches:
+      - main
+      - upgrade_**
+  push:
+    branches:
+      - main
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  docker-build-and-push-images:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    strategy:
+      matrix:
+        include:
+          - csms: maeve
+            csms_repo: louisg1337/maeve-csms
+            csms_branch: set_charging_profile
+            image_name: manager
+            context: ./maeve-csms/manager
+            host_namespace: ghcr.io/US-JOET/everest-demo
+          - csms: maeve
+            csms_repo: louisg1337/maeve-csms
+            csms_branch: set_charging_profile
+            image_name: gateway
+            context: ./maeve-csms/gateway
+            host_namespace: ghcr.io/US-JOET/everest-demo
+#           - csms_dir: citrineos
+#             csms_repo: https://github.com/citrineos/citrineos-core.git
+#             csms_branch: feature/everest-demo
+
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+            path: everest-demo
+
+      - name: Ensure Docker image version is not referencing an existing release
+        id: docker-image-version-check
+        shell: bash
+        run: |
+          cd everest-demo
+          if ! [[ -s '.env'  ]]; then
+            echo 'Error: No .env file found.'
+            exit 1
+          fi
+
+          if ! grep -qE '^TAG=' .env; then
+            echo 'Error: .env must contain a TAG variable.'
+            exit 1
+          fi
+
+          source .env
+
+          # Fail if any previous Docker image version value matches the one in
+          # this PR (excluding the current image version).
+          for commit in $(git --no-pager log --first-parent --format=%H -- .env | tail -n +2); do
+            if git --no-pager grep -hF "${TAG}" $commit -- .env | grep -qx ${TAG}; then
+              echo 'Error: The version in .env matches an'
+              echo '       earlier version on main. Please update the value in'
+              echo '       .env to a new version.'
+              exit 1
+            fi
+          done
+
+          if git show-ref --tags --verify --quiet "refs/tags/v${TAG}"; then
+            echo "Error: The tag 'v${TAG}' is already a GitHub release."
+            echo '       Please update the version in .env'
+            exit 1
+          else
+            echo "TAG=${TAG}" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Checkout the CSMS repo
+        uses: actions/checkout@v4
+        with:
+            repository: ${{ matrix.csms_repo }}
+            ref: ${{ matrix.csms_branch }}
+            path: ${{ matrix.csms }}-csms
+
+      - name: Configure CSMS
+        id: configure-csms
+        shell: bash
+        run: |
+            pushd ${{ matrix.csms }}-csms
+            bash ../everest-demo/${{ matrix.csms }}/apply-compile-patches.sh
+
+#       - name: Build using docker compose
+#         id: build-using-docker-compose
+#         shell: bash
+#         run: |
+#             source everest-demo/.env
+#             echo "Using docker-compose instead of the build-and-push action since we don't have to duplicate the set of services in that case"
+#             pushd ${{ matrix.csms }}-csms
+#             docker compose build
+#             
+#       - name: List, tag and push newly built images
+#         id: list-tag-and-push-newly-built-images
+#         shell: bash
+#         run: |
+#             source everest-demo/.env
+#             echo "Before retagging, image list is"
+#             docker image list
+#             # hardcoding the list of containers for now
+#             echo "Retagging {{ $matrix.csms }}-csms-gateway:latest to "
+#             docker tag ${{ matrix.csms }}-csms-gateway:latest ghcr.io/everest/everest-demo/${{ matrix.csms }}-csms-gateway:"${TAG}"
+#             docker tag ${{ matrix.csms }}-csms-manager:latest ghcr.io/everest/everest-demo/${{ matrix.csms }}-csms-manager:"${TAG}"
+#             echo "After retagging, image list is"
+#             docker image list
+# 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Set Docker image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ matrix.host_namespace }}/${{ matrix.image_name }}
+          tags: |
+            type=semver,pattern={{version}},value=v${{ steps.docker-image-version-check.outputs.TAG }}
+
+      - name: Log into GitHub container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+#       - name: Push the images as packages
+#         id: push-the-images-as-packages
+#         shell: bash
+#         run: |
+#             source everest-demo/.env
+#             docker push ghcr.io/everest/everest-demo/${{ matrix.csms }}-csms-gateway:"${TAG}"
+#             docker push ghcr.io/everest/everest-demo/${{ matrix.csms }}-csms-manager:"${TAG}"
+# 
+
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v6
+        with:
+          load: true
+          context: ${{ matrix.context }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=${{ matrix.image_name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image_name }}
