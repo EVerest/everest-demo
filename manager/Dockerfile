@@ -1,9 +1,7 @@
-FROM ghcr.io/everest/build-kit-alpine:v1.4.2
+FROM ghcr.io/everest/everest-ci/build-kit-base:v1.4.2
 
 ARG EVEREST_VERSION=2024.9.0
 ENV EVEREST_VERSION=${EVEREST_VERSION}
-
-COPY install.sh ./
 
 # Cloning the repo now and copying files over
 RUN git clone https://github.com/EVerest/everest-core.git \
@@ -11,9 +9,9 @@ RUN git clone https://github.com/EVerest/everest-core.git \
         && git checkout ${EVEREST_VERSION} \
         && cd .. \
         && mkdir -p /ext/scripts \
-        && mv install.sh /ext/scripts/install.sh \
+        && cp -r everest-core/.ci/build-kit/scripts/* /ext/scripts/ \
         && mv everest-core /ext/source \
-        # Don't run the test-and-install script since it deletes the build directory!
+        && /entrypoint.sh run-script compile \
         && /entrypoint.sh run-script install
 
 # Copy over the custom config *after* compilation and installation
