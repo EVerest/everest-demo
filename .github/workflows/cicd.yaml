@@ -94,17 +94,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
     
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v6
-        with:
-          context: ${{ matrix.context }}
-          platforms: linux/amd64,linux/arm64
-          push: false
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=${{ matrix.image_name }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.image_name }}
-
+#       - name: Build and export to Docker
+#         uses: docker/build-push-action@v6
+#         with:
+#           context: ${{ matrix.context }}
+#           platforms: linux/amd64,linux/arm64
+#           push: false
+#           tags: ${{ steps.meta.outputs.tags }}
+#           labels: ${{ steps.meta.outputs.labels }}
+#           cache-from: type=gha,scope=${{ matrix.image_name }}
+#           cache-to: type=gha,mode=max,scope=${{ matrix.image_name }}
+# 
       # Following four steps are specifically for running automated tests which includes loading the 
       # mqtt-server image from the GitHub Actions Cache so that the docker compose automated tests can 
       # use this already built image instead of pulling it from GitHub Container Registry
@@ -157,6 +157,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
+          platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
