@@ -27,9 +27,9 @@ jobs:
           - host_namespace: ghcr.io/everest/everest-demo
             image_name: nodered
             context: ./nodered
-          - host_namespace: ghcr.io/everest/everest-demo
-            image_name: manager
-            context: ./manager
+#           - host_namespace: ghcr.io/everest/everest-demo
+#             image_name: manager
+#             context: ./manager
 
     steps:
       - name: Checkout

@@ -1,0 +1,111 @@
+networks:
+  default:
+    name: maeve-csms
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:db8:a::/64
+          gateway: 2001:db8:a::1
+
+services:
+  mqtt:
+    image: eclipse-mosquitto:2
+    volumes:
+      - type: bind
+        source: ./config/mosquitto
+        target: /mosquitto/config
+        read_only: true
+    ports:
+      - "1883:1883"
+      - "9000:9000"
+    user: "10000:10000"
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 5 mosquitto_sub -t '$$SYS/#' -C 1 | grep -v Error || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+  gateway:
+    image: ghcr.io/everest/everest-demo/maeve-gateway:${TAG}
+    depends_on:
+      mqtt:
+        condition: service_healthy
+      manager:
+        condition: service_healthy
+    command:
+      - "serve"
+      - "--ws-addr"
+      - ":9310"
+      - "--wss-addr"
+      - ":9311"
+      - "--status-addr"
+      - ":9312"
+      - "--tls-server-cert"
+      - "/certificates/csms.pem"
+      - "--tls-server-key"
+      - "/certificates/csms.key"
+      - "--tls-trust-cert"
+      - "/certificates/trust.pem"
+      - "--mqtt-addr"
+      - "mqtt://mqtt:1883"
+      - "--manager-api-addr"
+      - "http://manager:9410"
+    ports:
+      - "80:9310" # charge station ws
+      - "443:9311" # charge station wss
+      - "9312:9312" # status
+    volumes:
+      - type: bind
+        source: ./config/certificates
+        target: /certificates
+        read_only: true
+    healthcheck:
+      test: ["CMD", "/usr/bin/curl", "-s", "--fail", "http://localhost:9312/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    user: "${UID}:${GID}"
+
+  manager:
+    image: ghcr.io/everest/everest-demo/maeve-manager:${TAG}
+    build:
+      context: manager
+    depends_on:
+      mqtt:
+        condition: service_healthy
+    environment:
+      ENVIRONMENT: dev
+      FIRESTORE_EMULATOR_HOST: firestore:8080
+    command:
+      - "serve"
+      - "-c"
+      - "/config/config.toml"
+    volumes:
+      - type: bind
+        source: ./config/certificates
+        target: /certificates
+        read_only: true
+      - type: bind
+        source: ./config/manager
+        target: /config
+        read_only: true
+    ports:
+      - "9410:9410" # manager api
+      - "9411:9411" # status
+    healthcheck:
+      test: ["CMD", "/usr/bin/curl", "-s", "--fail", "http://localhost:9410/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    user: "${UID}:${GID}"
+
+  firestore:
+    image: google/cloud-sdk
+    command:
+      - gcloud
+      - emulators
+      - firestore
+      - start
+      - --host-port=0.0.0.0:8080
+    ports:
+      - "8080:8080"

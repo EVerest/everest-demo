@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "While running subscript, DEMO_VERSION is " $DEMO_VERSION
+echo "While running subscript, DEMO_VERSION is " "$DEMO_VERSION"
 
 if [[ "$DEMO_VERSION" =~ sp1 ]]; then
   echo "MaEVe CSMS started, adding charge station with Security Profile 1 (note: profiles in MaEVe start with 0 so SP-0 == OCPP SP-1)"
