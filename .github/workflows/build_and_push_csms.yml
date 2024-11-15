@@ -129,7 +129,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ matrix.host_namespace }}/${{ matrix.image_name }}
+          images: ${{ matrix.host_namespace }}/${{ matrix.csms }}-${{ matrix.image_name }}
           tags: |
             type=semver,pattern={{version}},value=v${{ steps.docker-image-version-check.outputs.TAG }}
 

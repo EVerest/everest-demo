@@ -4,13 +4,6 @@
 DEMO_REPO="https://github.com/everest/everest-demo.git"
 DEMO_BRANCH="main"
 
-MAEVE_REPO="https://github.com/louisg1337/maeve-csms.git"
-# MAEVE_BRANCH="b990d0eddf2bf80be8d9524a7b08029fbb305c7d" # patch files are based on this commit
-MAEVE_BRANCH="set_charging_profile"
-
-CITRINEOS_REPO="https://github.com/citrineos/citrineos-core.git"
-CITRINEOS_BRANCH="feature/everest-demo"
-
 START_OPTION="auto"
 
 usage="usage: $(basename "$0") [-r <repo>] [-b <branch>] [-c <csms>] [1|2|3] [-h]
@@ -87,8 +80,6 @@ echo "DEMO VERSION:     $DEMO_VERSION"
 echo "DEMO CONFIG:      $DEMO_COMPOSE_FILE_NAME"
 echo "DEMO DIR:         $DEMO_DIR"
 echo "DEMO CSMS:        $DEMO_CSMS"
-echo "DEMO CSMS REPO:   $DEMO_CSMS_REPO"
-echo "DEMO CSMS BRANCH: $DEMO_CSMS_BRANCH"
 
 
 cd "${DEMO_DIR}" || exit 1
@@ -102,20 +93,23 @@ else
 fi
 
 # BEGIN: Setting up the CSMS
-  echo "Cloning ${DEMO_CSMS} CSMS from ${DEMO_CSMS_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
-  git clone --branch "${DEMO_CSMS_BRANCH}" "${DEMO_CSMS_REPO}" ${DEMO_CSMS}-csms
+  pushd everest-demo/${DEMO_CSMS} || exit 1
 
-  pushd ${DEMO_CSMS}-csms || exit 1
+  # Copy over the environment variable so we can get the tag
+  cp ../.env .
 
-  cp ../everest-demo/manager/cached_certs_correct_name_emaid.tar.gz .
+  cp ../manager/cached_certs_correct_name_emaid.tar.gz .
 
   if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
-    source ../everest-demo/${DEMO_CSMS}/copy-certs.sh
+    source ../${DEMO_CSMS}/copy-certs.sh
   fi
 
-  source ../everest-demo/${DEMO_CSMS}/apply-patches.sh
+  source ../${DEMO_CSMS}/apply-runtime-patches.sh
 
-  source ../everest-demo/${DEMO_CSMS}/build-and-run.sh
+  if ! docker compose --project-name "${DEMO_CSMS}"-csms up -d --wait; then
+      echo "Failed to start ${DEMO_CSMS}"
+      exit 1
+  fi
 
   # note that docker compose --wait only waits for the
   # containers to be up, not necessarily the services in those
@@ -124,7 +118,7 @@ fi
   sleep 5
 
   echo "Adding a charger and RFID card to ${DEMO_CSMS}"
-  source ../everest-demo/${DEMO_CSMS}/add-charger-and-rfid-card.sh
+  source ../${DEMO_CSMS}/add-charger-and-rfid-card.sh
 
   popd || exit 1
 # END: Setting up the CSMS
@@ -133,18 +127,29 @@ pushd everest-demo || exit 1
 echo "API calls to CSMS finished, Starting everest"
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
 docker cp manager/config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
+docker exec everest-ac-demo-manager-1 rm /ext/dist/share/everest/modules/OCPP201/component_config/custom/EVSE_2.json
+docker exec everest-ac-demo-manager-1 rm /ext/dist/share/everest/modules/OCPP201/component_config/custom/Connector_2_1.json
 
 echo "Configuring and restarting nodered"
 docker cp nodered/config/config-sil-iso15118-ac-flow.json everest-ac-demo-nodered-1:/config/config-sil-two-evse-flow.json
 docker restart everest-ac-demo-nodered-1
 
+echo "Installing patch and vim and cleaning up the cache"
+docker exec everest-ac-demo-manager-1 /bin/bash -c "apt-get -qq -o=Dpkg::Use-Pty=0 update \
+                                                    && apt-get install -y -qq -o=Dpkg::Use-Pty=0 patch \
+                                                    && apt-get install -y -qq -o=Dpkg::Use-Pty=0 vim \
+                                                    && apt-get clean \
+                                                    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
+
 echo "Copying over EVerest patches"
 docker cp manager/enable_payment_method_in_python.patch everest-ac-demo-manager-1:/tmp/
+docker cp manager/support_payment_in_jsevmanager.patch everest-ac-demo-manager-1:/tmp/
 
 echo "Now applying the patches"
-docker cp manager/enable_evcc_logging.cfg everest-ac-demo-manager-1:/ext/source/build/dist/etc/everest/default_logging.cfg
-docker exec everest-ac-demo-manager-1 /bin/bash -c "apk add patch"
+docker cp manager/enable_evcc_logging.cfg everest-ac-demo-manager-1:/ext/dist/etc/everest/default_logging.cfg
 docker exec everest-ac-demo-manager-1 /bin/bash -c "cd /ext && patch -p0 -i /tmp/enable_payment_method_in_python.patch"
+docker exec everest-ac-demo-manager-1 /bin/bash -c "cd /ext/dist/libexec/everest && patch -p1 -i /tmp/support_payment_in_jsevmanager.patch"
+docker exec everest-ac-demo-manager-1 /bin/bash -c "sed -i 's#ws://localhost:9000#ws://host.docker.internal/ws/cp001#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
 
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
   docker cp manager/cached_certs_correct_name_emaid.tar.gz everest-ac-demo-manager-1:/ext/source/build
@@ -174,10 +179,10 @@ fi
 
 if [[ "$START_OPTION" == "auto" ]]; then
   echo "Starting software in the loop simulation automatically"
-  docker exec everest-ac-demo-manager-1 sh /ext/source/build/run-scripts/run-sil-ocpp201-pnc.sh
+  docker exec everest-ac-demo-manager-1 sh /ext/build/run-scripts/run-sil-ocpp201-pnc.sh
 else
   echo "Please start the software in the loop simulation manually by running"
   echo "on your laptop: docker exec -it everest-ac-demo-manager-1 /bin/bash"
-  echo "in the container: sh /ext/source/build/run-scripts/run-sil-ocpp201-pnc.sh"
+  echo "in the container: sh /ext/build/run-scripts/run-sil-ocpp201-pnc.sh"
   echo "You can now stop and restart the manager without re-creating the container"
 fi

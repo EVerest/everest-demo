@@ -20,9 +20,6 @@ active_modules:
     module: EvseManager
     config_module:
       connector_id: 1
-      three_phases: true
-      has_ventilation: true
-      country_code: DE
       evse_id: "DE*PNX*00001"
       session_logging: true
       session_logging_xml: false
@@ -48,18 +45,18 @@ active_modules:
     config_module:
       connector_id: 1
   slac:
-    module: JsSlacSimulator
+    module: SlacSimulator
   car_simulator_1:
-    module: JsCarSimulator
+    module: JsEvManager
     config_module:
       connector_id: 1
       auto_enable: true
       auto_exec: false
       auto_exec_commands: sleep 1;iec_wait_pwr_ready;sleep 1;draw_power_regulated 16,3;sleep 30;unplug
     connections:
-      simulation_control:
+      ev_board_support:
         - module_id: yeti_driver_1
-          implementation_id: yeti_simulation_control
+          implementation_id: ev_board_support
       ev:
         - module_id: iso15118_car
           implementation_id: ev
