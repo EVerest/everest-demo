@@ -27,8 +27,6 @@ where:
 DEMO_VERSION=
 DEMO_COMPOSE_FILE_NAME=
 DEMO_CSMS=maeve
-DEMO_CSMS_REPO=$MAEVE_REPO
-DEMO_CSMS_BRANCH=$MAEVE_BRANCH
 
 # loop through positional options/arguments
 while getopts ':r:b:123chm' option; do
@@ -41,9 +39,7 @@ while getopts ':r:b:123chm' option; do
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
     3)  DEMO_VERSION="v2.0.1-sp3"
         DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
-    c)  DEMO_CSMS="citrineos"
-        DEMO_CSMS_REPO=$CITRINEOS_REPO
-        DEMO_CSMS_BRANCH=$CITRINEOS_BRANCH ;;
+    c)  DEMO_CSMS="citrineos" ;;
     m)  START_OPTION="manual" ;;
     h)  echo -e "$usage"; exit ;;
     \?) echo -e "illegal option: -$OPTARG\n" >&2
@@ -80,6 +76,9 @@ echo "DEMO VERSION:     $DEMO_VERSION"
 echo "DEMO CONFIG:      $DEMO_COMPOSE_FILE_NAME"
 echo "DEMO DIR:         $DEMO_DIR"
 echo "DEMO CSMS:        $DEMO_CSMS"
+echo "CSMS_SP1_URL:     $CSMS_SP1_URL"
+echo "CSMS_SP2_URL:     $CSMS_SP2_URL"
+echo "CSMS_SP3_URL:     $CSMS_SP3_URL"
 
 
 cd "${DEMO_DIR}" || exit 1
@@ -149,7 +148,6 @@ echo "Now applying the patches"
 docker cp manager/enable_evcc_logging.cfg everest-ac-demo-manager-1:/ext/dist/etc/everest/default_logging.cfg
 docker exec everest-ac-demo-manager-1 /bin/bash -c "cd /ext && patch -p0 -i /tmp/enable_payment_method_in_python.patch"
 docker exec everest-ac-demo-manager-1 /bin/bash -c "cd /ext/dist/libexec/everest && patch -p1 -i /tmp/support_payment_in_jsevmanager.patch"
-docker exec everest-ac-demo-manager-1 /bin/bash -c "sed -i 's#ws://localhost:9000#ws://host.docker.internal/ws/cp001#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
 
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
   docker cp manager/cached_certs_correct_name_emaid.tar.gz everest-ac-demo-manager-1:/ext/source/build
@@ -160,21 +158,17 @@ if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
 fi
 
 if [[ "$DEMO_VERSION" =~ sp1 ]]; then
-echo "Copying device DB, configured to SecurityProfile: 1"
-docker cp manager/device_model_storage_${DEMO_CSMS}_sp1.db \
-  everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
+echo "Configured to SecurityProfile: 1, disabling TLS and configuring server to ${CSMS_SP1_URL}"
+docker exec everest-ac-demo-manager-1 /bin/bash -c "sed -i 's#ws://localhost:9000#${CSMS_SP1_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
 docker cp manager/disable_iso_tls.patch everest-ac-demo-manager-1:/tmp/
 docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source && patch -p0 -i /tmp/disable_iso_tls.patch"
 elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
-echo "Copying device DB, configured to SecurityProfile: 2"
-docker cp manager/device_model_storage_${DEMO_CSMS}_sp2.db \
-  everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
-docker cp manager/disable_iso_tls.patch everest-ac-demo-manager-1:/tmp/
-docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source && patch -p0 -i /tmp/disable_iso_tls.patch"
+echo "Configured to SecurityProfile: 2, configuring server to  ${CSMS_SP2_URL}"
+docker exec everest-ac-demo-manager-1 /bin/bash -c "sed -i 's#ws://localhost:9000#${CSMS_SP2_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
 elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
-echo "Copying device DB, configured to SecurityProfile: 3"
-docker cp manager/device_model_storage_${DEMO_CSMS}_sp3.db \
-  everest-ac-demo-manager-1:/ext/source/build/dist/share/everest/modules/OCPP201/device_model_storage.db
+echo "Running with SP3, TLS should be enabled"
+echo "Configured to SecurityProfile: 2, configuring server to  ${CSMS_SP3_URL}"
+docker exec everest-ac-demo-manager-1 /bin/bash -c "sed -i 's#ws://localhost:9000#${CSMS_SP3_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
 fi
 
 if [[ "$START_OPTION" == "auto" ]]; then
