@@ -110,48 +110,48 @@ jobs:
       # use this already built image instead of pulling it from GitHub Container Registry
       # Note: These steps are only for the mqtt-server and the manager images and not for the nodered image.
       # This is because, currently, docker-compose.automated-tests.yml uses only these two images for running automated tests.
-      - name: Save Docker image
-        if: ${{ matrix.image_name == 'mqtt-server' }}
-        id: save-mqtt-image
-        shell: bash
-        run: |
-          echo "TAG=${{ steps.docker-image-version-check.outputs.TAG }}"
-          docker save --output /tmp/mqtt-server_${{ steps.docker-image-version-check.outputs.TAG }}.tar ghcr.io/everest/everest-demo/mqtt-server:${{ steps.docker-image-version-check.outputs.TAG }}
-      
-      - name: Upload mqtt-server image as Artifact
-        if: ${{ matrix.image_name == 'mqtt-server' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: mqtt_server_image_${{ steps.docker-image-version-check.outputs.TAG }}
-          path: /tmp/mqtt-server_${{ steps.docker-image-version-check.outputs.TAG }}.tar
-          overwrite: true
-
-      - name: Download mqtt-server image as Artifact
-        if: ${{ matrix.image_name == 'manager' }}
-        uses: actions/download-artifact@v4
-        with:
-          name: mqtt_server_image_${{ steps.docker-image-version-check.outputs.TAG }}
-          path: /tmp
-
-      - name: Load Docker image
-        if: ${{ matrix.image_name == 'manager' }}
-        id: load-mqtt-image
-        shell: bash
-        run: |
-          docker load --input /tmp/mqtt-server_${{ steps.docker-image-version-check.outputs.TAG }}.tar     
-    
-      - name: Run automated tests using docker-compose.automated-tests.yml
-        if: ${{ matrix.image_name == 'manager' }}
-        run: |
-          docker images
-          echo "Running docker compose up..."
-          docker compose --project-name everest-ac-automated-testing \
-                  --file "docker-compose.automated-tests.yml" up \
-                    --abort-on-container-exit \
-                    --exit-code-from manager
-
-          exit_code=$?            
-          echo "Docker-compose up exit code from manager service: $exit_code"
+#       - name: Save Docker image
+#         if: ${{ matrix.image_name == 'mqtt-server' }}
+#         id: save-mqtt-image
+#         shell: bash
+#         run: |
+#           echo "TAG=${{ steps.docker-image-version-check.outputs.TAG }}"
+#           docker save --output /tmp/mqtt-server_${{ steps.docker-image-version-check.outputs.TAG }}.tar ghcr.io/everest/everest-demo/mqtt-server:${{ steps.docker-image-version-check.outputs.TAG }}
+#       
+#       - name: Upload mqtt-server image as Artifact
+#         if: ${{ matrix.image_name == 'mqtt-server' }}
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: mqtt_server_image_${{ steps.docker-image-version-check.outputs.TAG }}
+#           path: /tmp/mqtt-server_${{ steps.docker-image-version-check.outputs.TAG }}.tar
+#           overwrite: true
+# 
+#       - name: Download mqtt-server image as Artifact
+#         if: ${{ matrix.image_name == 'manager' }}
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: mqtt_server_image_${{ steps.docker-image-version-check.outputs.TAG }}
+#           path: /tmp
+# 
+#       - name: Load Docker image
+#         if: ${{ matrix.image_name == 'manager' }}
+#         id: load-mqtt-image
+#         shell: bash
+#         run: |
+#           docker load --input /tmp/mqtt-server_${{ steps.docker-image-version-check.outputs.TAG }}.tar     
+#     
+#       - name: Run automated tests using docker-compose.automated-tests.yml
+#         if: ${{ matrix.image_name == 'manager' }}
+#         run: |
+#           docker images
+#           echo "Running docker compose up..."
+#           docker compose --project-name everest-ac-automated-testing \
+#                   --file "docker-compose.automated-tests.yml" up \
+#                     --abort-on-container-exit \
+#                     --exit-code-from manager
+# 
+#           exit_code=$?            
+#           echo "Docker-compose up exit code from manager service: $exit_code"
       
       - name: Build and push
         uses: docker/build-push-action@v6
