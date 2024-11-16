@@ -1,6 +1,7 @@
---- ext-switchev-iso15118/iso15118/evcc/controller/interface.py
-+++ dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/interface.py
-@@ -109,6 +109,15 @@
+diff -r -uw /tmp/dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/interface.py dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/interface.py
+--- /tmp/dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/interface.py	2024-11-16 07:27:59.908302470 +0000
++++ dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/interface.py	2024-11-16 07:29:33.510264217 +0000
+@@ -112,6 +112,15 @@
          raise NotImplementedError
  
      @abstractmethod
@@ -16,17 +17,11 @@
      async def get_energy_transfer_mode(
          self, protocol: Protocol
      ) -> EnergyTransferModeEnum:
---- ext-switchev-iso15118/iso15118/evcc/controller/simulator.py
-+++ dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/simulator.py
-@@ -53,6 +53,7 @@
-     SAScheduleTupleEntry as SAScheduleTupleEntryDINSPEC,
- )
- from iso15118.shared.messages.enums import (
-+    AuthEnum,
-     ControlMode,
-     DCEVErrorCode,
-     EnergyTransferModeEnum,
-@@ -233,11 +234,18 @@
+Only in dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller: interface.py.orig
+diff -r -uw /tmp/dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/simulator.py dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/simulator.py
+--- /tmp/dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/simulator.py	2024-11-16 07:27:59.909302470 +0000
++++ dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/simulator.py	2024-11-16 07:29:33.516264216 +0000
+@@ -248,12 +248,19 @@
              logger.error(f"Invalid protocol '{protocol}', can't determine EVCCID")
              raise InvalidProtocolError
  
@@ -41,13 +36,16 @@
      ) -> EnergyTransferModeEnum:
          """Overrides EVControllerInterface.get_energy_transfer_mode()."""
          return EnergyTransferModeEnum(EVEREST_EV_STATE.EnergyTransferMode)
-+
  
++
      async def get_supported_energy_services(self) -> List[ServiceV20]:
          """Overrides EVControllerInterface.get_energy_transfer_service()."""
---- ext-switchev-iso15118/iso15118/evcc/states/iso15118_2_states.py
-+++ dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/iso15118_2_states.py
-@@ -193,8 +193,9 @@
+         return self.config.supported_energy_services
+Only in dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller: simulator.py.orig
+diff -r -uw /tmp/dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/iso15118_2_states.py dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/iso15118_2_states.py
+--- /tmp/dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/iso15118_2_states.py	2024-11-16 07:27:59.933302468 +0000
++++ dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/iso15118_2_states.py	2024-11-16 07:29:33.517264216 +0000
+@@ -196,8 +196,9 @@
              self.stop_state_machine("ChargeService not offered")
              return
  
@@ -58,7 +56,7 @@
          await self.select_energy_transfer_mode()
  
          charge_service: ChargeService = service_discovery_res.charge_service
-@@ -262,12 +263,13 @@
+@@ -265,12 +266,13 @@
              self.comm_session.selected_energy_mode.value.startswith("AC")
          )
  
@@ -73,17 +71,10 @@
          if evcc_settings.ev_session_context.selected_auth_option:
              logger.debug(
                  "Reusing authorization option "
-@@ -279,15 +281,30 @@
+@@ -282,6 +284,21 @@
              )
              evcc_settings.ev_session_context.selected_auth_option = None
          else:
--            # Choose Plug & Charge (pnc) or External Identification Means (eim)
--            # as the selected authorization option. The car manufacturer might
--            # have a mechanism to determine a user-defined or default
--            # authorization option. This implementation favors pnc, but
--            # feel free to change if need be.
--            if AuthEnum.PNC_V2 in auth_option_list and self.comm_session.is_tls:
--                self.comm_session.selected_auth_option = AuthEnum.PNC_V2
 +            logger.warn("V2G_PAYMENT: about to read value from state")
 +            self.comm_session.selected_auth_option = (
 +                await self.comm_session.ev_controller.get_selected_auth_option(
@@ -95,20 +86,11 @@
 +                logger.debug(
 +                        "V2G_PAYMENT: Found Payment Option %s passed in from the PyJoseV module, using it" % self.comm_session.selected_auth_option
 +                )
-             else:
--                self.comm_session.selected_auth_option = AuthEnum.EIM_V2
++            else:
 +                logger.debug(
 +                        "V2G_PAYMENT: No previous paused session, no PaymentOption set, using TLS flag %s to decide auth method" % self.comm_session.is_tls
 +                )
-+                # Choose Plug & Charge (pnc) or External Identification Means (eim)
-+                # as the selected authorization option. The car manufacturer might
-+                # have a mechanism to determine a user-defined or default
-+                # authorization option. This implementation favors pnc, but
-+                # feel free to change if need be.
-+                if AuthEnum.PNC_V2 in auth_option_list and self.comm_session.is_tls:
-+                    self.comm_session.selected_auth_option = AuthEnum.PNC_V2
-+                else:
-+                    self.comm_session.selected_auth_option = AuthEnum.EIM_V2
- 
-     async def select_services(self, service_discovery_res: ServiceDiscoveryRes):
-         """
+             # Choose Plug & Charge (pnc) or External Identification Means (eim)
+             # as the selected authorization option. The car manufacturer might
+             # have a mechanism to determine a user-defined or default
+Only in dist/libexec/everest/3rd_party/josev/iso15118/evcc/states: iso15118_2_states.py.orig
