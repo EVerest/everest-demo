@@ -1,0 +1,45 @@
+diff -r -uw /tmp/dist/libexec/everest/modules/JsEvManager/index.js ./modules/JsEvManager/index.js
+--- /tmp/dist/libexec/everest/modules/JsEvManager/index.js	2024-11-16 07:33:36.399948014 +0000
++++ ./modules/JsEvManager/index.js	2024-11-16 07:39:43.045930659 +0000
+@@ -375,17 +375,26 @@
+   });
+ 
+   if (mod.uses_list.ev.length > 0) {
+-    registerCmd(mod, 'iso_start_v2g_session', 1, (mod, c) => {
+-      switch (c.args[0]) {
++    registerCmd(mod, 'iso_start_v2g_session', 2, (mod, c) => {
++      if (c.args[0] === 'externalpayment') mod.payment = 'ExternalPayment';
++        else if (c.args[0] === 'contract') mod.payment = 'Contract';
++      else {
++        evlog.error('Found invalid payment method' + c.args[0]);
++	return false;
++      }
++
++      switch (c.args[1]) {
+         case 'ac':
+           if (mod.config.module.three_phases !== true) mod.energymode = 'AC_single_phase_core';
+           else mod.energymode = 'AC_three_phase_core';
+           break;
+         case 'dc': mod.energymode = 'DC_extended'; break;
+-        default: return false;
++        default:
++          evlog.error('Found invalid payment method' + c.args[1]);
++	  return false;
+       }
+ 
+-      args = { EnergyTransferMode: mod.energymode, EAmount: mod.iso_eamount, DepartureTime: mod.iso_departure_time };
++      args = { PaymentOption: mod.payment, EnergyTransferMode: mod.energymode, EAmount: mod.iso_eamount, DepartureTime: mod.iso_departure_time };
+       mod.uses_list.ev[0].call.start_charging(args);
+ 
+       return true;
+diff -r -uw /tmp/dist/libexec/everest/modules/PyEvJosev/module.py ./modules/PyEvJosev/module.py
+--- /tmp/dist/libexec/everest/modules/PyEvJosev/module.py	2024-11-16 07:33:36.597948000 +0000
++++ ./modules/PyEvJosev/module.py	2024-11-16 07:35:09.774714889 +0000
+@@ -96,6 +96,7 @@
+     def _handler_start_charging(self, args) -> bool:
+         log.info('_handler_start_charging() args: %s' % str(args))
+ 
++        self._es.PaymentOption =args['PaymentOption']
+         self._es.DepartureTime = args['DepartureTime']
+         self._es.EAmount = args['EAmount']
+         self._es.EnergyTransferMode = args['EnergyTransferMode']

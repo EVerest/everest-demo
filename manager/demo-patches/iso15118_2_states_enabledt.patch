@@ -1,0 +1,109 @@
+--- /ext/dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/iso15118_2_states.py
++++ /ext/dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/iso15118_2_states.py
+@@ -4,6 +4,8 @@
+ SessionStopRes.
+ """
+ 
++import paho.mqtt.publish as mqtt_publish
++import paho.mqtt.subscribe as mqtt_subscribe
+ import logging
+ from time import time
+ from typing import Any, List, Union
+@@ -63,6 +65,7 @@
+     PowerDeliveryReq,
+     PowerDeliveryRes,
+     PreChargeReq,
++    ResponseCode,
+     PreChargeRes,
+     ServiceDetailReq,
+     ServiceDetailRes,
+@@ -715,7 +718,7 @@
+         if authorization_res.evse_processing == EVSEProcessing.FINISHED:
+             # Reset the Ongoing timer
+             self.comm_session.ongoing_timer = -1
+-
++            
+             charge_params = await self.comm_session.ev_controller.get_charge_params_v2(
+                 Protocol.ISO_15118_2
+             )
+@@ -726,6 +729,7 @@
+                 dc_ev_charge_parameter=charge_params.dc_parameters,
+             )
+ 
++
+             self.create_next_message(
+                 ChargeParameterDiscovery,
+                 charge_parameter_discovery_req,
+@@ -785,10 +789,21 @@
+         )
+         ev_controller = self.comm_session.ev_controller
+ 
++        print('SAScheduleTuples are:', charge_params_res.sa_schedule_list.schedule_tuples)
+         if charge_params_res.evse_processing == EVSEProcessing.FINISHED:
+             # Reset the Ongoing timer
+             self.comm_session.ongoing_timer = -1
++            if(self.comm_session.charging_session_timer < 0):
++                self.comm_session.charging_session_timer = time()
+ 
++            mqtt_publish.single("everest_external/nodered/{}/evcc/check_sim_speed", "test", hostname="mqtt-server")
++            sim_speed_msg  = mqtt_subscribe.simple("everest_external/nodered/evcc/confirm_sim_speed", hostname="mqtt-server")
++            self.comm_session.sim_speed = int(str(sim_speed_msg.payload)[2:-1])
++            print("Sim speed is now ", self.comm_session.sim_speed)
++            print(time(), self.comm_session.charging_session_timer, self.comm_session.sim_speed)
++            time_elapsed = (time() - self.comm_session.charging_session_timer) * self.comm_session.sim_speed
++            print('Charging Session Time Elapsed... ', time_elapsed)
++
+             # TODO Look at EVSEStatus and EVSENotification and react accordingly
+             #      if e.g. EVSENotification is set to STOP_CHARGING or if RCD
+             #      is True. But let's do that after the testival
+@@ -798,12 +813,22 @@
+                 schedule_id,
+                 charging_profile,
+             ) = await ev_controller.process_sa_schedules_v2(
+-                charge_params_res.sa_schedule_list.schedule_tuples
++                charge_params_res.sa_schedule_list.schedule_tuples,
+++                time_elapsed,
+             )
+-
++            # time_elapsed,
+             # EVerest code start #
++            self.comm_session.end_of_profile_schedule = charging_profile.profile_entries[-1].start
++
++            mqtt_publish.single("everest_external/nodered/{}/evcc/check_departure_time", "test", hostname="mqtt-server")
++            dt_speed_msg  = mqtt_subscribe.simple("everest_external/nodered/evcc/confirm_departure_time", hostname="mqtt-server")
++            # If end of profile > end of SECC schedule or no DT (dt==0), end renegotiation...
++            if (self.comm_session.end_of_profile_schedule >= int(str(dt_speed_msg .payload)[2:-1]) or 0 == int(str(dt_speed_msg .payload)[2:-1])): 
++                self.comm_session.end_of_profile_schedule = 86400
++
+             EVEREST_CTX.publish('AC_EVPowerReady', True)
+             # EVerest code end #
++
+             await self.comm_session.ev_controller.enable_charging(True)
+             if self.comm_session.selected_charging_type_is_ac:
+                 power_delivery_req = PowerDeliveryReq(
+@@ -1171,6 +1196,16 @@
+         if charging_status_res.evse_max_current:
+             evse_max_current = charging_status_res.evse_max_current.value * pow(10, charging_status_res.evse_max_current.multiplier)
+             EVEREST_CTX.publish('AC_EVSEMaxCurrent', evse_max_current)
++
++        time_elapsed = (time() - self.comm_session.charging_session_timer) * self.comm_session.sim_speed
++        print('End Of Schedule:: ', self.comm_session.end_of_profile_schedule)
++        print('NewClockValue:: ', time_elapsed)
++        print(self.comm_session.end_of_profile_schedule)
++
++        is_end_of_profile = (time_elapsed > self.comm_session.end_of_profile_schedule) and (self.comm_session.end_of_profile_schedule <= 86400)
++        if is_end_of_profile:
++            print('Passed the end of the schedule!')
++
+         # EVerest code end #
+ 
+         if charging_status_res.receipt_required and self.comm_session.is_tls:
+@@ -1213,7 +1248,7 @@
+                     f"MeteringReceiptReq: {exc}"
+                 )
+                 return
+-        elif ac_evse_status.evse_notification == EVSENotification.RE_NEGOTIATION:
++        elif ac_evse_status.evse_notification == EVSENotification.RE_NEGOTIATION or is_end_of_profile:
+             self.comm_session.renegotiation_requested = True
+             power_delivery_req = PowerDeliveryReq(
+                 charge_progress=ChargeProgress.RENEGOTIATE,

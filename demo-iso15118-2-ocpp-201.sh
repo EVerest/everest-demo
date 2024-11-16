@@ -130,24 +130,8 @@ docker exec everest-ac-demo-manager-1 rm /ext/dist/share/everest/modules/OCPP201
 docker exec everest-ac-demo-manager-1 rm /ext/dist/share/everest/modules/OCPP201/component_config/custom/Connector_2_1.json
 
 echo "Configuring and restarting nodered"
-docker cp nodered/config/config-sil-iso15118-ac-flow.json everest-ac-demo-nodered-1:/config/config-sil-two-evse-flow.json
+docker cp nodered/config/config-sil-iso15118-ac-flow.json everest-ac-demo-nodered-1:/config/config-sil-iso15118-ac-flow.json
 docker restart everest-ac-demo-nodered-1
-
-echo "Installing patch and vim and cleaning up the cache"
-docker exec everest-ac-demo-manager-1 /bin/bash -c "apt-get -qq -o=Dpkg::Use-Pty=0 update \
-                                                    && apt-get install -y -qq -o=Dpkg::Use-Pty=0 patch \
-                                                    && apt-get install -y -qq -o=Dpkg::Use-Pty=0 vim \
-                                                    && apt-get clean \
-                                                    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
-
-echo "Copying over EVerest patches"
-docker cp manager/enable_payment_method_in_python.patch everest-ac-demo-manager-1:/tmp/
-docker cp manager/support_payment_in_jsevmanager.patch everest-ac-demo-manager-1:/tmp/
-
-echo "Now applying the patches"
-docker cp manager/enable_evcc_logging.cfg everest-ac-demo-manager-1:/ext/dist/etc/everest/default_logging.cfg
-docker exec everest-ac-demo-manager-1 /bin/bash -c "cd /ext && patch -p0 -i /tmp/enable_payment_method_in_python.patch"
-docker exec everest-ac-demo-manager-1 /bin/bash -c "cd /ext/dist/libexec/everest && patch -p1 -i /tmp/support_payment_in_jsevmanager.patch"
 
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
   docker cp manager/cached_certs_correct_name_emaid.tar.gz everest-ac-demo-manager-1:/ext/source/build

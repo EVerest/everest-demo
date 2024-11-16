@@ -1,0 +1,141 @@
+--- /ext/source/modules/EvseV2G/iso_server.cpp
++++ /ext/source/modules/EvseV2G/iso_server.cpp
+@@ -37,6 +37,7 @@
+ #define MQTT_MAX_PAYLOAD_SIZE         268435455
+ #define V2G_SECC_MSG_CERTINSTALL_TIME 4500
+ #define GEN_CHALLENGE_SIZE            16
++#define CEIL(x, y) 		      (x)/(y) + ((x) % (y) != 0);
+ 
+ constexpr uint16_t SAE_V2H = 28472;
+ constexpr uint16_t SAE_V2G = 28473;
+@@ -1072,6 +1073,7 @@
+     }
+     res->EVSEProcessing = (iso2_EVSEProcessingType)conn->ctx->evse_v2g_data.evse_processing[PHASE_AUTH];
+ 
++    
+     if (conn->ctx->evse_v2g_data.evse_processing[PHASE_AUTH] != iso2_EVSEProcessingType_Finished) {
+         if (((is_payment_option_contract == false) && (conn->ctx->session.auth_timeout_eim == 0)) ||
+             ((is_payment_option_contract == true) && (conn->ctx->session.auth_timeout_pnc == 0))) {
+@@ -1130,32 +1132,84 @@
+     res->EVSEChargeParameter_isUsed = 0;
+     res->EVSEProcessing = (iso2_EVSEProcessingType)conn->ctx->evse_v2g_data.evse_processing[PHASE_PARAMETER];
+ 
++    struct linked_ac_params {
++        float max_current;
++        int64_t voltage;
++        int64_t pmax;
++    };
++
++    linked_ac_params sel_params;
++
+     /* Configure SA-schedules*/
+     if (res->EVSEProcessing == iso2_EVSEProcessingType_Finished) {
+         /* If processing is finished, configure SASchedule list */
+         if (conn->ctx->evse_v2g_data.evse_sa_schedule_list_is_used == false) {
++	    int64_t departure_time_duration = req->AC_EVChargeParameter.DepartureTime;
++
+             /* If not configured, configure SA-schedule automatically for AC charging */
+             if (conn->ctx->is_dc_charger == false) {
+                 /* Determin max current and nominal voltage */
+-                float max_current = conn->ctx->basic_config.evse_ac_current_limit;
+-                int64_t nom_voltage =
++    		linked_ac_params default_params;
++                /* Setup default params (before the departure time overrides) */
++                default_params.max_current = conn->ctx->basic_config.evse_ac_current_limit;
++                default_params.voltage =
+                     conn->ctx->evse_v2g_data.evse_nominal_voltage.Value *
+                     pow(10, conn->ctx->evse_v2g_data.evse_nominal_voltage.Multiplier); /* nominal voltage */
+ 
+                 /* Calculate pmax based on max current, nominal voltage and phase count (which the car has selected
+                  * above) */
+-                int64_t pmax =
+-                    max_current * nom_voltage *
++                default_params.pmax =
++                    default_params.max_current * default_params.voltage *
+                     ((req->RequestedEnergyTransferMode == iso2_EnergyTransferModeType_AC_single_phase_core) ? 1 : 3);
+-                populate_physical_value(&conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.array[0]
++            	dlog(DLOG_LEVEL_WARNING, "before adjusting for departure time, max_current %f, nom_voltage %d, pmax %d, departure_duration %d",
++			default_params.max_current, default_params.voltage,
++			default_params.pmax, departure_time_duration);
++            	double req_eamount = calc_physical_value(req->AC_EVChargeParameter.EAmount.Value,
++                        req->AC_EVChargeParameter.EAmount.Multiplier);
++    	    	dlog(DLOG_LEVEL_WARNING, "Requested departure time %u, requested energy %f",
++			departure_time_duration, req_eamount);
++		if (departure_time_duration == 0) {
++    	    	    dlog(DLOG_LEVEL_WARNING, "No departure time specified, not modifying defaults");
++                    sel_params = default_params;
++		} else {
++    	    	    dlog(DLOG_LEVEL_WARNING, "Departure time specified, checking to see if we can lower requirements");
++		    int64_t departure_time_duration_hours = departure_time_duration / 3600;
++		    float min_hours_to_charge = req_eamount / default_params.pmax;
++		    float min_secs_to_charge = min_hours_to_charge * 60 * 60;
++		    if (min_secs_to_charge >= departure_time_duration) {
++    	    		dlog(DLOG_LEVEL_WARNING,
++				"Min hours to charge %f, requested departure time in hours %f, pmax is unchanged",
++				min_hours_to_charge, departure_time_duration_hours);
++			sel_params = default_params;
++		    } else {
++			/* In general, while computing these values, we use integer division
++			   which rounds down. We then check if there is a reminder and add one to round up.
++			   The rationale is that, from a user perspective, it is better to finish charging
++                           a teeny bit early rather than not provide all the energy requested */
++			sel_params.pmax = (int)std::ceil(req_eamount / departure_time_duration_hours);
++			sel_params.voltage = default_params.voltage;
++			sel_params.max_current = CEIL(sel_params.pmax, (sel_params.voltage *
++				((req->RequestedEnergyTransferMode == iso2_EnergyTransferModeType_AC_single_phase_core) ? 1 : 3)));
++    	    		dlog(DLOG_LEVEL_WARNING,
++				"Min hours to charge %f, requested departure time in hours %d, plenty of time to charge",
++				min_hours_to_charge, departure_time_duration_hours);
++			dlog(DLOG_LEVEL_WARNING, "lowering pmax = %d, max_current = %f, pmax float = %f",
++				sel_params.pmax, sel_params.max_current, ((float)req_eamount / (float)departure_time_duration_hours));
++		    }
++                } 
++        	populate_physical_value(&conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.array[0]
+                                              .PMaxSchedule.PMaxScheduleEntry.array[0]
+                                              .PMax,
+-                                        pmax, iso2_unitSymbolType_W);
++                                             sel_params.pmax, iso2_unitSymbolType_W);
+             } else {
+                 conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.array[0]
+                     .PMaxSchedule.PMaxScheduleEntry.array[0]
+                     .PMax = conn->ctx->evse_v2g_data.evse_maximum_power_limit;
+             }
++            if (departure_time_duration == 0) {
++                departure_time_duration = SA_SCHEDULE_DURATION; // one day, per spec
++            }                                                                                                
++
+             conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.array[0]
+                 .PMaxSchedule.PMaxScheduleEntry.array[0]
+                 .RelativeTimeInterval.start = 0;
+@@ -1164,7 +1218,7 @@
+                 .RelativeTimeInterval.duration_isUsed = 1;
+             conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.array[0]
+                 .PMaxSchedule.PMaxScheduleEntry.array[0]
+-                .RelativeTimeInterval.duration = SA_SCHEDULE_DURATION;
++                .RelativeTimeInterval.duration = departure_time_duration;
+             conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.array[0]
+                 .PMaxSchedule.PMaxScheduleEntry.arrayLen = 1;
+             conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.arrayLen = 1;
+@@ -1207,19 +1261,15 @@
+ 
+         populate_ac_evse_status(conn->ctx, &res->AC_EVSEChargeParameter.AC_EVSEStatus);
+ 
++	// We have already calculated all of these above, so let's not duplicate code here
+         /* Max current */
+-        float max_current = conn->ctx->basic_config.evse_ac_current_limit;
+-        populate_physical_value_float(&res->AC_EVSEChargeParameter.EVSEMaxCurrent, max_current, 1,
++                populate_physical_value_float(&res->AC_EVSEChargeParameter.EVSEMaxCurrent, sel_params.max_current, 1,
+                                       iso2_unitSymbolType_A);
+-
+         /* Nominal voltage */
+         res->AC_EVSEChargeParameter.EVSENominalVoltage = conn->ctx->evse_v2g_data.evse_nominal_voltage;
+-        int64_t nom_voltage = conn->ctx->evse_v2g_data.evse_nominal_voltage.Value *
+-                              pow(10, conn->ctx->evse_v2g_data.evse_nominal_voltage.Multiplier);
+ 
+         /* Calculate pmax based on max current, nominal voltage and phase count (which the car has selected above) */
+-        int64_t pmax = max_current * nom_voltage *
+-                       ((iso2_EnergyTransferModeType_AC_single_phase_core == req->RequestedEnergyTransferMode) ? 1 : 3);
++        int64_t pmax = sel_params.pmax;
+ 
+         /* Check the SASchedule */
+         if (res->SAScheduleList_isUsed == (unsigned int)1) {
