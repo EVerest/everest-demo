@@ -33,4 +33,4 @@ services:
       - 1880:1880
     environment:
       - MQTT_SERVER_ADDRESS=mqtt-server
-      - FLOWS=/config/config-sil-two-evse-flow.json
+      - FLOWS=/config/config-sil-iso15118-ac-flow.json

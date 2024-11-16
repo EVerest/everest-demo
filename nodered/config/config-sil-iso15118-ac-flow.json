@@ -1,29 +1,37 @@
 [
     {
-        "id": "9aafbf849d4d6e12",
+        "id": "663d251dbdfd20aa",
         "type": "tab",
         "label": "Debug",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "e921db8897354328",
+        "id": "f17b3c3577ed4179",
         "type": "tab",
         "label": "RFID",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "ed603c51db9dcbb9",
+        "id": "a0826fab08a85be9",
         "type": "tab",
         "label": "Connector 1",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "af1e1eeac9c4b704",
+        "id": "6e0f6f4f7ec3c163",
+        "type": "tab",
+        "label": "1 PowerCurve Selector",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2fdf74399d3a2276",
         "type": "group",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "style": {
             "stroke": "#999999",
             "stroke-opacity": "1",
@@ -34,7 +42,7 @@
             "color": "#a4a4a4"
         },
         "nodes": [
-            "1295e032d7ddbc20"
+            "69b40b4ad0d925e7"
         ],
         "x": 1114,
         "y": 439,
@@ -246,16 +254,6 @@
         "collapse": false
     },
     {
-        "id": "21e40a4a97a50168",
-        "type": "ui_group",
-        "name": "Connector 2 [Basic Charging]",
-        "tab": "d3ada9fa4cf6ac53",
-        "order": 3,
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
         "id": "50c487c1.27e508",
         "type": "ui_tab",
         "name": "Debug",
@@ -273,9 +271,9 @@
         "hidden": false
     },
     {
-        "id": "27225dc1005441da",
+        "id": "9c00d65bdac51e5c",
         "type": "ui_spacer",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "spacer",
         "group": "27651fee38a05406",
         "order": 4,
@@ -283,9 +281,9 @@
         "height": 1
     },
     {
-        "id": "7120e41583a9165f",
+        "id": "c593d23dcd960bab",
         "type": "ui_spacer",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "spacer",
         "group": "27651fee38a05406",
         "order": 4,
@@ -293,9 +291,9 @@
         "height": 1
     },
     {
-        "id": "efce370cfc8e4f9b",
+        "id": "25c6886fe5391a8f",
         "type": "ui_spacer",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "spacer",
         "group": "",
         "order": 2,
@@ -303,9 +301,9 @@
         "height": 1
     },
     {
-        "id": "794d727ae2866f12",
+        "id": "178f91bbe9f2fa1c",
         "type": "ui_spacer",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "spacer",
         "group": "",
         "order": 5,
@@ -313,9 +311,52 @@
         "height": "1"
     },
     {
-        "id": "c8955752ad17f297",
+        "id": "569f3ba3fa7d27ae",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "home",
+        "order": 1
+    },
+    {
+        "id": "ab3d4f6881421599",
+        "type": "ui_group",
+        "name": "PowerCurve Selection",
+        "tab": "d3ada9fa4cf6ac53",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4f0748909e7fcc0d",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "home",
+        "order": 1
+    },
+    {
+        "id": "608cea72d1eb0b30",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "home",
+        "order": 1
+    },
+    {
+        "id": "f33656cf38af1793",
+        "type": "ui_group",
+        "name": "ISO + OCPP Messages",
+        "tab": "d3ada9fa4cf6ac53",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "cf9212e69c58032e",
         "type": "mqtt in",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/powermeter/vrmsL1",
         "qos": "2",
@@ -329,14 +370,14 @@
         "y": 100,
         "wires": [
             [
-                "b1d3d31a92c2c68d"
+                "50300ad0248dba36"
             ]
         ]
     },
     {
-        "id": "b1d3d31a92c2c68d",
+        "id": "50300ad0248dba36",
         "type": "ui_chart",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "group": "5e36140d.127f1c",
         "order": 11,
@@ -377,9 +418,9 @@
         ]
     },
     {
-        "id": "a4bef87a56ade625",
+        "id": "4528766545477a29",
         "type": "mqtt out",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/cmd/enable",
         "qos": "1",
@@ -395,9 +436,9 @@
         "wires": []
     },
     {
-        "id": "6c1a9684ee9cff1b",
+        "id": "ad3c945206dea281",
         "type": "mqtt out",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/cmd/disable",
         "qos": "1",
@@ -413,9 +454,9 @@
         "wires": []
     },
     {
-        "id": "7b7910abcebe9ea8",
+        "id": "d1aa153f493938dd",
         "type": "ui_switch",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "label": "Enabled",
         "tooltip": "",
@@ -441,14 +482,14 @@
         "y": 460,
         "wires": [
             [
-                "f68fa199eb0c13b0"
+                "36dd5474288e7b86"
             ]
         ]
     },
     {
-        "id": "f68fa199eb0c13b0",
+        "id": "36dd5474288e7b86",
         "type": "switch",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "property": "payload",
         "propertyType": "msg",
@@ -467,17 +508,17 @@
         "y": 460,
         "wires": [
             [
-                "a4bef87a56ade625"
+                "4528766545477a29"
             ],
             [
-                "6c1a9684ee9cff1b"
+                "ad3c945206dea281"
             ]
         ]
     },
     {
-        "id": "be7373d5f1fc78e3",
+        "id": "a707efb532c9a0e7",
         "type": "ui_switch",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "label": "setThreePhases",
         "tooltip": "",
@@ -503,14 +544,14 @@
         "y": 540,
         "wires": [
             [
-                "ee61573475970e13"
+                "d8d24511b2c6b249"
             ]
         ]
     },
     {
-        "id": "ee61573475970e13",
+        "id": "d8d24511b2c6b249",
         "type": "mqtt out",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/cmd/set_three_phases",
         "qos": "1",
@@ -526,9 +567,9 @@
         "wires": []
     },
     {
-        "id": "1e33ee217d09343a",
+        "id": "78b80174a4dc47c2",
         "type": "ui_switch",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "label": "enableRCD",
         "tooltip": "",
@@ -554,14 +595,14 @@
         "y": 600,
         "wires": [
             [
-                "7f1db77313661cf3"
+                "a69e14ad325f4efd"
             ]
         ]
     },
     {
-        "id": "7f1db77313661cf3",
+        "id": "a69e14ad325f4efd",
         "type": "mqtt out",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/cmd/enable_rcd",
         "qos": "1",
@@ -577,9 +618,9 @@
         "wires": []
     },
     {
-        "id": "23610d2f3c1a674b",
+        "id": "8de5eadaaff5597e",
         "type": "ui_switch",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "label": "setHasVentilation",
         "tooltip": "",
@@ -605,14 +646,14 @@
         "y": 660,
         "wires": [
             [
-                "d40cd5658151e3ca"
+                "32cc91f55be42a5f"
             ]
         ]
     },
     {
-        "id": "d40cd5658151e3ca",
+        "id": "32cc91f55be42a5f",
         "type": "mqtt out",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/cmd/set_has_ventilation",
         "qos": "1",
@@ -628,9 +669,9 @@
         "wires": []
     },
     {
-        "id": "d62a89349e2d9147",
+        "id": "3473afb8b909a903",
         "type": "mqtt out",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/cmd/set_auth",
         "qos": "1",
@@ -646,9 +687,9 @@
         "wires": []
     },
     {
-        "id": "49a61fca4e975f0d",
+        "id": "fbef986122b2445d",
         "type": "ui_button",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "group": "ebbb0e3f.53fbf",
         "order": 1,
@@ -668,14 +709,14 @@
         "y": 220,
         "wires": [
             [
-                "d62a89349e2d9147"
+                "3473afb8b909a903"
             ]
         ]
     },
     {
-        "id": "4a20ae416f941363",
+        "id": "1b510821ec205f74",
         "type": "ui_switch",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "label": "switch3phWhileCharging",
         "tooltip": "",
@@ -701,14 +742,14 @@
         "y": 720,
         "wires": [
             [
-                "9f997a83d8c5e502"
+                "4bb726bba8bf274d"
             ]
         ]
     },
     {
-        "id": "9f997a83d8c5e502",
+        "id": "4bb726bba8bf274d",
         "type": "mqtt out",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/cmd/switch_three_phases_while_charging",
         "qos": "1",
@@ -724,9 +765,9 @@
         "wires": []
     },
     {
-        "id": "b0dbe5826f92035e",
+        "id": "2dc6bf0a5deafdcd",
         "type": "mqtt in",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/debug_json",
         "qos": "2",
@@ -740,14 +781,14 @@
         "y": 960,
         "wires": [
             [
-                "a62346afa82d2aa1"
+                "1777b1cd3c9d696d"
             ]
         ]
     },
     {
-        "id": "a62346afa82d2aa1",
+        "id": "1777b1cd3c9d696d",
         "type": "json",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "property": "payload",
         "action": "",
@@ -756,14 +797,14 @@
         "y": 960,
         "wires": [
             [
-                "971b16b8195f14bb"
+                "624adadaad6b47e5"
             ]
         ]
     },
     {
-        "id": "971b16b8195f14bb",
+        "id": "624adadaad6b47e5",
         "type": "function",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "func": "var json = msg.payload;\n\n\n//tab[top] = {'Variable' : top, 'Value' : pay};\n\n\nnewpayload = [];\nfor(var index in json) {\n    newpayload.push({'Variable' : index, 'Value' : json[index]});\n}\n\nmsg.payload = newpayload;\nreturn msg;",
         "outputs": 1,
@@ -775,14 +816,14 @@
         "y": 960,
         "wires": [
             [
-                "b79f8c3549cdb63e"
+                "802ba2f1665a9e85"
             ]
         ]
     },
     {
-        "id": "b79f8c3549cdb63e",
+        "id": "802ba2f1665a9e85",
         "type": "ui_table",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "group": "1709edaf.162962",
         "name": "Debug",
         "order": 12,
@@ -796,9 +837,9 @@
         "wires": []
     },
     {
-        "id": "105b9eab50b4db7f",
+        "id": "793501cb9d19ddfc",
         "type": "mqtt in",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/keepalive_json",
         "qos": "2",
@@ -812,14 +853,14 @@
         "y": 1140,
         "wires": [
             [
-                "f9bce2148fd0d745"
+                "37cae9211f2e38b2"
             ]
         ]
     },
     {
-        "id": "f9bce2148fd0d745",
+        "id": "37cae9211f2e38b2",
         "type": "json",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "property": "payload",
         "action": "",
@@ -828,14 +869,14 @@
         "y": 1140,
         "wires": [
             [
-                "81c08d60fe305390"
+                "69c9b81785a9f15e"
             ]
         ]
     },
     {
-        "id": "81c08d60fe305390",
+        "id": "69c9b81785a9f15e",
         "type": "function",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "func": "var json = msg.payload;\n\n\n//tab[top] = {'Variable' : top, 'Value' : pay};\n\n\nnewpayload = [];\nfor(var index in json) {\n    newpayload.push({'Variable' : index, 'Value' : json[index]});\n}\n\nmsg.payload = newpayload;\nreturn msg;",
         "outputs": 1,
@@ -847,14 +888,14 @@
         "y": 1140,
         "wires": [
             [
-                "24770a798c2cc78c"
+                "fd543037ee2d33ab"
             ]
         ]
     },
     {
-        "id": "24770a798c2cc78c",
+        "id": "fd543037ee2d33ab",
         "type": "ui_table",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "group": "8d6f402b.8f007",
         "name": "KeepAlive",
         "order": 12,
@@ -868,9 +909,9 @@
         "wires": []
     },
     {
-        "id": "b2e6e05e396ff846",
+        "id": "8212f7a72635089f",
         "type": "mqtt in",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/powermeter_json",
         "qos": "2",
@@ -884,14 +925,14 @@
         "y": 1200,
         "wires": [
             [
-                "bff81951aab38e7c"
+                "e2d7c1af5d8d0186"
             ]
         ]
     },
     {
-        "id": "bff81951aab38e7c",
+        "id": "e2d7c1af5d8d0186",
         "type": "json",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "property": "payload",
         "action": "",
@@ -900,14 +941,14 @@
         "y": 1200,
         "wires": [
             [
-                "685dcdcf457910a6"
+                "ab5211ea8ceefe01"
             ]
         ]
     },
     {
-        "id": "685dcdcf457910a6",
+        "id": "ab5211ea8ceefe01",
         "type": "function",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "func": "var json = msg.payload;\n\n\n//tab[top] = {'Variable' : top, 'Value' : pay};\n\n\nnewpayload = [];\nfor(var index in json) {\n    newpayload.push({'Variable' : index, 'Value' : json[index]});\n}\n\nmsg.payload = newpayload;\nreturn msg;",
         "outputs": 1,
@@ -919,14 +960,14 @@
         "y": 1200,
         "wires": [
             [
-                "854cee03b9be0de5"
+                "c5c9a9e9918a34f7"
             ]
         ]
     },
     {
-        "id": "854cee03b9be0de5",
+        "id": "c5c9a9e9918a34f7",
         "type": "ui_table",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "group": "1ebee360.265b5d",
         "name": "PowerMeter",
         "order": 12,
@@ -940,9 +981,9 @@
         "wires": []
     },
     {
-        "id": "dd9a01731c23f076",
+        "id": "7b5f656b808976c9",
         "type": "mqtt in",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/state/#",
         "qos": "2",
@@ -956,14 +997,14 @@
         "y": 1020,
         "wires": [
             [
-                "181994551d5096a8"
+                "94bfdcd30fd97469"
             ]
         ]
     },
     {
-        "id": "181994551d5096a8",
+        "id": "94bfdcd30fd97469",
         "type": "function",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "func": "let cur_topic_index = -1;\nlet topics_list_length = 0;\n\nvar topics_list = global.get(\"state_topics_list\");\nvar payload_list = global.get(\"state_payload_list\");\nvar new_payload = [];\n\nfor (var topics_list_index in topics_list) {\n    if ( (topics_list[topics_list_index].indexOf(msg.topic) >= 0) && (topics_list[topics_list_index].length == msg.topic.length) ) {\n        cur_topic_index = topics_list_index;\n        break;\n    }\n    topics_list_length++;\n}\n\nif (cur_topic_index > -1) {\n    payload_list[cur_topic_index] = msg.payload;\n} else {\n    topics_list.push(msg.topic);\n    payload_list.push(msg.payload);\n}\n\nglobal.set(\"state_topics_list\", topics_list);\nglobal.set(\"state_payload_list\", payload_list);\n\n\nfor (var index in payload_list) {\n    new_payload.push({'Variable': topics_list[index].substr(16, topics_list[index].length), 'Value': payload_list[index]});\n}\n\nmsg.payload = new_payload;\nreturn msg;\n",
         "outputs": 1,
@@ -975,14 +1016,14 @@
         "y": 1020,
         "wires": [
             [
-                "f05a2bcbad4e5e4f"
+                "703f01832a52d59a"
             ]
         ]
     },
     {
-        "id": "f05a2bcbad4e5e4f",
+        "id": "703f01832a52d59a",
         "type": "ui_table",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "group": "d3f19d5c.593e5",
         "name": "State",
         "order": 12,
@@ -996,9 +1037,9 @@
         "wires": []
     },
     {
-        "id": "626ae76afca27c10",
+        "id": "a5fb17674a9b55e7",
         "type": "ui_switch",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "label": "enableHLC",
         "tooltip": "",
@@ -1024,14 +1065,14 @@
         "y": 780,
         "wires": [
             [
-                "cb19212395df1ec4"
+                "ec04b28f53a7a3aa"
             ]
         ]
     },
     {
-        "id": "cb19212395df1ec4",
+        "id": "ec04b28f53a7a3aa",
         "type": "mqtt out",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/cmd/enable_hlc",
         "qos": "1",
@@ -1047,9 +1088,9 @@
         "wires": []
     },
     {
-        "id": "8761f22ed645e3d5",
+        "id": "fc99f10533e7aa4a",
         "type": "ui_switch",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "label": "Simulation RCD",
         "tooltip": "",
@@ -1075,14 +1116,14 @@
         "y": 840,
         "wires": [
             [
-                "c423c5096c47f04a"
+                "0a425358d0e4d041"
             ]
         ]
     },
     {
-        "id": "c423c5096c47f04a",
+        "id": "0a425358d0e4d041",
         "type": "mqtt out",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "",
         "topic": "/external/cmd/enable_rcd",
         "qos": "1",
@@ -1098,9 +1139,9 @@
         "wires": []
     },
     {
-        "id": "edcc986828bdfcc4",
+        "id": "d0f5149d466c61f8",
         "type": "comment",
-        "z": "9aafbf849d4d6e12",
+        "z": "663d251dbdfd20aa",
         "name": "Debug",
         "info": "",
         "x": 110,
@@ -1108,9 +1149,9 @@
         "wires": []
     },
     {
-        "id": "957c91b46df24e3a",
+        "id": "2774a937638309a4",
         "type": "mqtt out",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "topic": "everest_api/dummy_token_provider/cmd/provide",
         "qos": "1",
@@ -1126,9 +1167,9 @@
         "wires": []
     },
     {
-        "id": "765ecd7720d3a54e",
+        "id": "b0de291e8ee3a446",
         "type": "ui_dropdown",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "label": "id_token",
         "tooltip": "",
@@ -1163,14 +1204,14 @@
         "y": 100,
         "wires": [
             [
-                "061c0a7744e15ba2"
+                "d0b3b4d9c8a9b886"
             ]
         ]
     },
     {
-        "id": "352aa4429de054a6",
+        "id": "cf060378838bafd6",
         "type": "ui_switch",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "label": "prevalidated",
         "tooltip": "",
@@ -1196,14 +1237,14 @@
         "y": 220,
         "wires": [
             [
-                "061c0a7744e15ba2"
+                "d0b3b4d9c8a9b886"
             ]
         ]
     },
     {
-        "id": "a950f5bfc61638ee",
+        "id": "574c64169d9ccef5",
         "type": "ui_text_input",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "label": "type (2-32)",
         "tooltip": "",
@@ -1220,14 +1261,14 @@
         "y": 160,
         "wires": [
             [
-                "061c0a7744e15ba2"
+                "d0b3b4d9c8a9b886"
             ]
         ]
     },
     {
-        "id": "be6b6aec975d1d27",
+        "id": "35cf27d31b68d03d",
         "type": "debug",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -1242,9 +1283,9 @@
         "wires": []
     },
     {
-        "id": "054b87b685588c2c",
+        "id": "da737c630a719b24",
         "type": "inject",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "props": [
             {
@@ -1266,14 +1307,14 @@
         "y": 100,
         "wires": [
             [
-                "765ecd7720d3a54e"
+                "b0de291e8ee3a446"
             ]
         ]
     },
     {
-        "id": "045f2c88f1a7077e",
+        "id": "7b8233fec00bd775",
         "type": "inject",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "props": [
             {
@@ -1295,14 +1336,14 @@
         "y": 160,
         "wires": [
             [
-                "a950f5bfc61638ee"
+                "574c64169d9ccef5"
             ]
         ]
     },
     {
-        "id": "b3b44ea9f00b7d45",
+        "id": "18c8790a36c7051d",
         "type": "inject",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "props": [
             {
@@ -1324,14 +1365,14 @@
         "y": 220,
         "wires": [
             [
-                "352aa4429de054a6"
+                "cf060378838bafd6"
             ]
         ]
     },
     {
-        "id": "061c0a7744e15ba2",
+        "id": "d0b3b4d9c8a9b886",
         "type": "function",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "Swipe token",
         "func": "if (msg.topic.indexOf('id_token') > -1) flow.set('id_token', msg.payload);\nif (msg.topic.indexOf('token_type') > -1) flow.set('token_type', msg.payload);\nif (msg.topic.indexOf('prevalidated') > -1) flow.set('prevalidated', msg.payload);\nif (msg.topic.indexOf('connectors') > -1) flow.set('connectors', msg.payload);\nif (msg.topic.indexOf('complete') > -1) {\n    msg.payload = {\n        'id_token': {\n    'value': flow.get('id_token'),\n 'type': 'ISO14443'\n},\n        'authorization_type': flow.get('token_type'),\n        'prevalidated': flow.get('prevalidated'),\n        'connectors': [flow.get('connectors')]\n    };\n    return msg;\n}\n",
         "outputs": 1,
@@ -1343,15 +1384,15 @@
         "y": 160,
         "wires": [
             [
-                "be6b6aec975d1d27",
-                "957c91b46df24e3a"
+                "35cf27d31b68d03d",
+                "2774a937638309a4"
             ]
         ]
     },
     {
-        "id": "6cc9edbf2f3b9aa6",
+        "id": "e297d1860704a4bb",
         "type": "ui_button",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "group": "7cd2ccabb1265f7a",
         "order": 4,
@@ -1371,14 +1412,14 @@
         "y": 380,
         "wires": [
             [
-                "061c0a7744e15ba2"
+                "d0b3b4d9c8a9b886"
             ]
         ]
     },
     {
-        "id": "15f66c1947e2cb18",
+        "id": "2a4b2dd0dd0b9234",
         "type": "inject",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "props": [
             {
@@ -1400,14 +1441,14 @@
         "y": 300,
         "wires": [
             [
-                "deedf2d418fbc8fd"
+                "413069428d71034d"
             ]
         ]
     },
     {
-        "id": "deedf2d418fbc8fd",
+        "id": "413069428d71034d",
         "type": "ui_numeric",
-        "z": "e921db8897354328",
+        "z": "f17b3c3577ed4179",
         "name": "",
         "label": "connectors",
         "tooltip": "",
@@ -1427,14 +1468,14 @@
         "y": 300,
         "wires": [
             [
-                "061c0a7744e15ba2"
+                "d0b3b4d9c8a9b886"
             ]
         ]
     },
     {
-        "id": "e8e1511b6239bfa2",
+        "id": "1e82303e962876d4",
         "type": "comment",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Initialize the Connector number",
         "info": "",
         "x": 230,
@@ -1442,9 +1483,9 @@
         "wires": []
     },
     {
-        "id": "23d875eef4c57fa8",
+        "id": "5aa333c22338db4b",
         "type": "change",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "rules": [
             {
@@ -1467,9 +1508,9 @@
         ]
     },
     {
-        "id": "e99161497760c072",
+        "id": "759bcefa669f3002",
         "type": "inject",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "props": [
             {
@@ -1490,14 +1531,14 @@
         "y": 140,
         "wires": [
             [
-                "23d875eef4c57fa8"
+                "5aa333c22338db4b"
             ]
         ]
     },
     {
-        "id": "b70c30908c955b81",
+        "id": "f844242d504f71ee",
         "type": "comment",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Data to show",
         "info": "",
         "x": 170,
@@ -1505,9 +1546,9 @@
         "wires": []
     },
     {
-        "id": "f96ccb60614f9f18",
+        "id": "d3065488e47454ea",
         "type": "mqtt out",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "topic": "",
         "qos": "1",
@@ -1518,14 +1559,14 @@
         "correl": "",
         "expiry": "",
         "broker": "fc8686af.48d178",
-        "x": 890,
+        "x": 1230,
         "y": 840,
         "wires": []
     },
     {
-        "id": "3a5423dc1feed224",
+        "id": "37c23b56ba88f38d",
         "type": "ui_button",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
         "order": 1,
@@ -1545,14 +1586,14 @@
         "y": 700,
         "wires": [
             [
-                "361b3d846c4e6673"
+                "f09fc0c4c21685bb"
             ]
         ]
     },
     {
-        "id": "f042bc45e3742ef7",
+        "id": "7c52e33df3e9d30c",
         "type": "ui_button",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
         "order": 2,
@@ -1572,14 +1613,14 @@
         "y": 760,
         "wires": [
             [
-                "361b3d846c4e6673"
+                "f09fc0c4c21685bb"
             ]
         ]
     },
     {
-        "id": "361b3d846c4e6673",
+        "id": "f09fc0c4c21685bb",
         "type": "change",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Insert Connector number",
         "rules": [
             {
@@ -1597,18 +1638,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 670,
+        "x": 1030,
         "y": 840,
         "wires": [
             [
-                "f96ccb60614f9f18"
+                "d3065488e47454ea"
             ]
         ]
     },
     {
-        "id": "9c6d1a5e2ba43d36",
+        "id": "8866c4ae3285173c",
         "type": "comment",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Commands",
         "info": "",
         "x": 170,
@@ -1616,9 +1657,9 @@
         "wires": []
     },
     {
-        "id": "51656271f4688a67",
+        "id": "d637d654a3c24f0c",
         "type": "mqtt in",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "topic": "everest_external/nodered/+/state/max_current",
         "qos": "2",
@@ -1632,14 +1673,14 @@
         "y": 280,
         "wires": [
             [
-                "f5ca89d3e6d1d1ba"
+                "738bbb424a59f2be"
             ]
         ]
     },
     {
-        "id": "f5ca89d3e6d1d1ba",
+        "id": "738bbb424a59f2be",
         "type": "function",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Filter connector number",
         "func": "if (msg.topic.indexOf(String(flow.get('connector_number'))) > -1) return msg;",
         "outputs": 1,
@@ -1651,14 +1692,14 @@
         "y": 280,
         "wires": [
             [
-                "1a019e35e580cbf4"
+                "bb7f6a1c5ac9e4fe"
             ]
         ]
     },
     {
-        "id": "1a019e35e580cbf4",
+        "id": "bb7f6a1c5ac9e4fe",
         "type": "ui_text",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "group": "b364f7eb4621082b",
         "order": 3,
         "width": 0,
@@ -1672,9 +1713,9 @@
         "wires": []
     },
     {
-        "id": "799130c039278e9b",
+        "id": "142fd46ebdf3ec26",
         "type": "ui_text",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "group": "b364f7eb4621082b",
         "order": 5,
         "width": 0,
@@ -1688,12 +1729,13 @@
         "wires": []
     },
     {
-        "id": "a24c1a5f8bb6a5b5",
+        "id": "c37f76222eb781df",
         "type": "function",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Filter connector number",
         "func": "if (msg.topic.indexOf(String(flow.get('connector_number'))) > -1) return msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -1702,14 +1744,14 @@
         "y": 340,
         "wires": [
             [
-                "799130c039278e9b"
+                "142fd46ebdf3ec26"
             ]
         ]
     },
     {
-        "id": "7164db07c0a78327",
+        "id": "a944805dfd305367",
         "type": "mqtt in",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "topic": "everest_external/nodered/+/powermeter/totalKWattHr",
         "qos": "2",
@@ -1723,14 +1765,14 @@
         "y": 340,
         "wires": [
             [
-                "a24c1a5f8bb6a5b5"
+                "c37f76222eb781df"
             ]
         ]
     },
     {
-        "id": "9715c97a5a212e0f",
+        "id": "d9a202b37ab76ed8",
         "type": "mqtt in",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "topic": "everest_external/nodered/+/state/state_string",
         "qos": "2",
@@ -1744,14 +1786,14 @@
         "y": 440,
         "wires": [
             [
-                "0139c0ace0e5f706"
+                "d79c08d4e0ede255"
             ]
         ]
     },
     {
-        "id": "8059bceefd9dcdf7",
+        "id": "a3099593d26918d7",
         "type": "mqtt in",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "topic": "everest_external/nodered/+/powermeter/totalKw",
         "qos": "2",
@@ -1765,14 +1807,14 @@
         "y": 500,
         "wires": [
             [
-                "6941efd3ef8e1ac4"
+                "e5df62fa214097a4"
             ]
         ]
     },
     {
-        "id": "72a90b471d6ebb44",
+        "id": "256935c0d6e98392",
         "type": "ui_level",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "group": "b364f7eb4621082b",
         "order": 7,
         "width": 0,
@@ -1812,9 +1854,9 @@
         "wires": []
     },
     {
-        "id": "4b864ea8df7d27cf",
+        "id": "7c9906c54a58d254",
         "type": "mqtt in",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "topic": "everest_external/nodered/+/state/temperature",
         "qos": "0",
@@ -1828,17 +1870,18 @@
         "y": 560,
         "wires": [
             [
-                "bc1b6adb5db9d7e4"
+                "32cdd7ac8301b1e4"
             ]
         ]
     },
     {
-        "id": "1ef49a48bf883748",
+        "id": "b5aa70b24e65e03f",
         "type": "function",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
-        "func": "if (msg.topic.indexOf('totalKw')>=0) {\n    console.warn(\"Received totalKw message\");\n    if (context.data.stop_updating_kw) {\n        console.error(\"stopping kw updates because this is annoying\")\n    } else {\n        context.data.totalKw = msg.payload;\n    }\n}\nelse if (msg.topic.indexOf('state_string')>=0) {\n    console.error(\"how can I show the logs\");\n    context.data.state_string = msg.payload;\n    if (msg.payload === 'Charging') {\n        context.data.totalKw = 200;\n        context.data.stop_updating_kw = true;\n    } else {\n        context.data.stop_updating_kw = false;\n    }\n}\n\n//node.warn(msg.topic);\nmsg.payload = context.data.totalKw;\nmsg.label = context.data.state_string;\nreturn msg;",
+        "func": "if (msg.topic.indexOf('totalKw')>=0) {\n    console.warn(\"Received totalKw message\");\n    if (context.data.stop_updating_kw) {\n        console.error(\"stopping kw updates because this is annoying\")\n    } else {\n        context.data.totalKw = msg.payload;\n    }\n}\n\nelse if (msg.topic.indexOf('state_string')>=0) {\n    context.data.state_string = msg.payload;\n} \n\n//node.warn(msg.topic);\nmsg.payload = context.data.totalKw;\nmsg.label = context.data.state_string;\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "// Code added here will be run once\n// whenever the node is started.\ncontext.data = {}",
         "finalize": "",
@@ -1847,15 +1890,15 @@
         "y": 480,
         "wires": [
             [
-                "5bd8abc274e70360",
-                "1295e032d7ddbc20"
+                "ca735c857dda239e",
+                "69b40b4ad0d925e7"
             ]
         ]
     },
     {
-        "id": "5bd8abc274e70360",
+        "id": "ca735c857dda239e",
         "type": "debug",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "active": false,
         "tosidebar": true,
@@ -1870,10 +1913,10 @@
         "wires": []
     },
     {
-        "id": "1295e032d7ddbc20",
+        "id": "69b40b4ad0d925e7",
         "type": "ui_gauge",
-        "z": "ed603c51db9dcbb9",
-        "g": "af1e1eeac9c4b704",
+        "z": "a0826fab08a85be9",
+        "g": "2fdf74399d3a2276",
         "name": "",
         "group": "b364f7eb4621082b",
         "order": 6,
@@ -1892,17 +1935,20 @@
         ],
         "seg1": "",
         "seg2": "",
+        "diff": false,
+        "className": "",
         "x": 1190,
         "y": 480,
         "wires": []
     },
     {
-        "id": "6941efd3ef8e1ac4",
+        "id": "e5df62fa214097a4",
         "type": "function",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Filter connector number",
         "func": "if (msg.topic.indexOf(String(flow.get('connector_number'))) > -1) return msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -1911,17 +1957,18 @@
         "y": 500,
         "wires": [
             [
-                "1ef49a48bf883748"
+                "b5aa70b24e65e03f"
             ]
         ]
     },
     {
-        "id": "0139c0ace0e5f706",
+        "id": "d79c08d4e0ede255",
         "type": "function",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Filter connector number",
         "func": "if (msg.topic.indexOf(String(flow.get('connector_number'))) > -1) return msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -1930,14 +1977,14 @@
         "y": 460,
         "wires": [
             [
-                "1ef49a48bf883748"
+                "b5aa70b24e65e03f"
             ]
         ]
     },
     {
-        "id": "bc1b6adb5db9d7e4",
+        "id": "32cdd7ac8301b1e4",
         "type": "function",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Filter connector number",
         "func": "if (msg.topic.indexOf(String(flow.get('connector_number'))) > -1) return msg;",
         "outputs": 1,
@@ -1949,14 +1996,14 @@
         "y": 560,
         "wires": [
             [
-                "72a90b471d6ebb44"
+                "256935c0d6e98392"
             ]
         ]
     },
     {
-        "id": "348dfdc4b48ec881",
+        "id": "45aa44c87d90f1ec",
         "type": "comment",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Simulation control",
         "info": "",
         "x": 190,
@@ -1964,9 +2011,9 @@
         "wires": []
     },
     {
-        "id": "352d9f34ae594f58",
+        "id": "fb22de286958c852",
         "type": "ui_switch",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "label": "Simulation enable (HIL)",
         "tooltip": "",
@@ -1992,14 +2039,14 @@
         "y": 880,
         "wires": [
             [
-                "361b3d846c4e6673"
+                "f09fc0c4c21685bb"
             ]
         ]
     },
     {
-        "id": "76be7e55a947f675",
+        "id": "fc06fe20465770af",
         "type": "ui_button",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
         "order": 8,
@@ -2016,17 +2063,17 @@
         "topic": "everest_external/nodered/#/carsim/cmd/execute_charging_session",
         "topicType": "str",
         "x": 170,
-        "y": 980,
+        "y": 1080,
         "wires": [
             [
-                "620b0d248a89ece0"
+                "7506be4a6aff035f"
             ]
         ]
     },
     {
-        "id": "42f4c4f916474559",
+        "id": "03cf1f0ea467772a",
         "type": "ui_button",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
         "order": 9,
@@ -2043,17 +2090,17 @@
         "topic": "everest_external/nodered/#/carsim/cmd/modify_charging_session",
         "topicType": "str",
         "x": 180,
-        "y": 940,
+        "y": 1040,
         "wires": [
             [
-                "620b0d248a89ece0"
+                "7506be4a6aff035f"
             ]
         ]
     },
     {
-        "id": "cc45f1b73782292a",
+        "id": "9ba907c936fc226a",
         "type": "ui_slider",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "MaxCurrent Slider",
         "label": "",
         "tooltip": "",
@@ -2072,14 +2119,14 @@
         "y": 700,
         "wires": [
             [
-                "361b3d846c4e6673"
+                "f09fc0c4c21685bb"
             ]
         ]
     },
     {
-        "id": "f2ae0c306f3052f9",
+        "id": "7f4208bd3c3c4216",
         "type": "ui_dropdown",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "label": "Car Simulation",
         "tooltip": "",
@@ -2093,51 +2140,48 @@
         "options": [
             {
                 "label": "AC ISO15118-2",
-                "value": "sleep 1;iso_wait_slac_matched;iso_start_v2g_session externalPayment,ac;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000#iso_stop_charging;iso_wait_v2g_session_stopped;unplug#iso_pause_charging;iso_wait_for_resume#iso_start_bcb_toogle 3;iso_wait_pwm_is_running;iso_start_v2g_session externalPayment,ac;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000",
-                "type": "str"
-            },
-            {
-                "label": "AC ISO15118-2 Plug&Charge",
-                "value": "sleep 1;iso_wait_slac_matched;iso_start_v2g_session contract,ac;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000#;iso_stop_charging;iso_wait_v2g_session_stopped;unplug#iso_pause_charging;iso_wait_for_resume#iso_start_bcb_toogle 3;iso_wait_pwm_is_running;iso_start_v2g_session contract,ac;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000",
+                "value": "sleep 1;iso_wait_slac_matched;iso_set_departure_time null null;iso_start_v2g_session ac;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000#iso_stop_charging;iso_wait_v2g_session_stopped;unplug#iso_pause_charging;iso_wait_for_resume#iso_start_bcb_toogle 3;iso_wait_pwm_is_running;iso_start_v2g_session ExternalPayment,AC_three_phase_core;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000",
                 "type": "str"
             }
         ],
         "payload": "",
         "topic": "sim_commands",
         "topicType": "str",
+        "className": "",
         "x": 180,
-        "y": 1120,
+        "y": 1220,
         "wires": [
             [
-                "620b0d248a89ece0"
+                "7506be4a6aff035f"
             ]
         ]
     },
     {
-        "id": "620b0d248a89ece0",
+        "id": "7506be4a6aff035f",
         "type": "function",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "Buffer sim commands",
-        "func": "if (msg.topic.indexOf('sim_commands') > -1) {\n    const s = msg.payload.split('#');\n    flow.set('sim_commands_start', s[0]);\n    flow.set('sim_commands_stop', s[1]);\n    flow.set('sim_commands_pause', s[2]);\n    flow.set('sim_commands_resume', s[3]);\n} else if (msg.payload == 'start') {\n    msg.payload = flow.get('sim_commands_start');\n    return msg;\n} else if (msg.payload == 'stop') {\n    msg.payload = flow.get('sim_commands_stop');\n    return msg;\n} else if (msg.payload == 'pause') {\n    msg.payload = flow.get('sim_commands_pause');\n    return msg;\n} else if (msg.payload == 'resume') {\n    msg.payload = flow.get('sim_commands_resume');\n    return msg;\n} else {\n    msg.payload = 'NONE';\n    return msg;\n}\n",
+        "func": "function handleDTEAChange() {\n    let dt = global.get('sim_departure_time')\n    let ea = global.get('sim_eamount')\n    let cmd = `iso_set_departure_time ${dt} ${ea}`\n\n    let start = flow.get('sim_commands_start').split(';')\n    let resume = flow.get('sim_commands_resume').split(';')\n\n    start.splice(2, 1, cmd)\n    resume.splice(2, 1, cmd)\n    start = start.join(';')\n    resume = resume.join(';')\n\n    flow.set('sim_commands_start', start);\n    flow.set('sim_commands_resume', resume);\n\n}\n\n\nif (msg.topic.indexOf('sim_commands') > -1) {\n    const s = msg.payload.split('#');\n    flow.set('sim_commands_start', s[0]);\n    flow.set('sim_commands_stop', s[1]);\n    flow.set('sim_commands_pause', s[2]);\n    flow.set('sim_commands_resume', s[3]);\n    handleDTEAChange();\n} else if (msg.topic === 'eamount' || msg.topic === 'departure_time') {\n    handleDTEAChange();\n} else if (msg.payload == 'start') {\n    msg.payload = flow.get('sim_commands_start');\n    return msg;\n} else if (msg.payload == 'stop') {\n    msg.payload = flow.get('sim_commands_stop');\n    return msg;\n} else if (msg.payload == 'pause') {\n    msg.payload = flow.get('sim_commands_pause');\n    return msg;\n} else if (msg.payload == 'resume') {\n    msg.payload = flow.get('sim_commands_resume');\n    return msg;\n} else {\n    msg.payload = 'NONE';\n    return msg;\n}\n",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 440,
-        "y": 960,
+        "x": 800,
+        "y": 1000,
         "wires": [
             [
-                "361b3d846c4e6673",
-                "cc42c210398a8d50",
-                "fb1511183c9a660f"
+                "f09fc0c4c21685bb",
+                "7bebe0d7082d03f6",
+                "d8ba331e9fb46608"
             ]
         ]
     },
     {
-        "id": "fb1511183c9a660f",
+        "id": "d8ba331e9fb46608",
         "type": "debug",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -2147,14 +2191,14 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 910,
-        "y": 920,
+        "x": 1110,
+        "y": 1060,
         "wires": []
     },
     {
-        "id": "fef2be4575e66bda",
+        "id": "6ea65381f436442d",
         "type": "inject",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "props": [
             {
@@ -2173,17 +2217,17 @@
         "payload": "sleep 1;iec_wait_pwr_ready;sleep 1;draw_power_regulated 16,3;sleep 36000#unplug#pause;sleep 3600#draw_power_regulated 16,3;sleep 36000",
         "payloadType": "str",
         "x": 150,
-        "y": 1180,
+        "y": 1280,
         "wires": [
             [
-                "f2ae0c306f3052f9"
+                "7f4208bd3c3c4216"
             ]
         ]
     },
     {
-        "id": "cc42c210398a8d50",
+        "id": "7bebe0d7082d03f6",
         "type": "debug",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -2193,14 +2237,14 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 900,
-        "y": 960,
+        "x": 1100,
+        "y": 1100,
         "wires": []
     },
     {
-        "id": "29aced2052ea8795",
+        "id": "4afaa0c8382beffe",
         "type": "ui_button",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
         "order": 9,
@@ -2218,17 +2262,17 @@
         "topic": "everest_external/nodered/#/carsim/cmd/modify_charging_session",
         "topicType": "str",
         "x": 160,
-        "y": 1020,
+        "y": 1120,
         "wires": [
             [
-                "620b0d248a89ece0"
+                "7506be4a6aff035f"
             ]
         ]
     },
     {
-        "id": "f39e2131a37761a6",
+        "id": "2c4147de275acc6f",
         "type": "ui_button",
-        "z": "ed603c51db9dcbb9",
+        "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
         "order": 9,
@@ -2246,10 +2290,1290 @@
         "topic": "everest_external/nodered/#/carsim/cmd/modify_charging_session",
         "topicType": "str",
         "x": 170,
-        "y": 1060,
+        "y": 1160,
         "wires": [
             [
-                "620b0d248a89ece0"
+                "7506be4a6aff035f"
+            ]
+        ]
+    },
+    {
+        "id": "2c905996b70be7b2",
+        "type": "ui_text_input",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "label": "EAmount",
+        "tooltip": "",
+        "group": "b364f7eb4621082b",
+        "order": 15,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "eamount",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "str",
+        "x": 160,
+        "y": 920,
+        "wires": [
+            [
+                "0c0c878367b6daa0"
+            ]
+        ]
+    },
+    {
+        "id": "9e50a4ad5c3a2eb8",
+        "type": "ui_text_input",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "label": "DepartureTime:",
+        "tooltip": "",
+        "group": "b364f7eb4621082b",
+        "order": 16,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "departure_time",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "str",
+        "x": 180,
+        "y": 1000,
+        "wires": [
+            [
+                "0c0c878367b6daa0"
+            ]
+        ]
+    },
+    {
+        "id": "0c0c878367b6daa0",
+        "type": "function",
+        "z": "a0826fab08a85be9",
+        "name": "Set SIM EAmount & DepartureTime",
+        "func": "if (msg.payload == '') {\n    if (msg.topic == 'eamount') {\n        global.set('sim_eamount', 60);\n        return msg;\n    }\n    // topic == 'departure_time'\n    global.set('sim_departure_time', 0);\n    return msg;\n}\nif (msg.topic == 'eamount') {\n    global.set('sim_eamount', msg.payload);\n    return msg;\n}\n\nglobal.set('sim_departure_time', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\nflow.set('sim_eamount', 60);\nflow.set('sim_departure_time', 86400);",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 940,
+        "wires": [
+            [
+                "399abf8ec94726b5",
+                "7506be4a6aff035f"
+            ]
+        ]
+    },
+    {
+        "id": "399abf8ec94726b5",
+        "type": "link out",
+        "z": "a0826fab08a85be9",
+        "name": "Change PowerCurve",
+        "mode": "link",
+        "links": [
+            "32e0bed5f21a8e8e"
+        ],
+        "x": 725,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "02c89bb9da8b7c6b",
+        "type": "inject",
+        "z": "a0826fab08a85be9",
+        "name": "Initialize EAmount",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "initialize_eamount",
+        "payload": "60",
+        "payloadType": "num",
+        "x": 150,
+        "y": 960,
+        "wires": [
+            [
+                "2c905996b70be7b2"
+            ]
+        ]
+    },
+    {
+        "id": "bf54d6e7f4407eb4",
+        "type": "ui_dropdown",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "label": "Simulation Speed",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "b364f7eb4621082b",
+        "order": 14,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "1x",
+                "value": 1,
+                "type": "num"
+            },
+            {
+                "label": "5x",
+                "value": 5,
+                "type": "num"
+            },
+            {
+                "label": "10x",
+                "value": 10,
+                "type": "num"
+            },
+            {
+                "label": "25x",
+                "value": 25,
+                "type": "num"
+            },
+            {
+                "label": "100x",
+                "value": 100,
+                "type": "num"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 350,
+        "y": 1340,
+        "wires": [
+            [
+                "709a55b3cda2605a"
+            ]
+        ]
+    },
+    {
+        "id": "61c2230580cbae59",
+        "type": "inject",
+        "z": "a0826fab08a85be9",
+        "name": "Initialize Alg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 170,
+        "y": 1340,
+        "wires": [
+            [
+                "bf54d6e7f4407eb4"
+            ]
+        ]
+    },
+    {
+        "id": "709a55b3cda2605a",
+        "type": "change",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "simulation_speed",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 590,
+        "y": 1340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9ed0c7e051cd4512",
+        "type": "mqtt out",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "topic": "everest_external/nodered/evcc/confirm_sim_speed",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fc8686af.48d178",
+        "x": 1090,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "6676589a8fd839d7",
+        "type": "delay",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "0.25",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 790,
+        "y": 1400,
+        "wires": [
+            [
+                "9ed0c7e051cd4512"
+            ]
+        ]
+    },
+    {
+        "id": "2fb635b06944d7ec",
+        "type": "change",
+        "z": "a0826fab08a85be9",
+        "name": "send sim_eamount",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "simulation_speed",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 1400,
+        "wires": [
+            [
+                "6676589a8fd839d7"
+            ]
+        ]
+    },
+    {
+        "id": "dfa6c181320e0a2a",
+        "type": "mqtt in",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "topic": "everest_external/nodered/+/evcc/check_sim_speed",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 1400,
+        "wires": [
+            [
+                "2fb635b06944d7ec"
+            ]
+        ]
+    },
+    {
+        "id": "2dc28cbe488affc8",
+        "type": "mqtt out",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "topic": "everest_external/nodered/evcc/confirm_departure_time",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fc8686af.48d178",
+        "x": 1190,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "5cafb4cf904e3b0a",
+        "type": "delay",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "0.25",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 870,
+        "y": 1460,
+        "wires": [
+            [
+                "2dc28cbe488affc8"
+            ]
+        ]
+    },
+    {
+        "id": "c988916cd7e85eec",
+        "type": "change",
+        "z": "a0826fab08a85be9",
+        "name": "send sim_departure_time",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "sim_departure_time",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 1460,
+        "wires": [
+            [
+                "5cafb4cf904e3b0a",
+                "b4dce9863a93b57b"
+            ]
+        ]
+    },
+    {
+        "id": "b02c6b6694c2aacd",
+        "type": "mqtt in",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "topic": "everest_external/nodered/+/evcc/check_departure_time",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 1460,
+        "wires": [
+            [
+                "c988916cd7e85eec"
+            ]
+        ]
+    },
+    {
+        "id": "47dec13ba80137c8",
+        "type": "debug",
+        "z": "a0826fab08a85be9",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 1720,
+        "wires": []
+    },
+    {
+        "id": "4ed86142559ce758",
+        "type": "mqtt in",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "topic": "everest/iso15118_ev/#",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 1600,
+        "wires": [
+            [
+                "399646327fb325c7"
+            ]
+        ]
+    },
+    {
+        "id": "a59c5c76f7b59eae",
+        "type": "mqtt in",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "topic": "everest/iso15118_charger/#",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 1660,
+        "wires": [
+            [
+                "399646327fb325c7"
+            ]
+        ]
+    },
+    {
+        "id": "399646327fb325c7",
+        "type": "json",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 1620,
+        "wires": [
+            [
+                "925c07bafa356330"
+            ]
+        ]
+    },
+    {
+        "id": "925c07bafa356330",
+        "type": "function",
+        "z": "a0826fab08a85be9",
+        "name": "Process Message & Update Flow State",
+        "func": "const MAX_MESSAGES = 100;\n\nfunction getLatestOrCreateArray(name, store, maxLength) {\n    let value = flow.get(name, store);\n    if (value === undefined) {\n        value = [];\n    } else if (value.length >= maxLength) {\n        value = value.slice(1 - maxLength);\n    }\n    return value\n}\n\nvar everest_messages = getLatestOrCreateArray(\n    \"everest_messages\", \"memoryOnly\", MAX_MESSAGES\n);\nvar iso15118_message_ids = getLatestOrCreateArray(\n    \"iso15118_message_ids\", \"memoryOnly\", MAX_MESSAGES\n);\n\nvar everest_message;\nif (msg.payload.type === \"result\") {\n    everest_message = {\n        \"payload\": {\n            \"origin\": msg.payload.data.origin,\n            \"name\": msg.payload.name,\n            \"type\": msg.payload.type,\n            \"args\": \"N/A\"\n        }\n    };\n} else if (msg.payload.type === \"call\") {\n    everest_message = {\n        \"payload\": {\n            \"origin\": msg.payload.data.origin,\n            \"name\": msg.payload.name,\n            \"type\": msg.payload.type,\n            \"args\": JSON.stringify(msg.payload.data.args)\n        }\n    };\n} else if (\n    (\"data\" in msg.payload)\n    && (typeof msg.payload.data === 'object')\n    && !Array.isArray(msg.payload.data)\n    && (msg.payload.data !== null)\n    && (\"V2G_Message_ID\" in msg.payload.data)\n) {\n    everest_message = {\n        \"payload\": {\n            \"origin\": \"V2G_Messages\",\n            \"name\": msg.payload.data.V2G_Message_ID,\n            \"type\": \"N/A\",\n            \"args\": msg.payload.data.V2G_Message_EXI_Hex\n        }\n    };\n    iso15118_message_ids.push(msg.payload.data.V2G_Message_ID);\n} else {\n    everest_message = {\"payload\": msg.payload};\n}\neverest_messages.push(everest_message);\n\nflow.set(\"everest_messages\", everest_messages, \"memoryOnly\");\nflow.set(\"iso15118_message_ids\", iso15118_message_ids, \"memoryOnly\");\n\nmsg.payload = everest_messages;\nmsg.v2g_messages = iso15118_message_ids\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 1620,
+        "wires": [
+            [
+                "6ddebe46e9b89d41"
+            ]
+        ]
+    },
+    {
+        "id": "76dd68e71fef39df",
+        "type": "inject",
+        "z": "a0826fab08a85be9",
+        "name": "Trigger",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 150,
+        "y": 1800,
+        "wires": [
+            [
+                "622a14111d99e7ea"
+            ]
+        ]
+    },
+    {
+        "id": "622a14111d99e7ea",
+        "type": "function",
+        "z": "a0826fab08a85be9",
+        "name": "Kill ISO 15118 Events Log",
+        "func": "flow.set('everest_messages', undefined, 'memoryOnly');\nflow.set('iso15118_message_ids', undefined, 'memoryOnly');\n\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 1800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bdb8cf43e38cbe8c",
+        "type": "ui_template",
+        "z": "a0826fab08a85be9",
+        "group": "1709edaf.162962",
+        "name": "",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-bind-html=\"msg.payload_formatted\" height=\"700\" style=\"height: 700px;\"></div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1080,
+        "y": 1620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6ddebe46e9b89d41",
+        "type": "template",
+        "z": "a0826fab08a85be9",
+        "name": "To HTML",
+        "field": "payload_formatted",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<span>\n    {{#v2g_messages}}\n    {{.}},\n    {{/v2g_messages}}\n</span>\n<br />\n<br />\n<table border=\"1\">\n    <tr>\n        <th>Origin</th>\n        <th>Name</th>\n        <th>Type</th>\n        <th>Arguments / V2G Message (EXI Hex)</th>\n    </tr>\n    {{#payload}}\n    <tr class=\"\">\n        <td>{{payload.origin}}</td>\n        <td>{{payload.name}}</td>\n        <td>{{payload.type}}</td>\n        <td>{{payload.args}}</td>\n    </tr>\n    {{/payload}}\n</table>",
+        "output": "str",
+        "x": 920,
+        "y": 1620,
+        "wires": [
+            [
+                "bdb8cf43e38cbe8c"
+            ]
+        ]
+    },
+    {
+        "id": "9ee8de24d5f5f38d",
+        "type": "comment",
+        "z": "a0826fab08a85be9",
+        "name": "ISO 15118 Logs",
+        "info": "",
+        "x": 160,
+        "y": 1560,
+        "wires": []
+    },
+    {
+        "id": "daa858222d243584",
+        "type": "mqtt in",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "topic": "everest/ocpp/#",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 1720,
+        "wires": [
+            [
+                "e9b6e98959838695"
+            ]
+        ]
+    },
+    {
+        "id": "e9b6e98959838695",
+        "type": "json",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 350,
+        "y": 1720,
+        "wires": [
+            [
+                "47dec13ba80137c8"
+            ]
+        ]
+    },
+    {
+        "id": "4a76fdec0a5e7f1e",
+        "type": "inject",
+        "z": "a0826fab08a85be9",
+        "name": "Initialize sim_departure_time",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "init_sim_dt",
+        "payload": "86400",
+        "payloadType": "str",
+        "x": 220,
+        "y": 1500,
+        "wires": [
+            [
+                "49e764bc4aebb36d"
+            ]
+        ]
+    },
+    {
+        "id": "49e764bc4aebb36d",
+        "type": "change",
+        "z": "a0826fab08a85be9",
+        "name": "send sim_departure_time",
+        "rules": [
+            {
+                "t": "set",
+                "p": "sim_departure_time",
+                "pt": "global",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 1500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b4dce9863a93b57b",
+        "type": "debug",
+        "z": "a0826fab08a85be9",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 1500,
+        "wires": []
+    },
+    {
+        "id": "32e0bed5f21a8e8e",
+        "type": "link in",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "Update DepartureTime & EAmount",
+        "links": [
+            "399abf8ec94726b5"
+        ],
+        "x": 335,
+        "y": 180,
+        "wires": [
+            [
+                "7fb3b32cfa15b5ee"
+            ]
+        ]
+    },
+    {
+        "id": "2a382e0be60110c8",
+        "type": "exec",
+        "z": "6e0f6f4f7ec3c163",
+        "command": "",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 650,
+        "y": 220,
+        "wires": [
+            [
+                "af6292bfc559bd14"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "7fb3b32cfa15b5ee",
+        "type": "function",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "Generate Python Call",
+        "func": "const dt = global.get('sim_departure_time')\nconst eamount = global.get('sim_eamount')\nconst ks = 1\n// The path to environment should match the path defined in `/everest-demo/nodered/Dockerfile`\nconst path_to_environment = '/usr/src/node-red/python_environments/everest/bin/'\n\nmsg.payload = `${path_to_environment}python3 /bin/scripts/preview_curve_4_nodered.py ${dt} ${eamount} ${ks}`\nmsg.topic = 'power_curve_preview'\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 220,
+        "wires": [
+            [
+                "2a382e0be60110c8"
+            ]
+        ]
+    },
+    {
+        "id": "af6292bfc559bd14",
+        "type": "function",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "Parse JSON",
+        "func": "if (msg.topic === 'everest_external/nodered/{}/evcc/active_powercurve' ) {\n    // Python auto-formats dicts to use single quotes, but JSON.parse doesn't\n    // like that.  The RegEx below fixes this\n    msg.payload = msg.payload.replace(/'/g, '\"')\n}\n\nconst data_points = JSON.parse(msg.payload)\nmsg.payload = [data_points]\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 180,
+        "wires": [
+            [
+                "26536e4ec1e28303"
+            ]
+        ]
+    },
+    {
+        "id": "e160527f95cc893d",
+        "type": "mqtt in",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "topic": "everest_external/nodered/+/evcc/active_powercurve",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 510,
+        "y": 120,
+        "wires": [
+            [
+                "af6292bfc559bd14"
+            ]
+        ]
+    },
+    {
+        "id": "26536e4ec1e28303",
+        "type": "function",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "Stop Edits During Charge",
+        "func": "if(msg.topic === 'power_curve_preview') {\n    // Only allow preview when not charging\n    if (flow.get('charging_status') === 'Idle' ) {\n        return msg\n    }\n}\nelse { // If active curve is sent...\n    return msg;\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 180,
+        "wires": [
+            [
+                "ec57465ae1fcac39",
+                "f33ec375c7595743"
+            ]
+        ]
+    },
+    {
+        "id": "ec57465ae1fcac39",
+        "type": "function",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "Split Curve: Power Draw",
+        "func": "let draw_curve = {\n    \"series\": [msg.payload[0].series[1]],\n    \"data\": [msg.payload[0].data[1]],\n    \"labels\": [msg.payload[0].labels[1]]\n}\n\nlet time_scale = 1\nlet scale = 1000\nif (msg.topic === 'power_curve_preview') {\n    scale = 1000\n    time_scale = 1000\n    draw_curve.data[0] = draw_curve.data[0].map(item => {\n    return {\n        x: item.x * time_scale, // Chart expects miliseconds, convert\n        y: item.y * scale // Convert miliwatt to watt\n    };\n});\n}\nelse {\n    draw_curve.data[0] = draw_curve.data[0].map(item => {\n    // Patch 4 scale, need to fix in manager later\n    return {\n        x: item.y * time_scale, \n        y: item.x * scale // Convert miliwatt to watt\n    };\n});\n}\n\nmsg.payload = [draw_curve]\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 200,
+        "wires": [
+            [
+                "978e5f5f5abdd816"
+            ]
+        ]
+    },
+    {
+        "id": "f33ec375c7595743",
+        "type": "function",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "Split Curve: Proggress to EAMount",
+        "func": "progress_curve = {\n    \"series\": [msg.payload[0].series[0]],\n    \"data\": [msg.payload[0].data[0]],\n    \"labels\": [msg.payload[0].labels[0]]\n}\nlet time_scale = 1\nlet scale = 1\nif (msg.topic === 'power_curve_preview') {\n    time_scale = 1000\n    scale = 1\n}\n\nprogress_curve.data[0] = progress_curve.data[0].map(item => {\n    return {\n        x: item.y * time_scale, // X & Y need swapped\n        y: item.x / scale // eamount progress\n    };\n});\n\nmsg.payload = [progress_curve]\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1340,
+        "y": 160,
+        "wires": [
+            [
+                "3a88d2530c5a3041"
+            ]
+        ]
+    },
+    {
+        "id": "142ed5afefab1cfd",
+        "type": "ui_dropdown",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "label": "Pre_Charge_Selection",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "b364f7eb4621082b",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Smooth",
+                "value": "algorithm_one",
+                "type": "str"
+            },
+            {
+                "label": "Aggressive",
+                "value": "algorithm_two",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 340,
+        "y": 420,
+        "wires": [
+            [
+                "235788d63be0b4fc"
+            ]
+        ]
+    },
+    {
+        "id": "235788d63be0b4fc",
+        "type": "change",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "curve_algorithm",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4fbd7f07c5b9223d",
+        "type": "mqtt in",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "topic": "everest_external/nodered/+/evcc/check_algorithm",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 480,
+        "wires": [
+            [
+                "47b6e8414c31d486"
+            ]
+        ]
+    },
+    {
+        "id": "c86fb15d081a70ea",
+        "type": "mqtt out",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "topic": "everest_external/nodered/evcc/confirm_algorithm",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fc8686af.48d178",
+        "x": 1030,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "aeab74c21aae5853",
+        "type": "delay",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 760,
+        "y": 480,
+        "wires": [
+            [
+                "c86fb15d081a70ea"
+            ]
+        ]
+    },
+    {
+        "id": "929007f67fb49a68",
+        "type": "mqtt in",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "topic": "everest_external/nodered/+/state/state_string",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 230,
+        "y": 360,
+        "wires": [
+            [
+                "6e8cfd89dbc02c30",
+                "346c0909fe80a4f2"
+            ]
+        ]
+    },
+    {
+        "id": "2bdae8585bea1cdd",
+        "type": "mqtt in",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "topic": "everest_external/nodered/+/evcc/check_eamount",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 540,
+        "wires": [
+            [
+                "9b709f6f02c47d0c"
+            ]
+        ]
+    },
+    {
+        "id": "47b6e8414c31d486",
+        "type": "change",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "send flow.curve_algorithm",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "curve_algorithm",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 480,
+        "wires": [
+            [
+                "aeab74c21aae5853"
+            ]
+        ]
+    },
+    {
+        "id": "9b709f6f02c47d0c",
+        "type": "change",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "send sim_eamount",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "sim_eamount",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 540,
+        "wires": [
+            [
+                "f88a7e9c8aadb50a"
+            ]
+        ]
+    },
+    {
+        "id": "f88a7e9c8aadb50a",
+        "type": "delay",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 760,
+        "y": 540,
+        "wires": [
+            [
+                "5ff35a79585abadd"
+            ]
+        ]
+    },
+    {
+        "id": "5ff35a79585abadd",
+        "type": "mqtt out",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "topic": "everest_external/nodered/evcc/confirm_eamount",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fc8686af.48d178",
+        "x": 1030,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "6e8cfd89dbc02c30",
+        "type": "function",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "Reset Graph after Charge",
+        "func": "if (msg.payload === \"Idle\") {\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 220,
+        "wires": [
+            [
+                "7fb3b32cfa15b5ee"
+            ]
+        ]
+    },
+    {
+        "id": "346c0909fe80a4f2",
+        "type": "function",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "SetLocalChargingState",
+        "func": "flow.set(\"charging_status\",msg.payload)\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3a88d2530c5a3041",
+        "type": "ui_chart",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "group": "ab3d4f6881421599",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Progress to EAmount",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1700,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "978e5f5f5abdd816",
+        "type": "ui_chart",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "",
+        "group": "ab3d4f6881421599",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "Power Draw over Time",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1700,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5a729b72439b78ec",
+        "type": "inject",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "Initialize Alg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "algorithm_one",
+        "payloadType": "str",
+        "x": 150,
+        "y": 420,
+        "wires": [
+            [
+                "142ed5afefab1cfd"
             ]
         ]
     }
