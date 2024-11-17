@@ -3887,5 +3887,385 @@
                 "b041a6efa19167c7"
             ]
         ]
+    },
+    {
+        "id": "127f32101eb457a9",
+        "type": "ui_text-input",
+        "z": "9fe0155e5b3d31b1",
+        "action": "set",
+        "actionType": "str",
+        "write": "payload",
+        "writeType": "msg",
+        "name": "midas_username",
+        "label": "MIDAS Username",
+        "tooltip": "",
+        "group": "0e8d234f60b178a8",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "change": true,
+        "delay": 300,
+        "topic": "",
+        "x": 150,
+        "y": 480,
+        "wires": [
+            [
+                "53e0a0fdef826546"
+            ]
+        ]
+    },
+    {
+        "id": "0c2a5407890f9d90",
+        "type": "ui_text-input",
+        "z": "9fe0155e5b3d31b1",
+        "action": "set",
+        "actionType": "str",
+        "write": "payload",
+        "writeType": "msg",
+        "name": "midas_password",
+        "label": "MIDAS Password",
+        "tooltip": "",
+        "group": "0e8d234f60b178a8",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "password",
+        "change": true,
+        "delay": 300,
+        "topic": "",
+        "x": 150,
+        "y": 540,
+        "wires": [
+            [
+                "32e72011475fdb43"
+            ]
+        ]
+    },
+    {
+        "id": "a776addbf7929283",
+        "type": "ui_ui-button",
+        "z": "9fe0155e5b3d31b1",
+        "action": "click",
+        "actionType": "str",
+        "name": "midas_login",
+        "group": "0e8d234f60b178a8",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Login",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "x": 150,
+        "y": 600,
+        "wires": [
+            [
+                "54d622574f8d449c"
+            ]
+        ]
+    },
+    {
+        "id": "53e0a0fdef826546",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "store_username",
+        "rules": [
+            {
+                "t": "set",
+                "p": "midas_username",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "32e72011475fdb43",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "store_password",
+        "rules": [
+            {
+                "t": "set",
+                "p": "midas_password",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1c41db118d9d7fda",
+        "type": "http request",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://midasapi.energy.ca.gov/api/token",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Authorization",
+                "keyValue": "",
+                "valueType": "msg",
+                "valueValue": "payload"
+            }
+        ],
+        "x": 610,
+        "y": 600,
+        "wires": [
+            [
+                "3df84a10c312b65b"
+            ]
+        ]
+    },
+    {
+        "id": "54d622574f8d449c",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "create_credentials",
+        "func": "const [username, password] = flow.get([\"midas_username\", \"midas_password\"]);\nconst credentials = username+\":\"+password;\nconst encoded_creds = Buffer.from(credentials).toString('base64');\n// msg.raw_credential = credentials;\nreturn { payload: \"BASIC \" + encoded_creds };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 600,
+        "wires": [
+            [
+                "1c41db118d9d7fda",
+                "c9d7bfafde9995bd"
+            ]
+        ]
+    },
+    {
+        "id": "c9d7bfafde9995bd",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "af18076715eb4907",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "token_response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "ab888e97bf676f1f",
+        "type": "http request",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://midasapi.energy.ca.gov/api/valuedata?id=USCA-TSTS-TTOU-TEST&querytype=alldata",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Authorization",
+                "keyValue": "",
+                "valueType": "msg",
+                "valueValue": "payload"
+            },
+            {
+                "keyType": "Accept",
+                "keyValue": "",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 910,
+        "y": 700,
+        "wires": [
+            [
+                "8fd6bf8a808acc78"
+            ]
+        ]
+    },
+    {
+        "id": "b3db8a8d24a89e51",
+        "type": "template",
+        "z": "9fe0155e5b3d31b1",
+        "name": "prepend_bearer",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "Bearer {{payload}}",
+        "output": "str",
+        "x": 720,
+        "y": 700,
+        "wires": [
+            [
+                "ab888e97bf676f1f"
+            ]
+        ]
+    },
+    {
+        "id": "8fd6bf8a808acc78",
+        "type": "json",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1090,
+        "y": 700,
+        "wires": [
+            [
+                "5c50f314b538a56a",
+                "f33cf937ec397bb5"
+            ]
+        ]
+    },
+    {
+        "id": "fb99d1efd1c4c520",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "858ac58593760eaa",
+        "type": "ui_table",
+        "z": "9fe0155e5b3d31b1",
+        "group": "0e8d234f60b178a8",
+        "name": "real_time_table",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "columns": [],
+        "outputs": 0,
+        "cts": false,
+        "x": 1000,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "3df84a10c312b65b",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "extract_token",
+        "func": "return {payload: msg.headers.token}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 600,
+        "wires": [
+            [
+                "af18076715eb4907",
+                "b3db8a8d24a89e51"
+            ]
+        ]
+    },
+    {
+        "id": "5c50f314b538a56a",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "format_table",
+        "func": "// var json = msg.payload;\n\n\n//tab[top] = {'Variable' : top, 'Value' : pay};\n\n\n// const newpayload = [];\n// for (var index in json) {\n//     newpayload.push({ 'Variable': index, 'Value': json[index] });\n// }\nreturn {payload: msg.payload.ValueInformation};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 700,
+        "wires": [
+            [
+                "858ac58593760eaa",
+                "fb99d1efd1c4c520"
+            ]
+        ]
+    },
+    {
+        "id": "f33cf937ec397bb5",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1200,
+        "y": 640,
+        "wires": []
     }
 ]
