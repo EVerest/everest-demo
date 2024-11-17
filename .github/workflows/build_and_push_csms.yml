@@ -25,13 +25,13 @@ jobs:
       matrix:
         include:
           - csms: maeve
-            csms_repo: louisg1337/maeve-csms
+            csms_repo: US-JOET/maeve-csms
             csms_branch: set_charging_profile
             image_name: manager
             context: ./maeve-csms/manager
             host_namespace: ghcr.io/everest/everest-demo
           - csms: maeve
-            csms_repo: louisg1337/maeve-csms
+            csms_repo: US-JOET/maeve-csms
             csms_branch: set_charging_profile
             image_name: gateway
             context: ./maeve-csms/gateway
