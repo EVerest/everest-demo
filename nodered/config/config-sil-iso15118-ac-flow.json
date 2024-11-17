@@ -318,7 +318,7 @@
         "tab": "d3ada9fa4cf6ac53",
         "order": 6,
         "disp": true,
-        "width": "24",
+        "width": 18,
         "collapse": true,
         "className": ""
     },
@@ -3910,17 +3910,17 @@
         "name": "midas_username",
         "label": "MIDAS Username",
         "tooltip": "",
-        "group": "0e8d234f60b178a8",
-        "order": 5,
-        "width": 0,
-        "height": 0,
+        "group": "896ce8892f69fd26",
+        "order": 1,
+        "width": 7,
+        "height": 1,
         "passthru": true,
         "mode": "text",
         "change": true,
         "delay": 300,
         "topic": "",
-        "x": 150,
-        "y": 480,
+        "x": 110,
+        "y": 560,
         "wires": [
             [
                 "53e0a0fdef826546"
@@ -3938,17 +3938,17 @@
         "name": "midas_password",
         "label": "MIDAS Password",
         "tooltip": "",
-        "group": "0e8d234f60b178a8",
-        "order": 6,
-        "width": 0,
-        "height": 0,
+        "group": "896ce8892f69fd26",
+        "order": 2,
+        "width": 5,
+        "height": 1,
         "passthru": true,
         "mode": "password",
         "change": true,
         "delay": 300,
         "topic": "",
-        "x": 150,
-        "y": 540,
+        "x": 110,
+        "y": 620,
         "wires": [
             [
                 "32e72011475fdb43"
@@ -3962,18 +3962,18 @@
         "action": "click",
         "actionType": "str",
         "name": "midas_login",
-        "group": "0e8d234f60b178a8",
-        "order": 7,
-        "width": 0,
-        "height": 0,
+        "group": "896ce8892f69fd26",
+        "order": 3,
+        "width": 6,
+        "height": 1,
         "passthru": false,
         "label": "Login",
         "tooltip": "",
         "color": "",
         "bgcolor": "",
         "icon": "",
-        "x": 150,
-        "y": 600,
+        "x": 110,
+        "y": 680,
         "wires": [
             [
                 "54d622574f8d449c"
@@ -3999,8 +3999,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 420,
-        "y": 480,
+        "x": 380,
+        "y": 560,
         "wires": [
             []
         ]
@@ -4024,8 +4024,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 420,
-        "y": 540,
+        "x": 380,
+        "y": 620,
         "wires": [
             []
         ]
@@ -4053,8 +4053,8 @@
                 "valueValue": "payload"
             }
         ],
-        "x": 610,
-        "y": 600,
+        "x": 570,
+        "y": 680,
         "wires": [
             [
                 "3df84a10c312b65b"
@@ -4073,8 +4073,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 370,
-        "y": 600,
+        "x": 330,
+        "y": 680,
         "wires": [
             [
                 "1c41db118d9d7fda"
@@ -4094,8 +4094,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1080,
-        "y": 540,
+        "x": 1040,
+        "y": 620,
         "wires": []
     },
     {
@@ -4127,8 +4127,8 @@
                 "valueValue": "application/json"
             }
         ],
-        "x": 430,
-        "y": 680,
+        "x": 390,
+        "y": 760,
         "wires": [
             [
                 "8fd6bf8a808acc78"
@@ -4146,8 +4146,8 @@
         "syntax": "mustache",
         "template": "Bearer {{payload}}",
         "output": "str",
-        "x": 160,
-        "y": 680,
+        "x": 120,
+        "y": 760,
         "wires": [
             [
                 "ab888e97bf676f1f"
@@ -4162,12 +4162,13 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 610,
-        "y": 680,
+        "x": 570,
+        "y": 760,
         "wires": [
             [
                 "5c50f314b538a56a",
-                "3d3182ef4b0aefd2"
+                "3d3182ef4b0aefd2",
+                "7d3bb23e3d97455d"
             ]
         ]
     },
@@ -4183,8 +4184,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 820,
-        "y": 600,
+        "x": 780,
+        "y": 680,
         "wires": [
             [
                 "af18076715eb4907",
@@ -4204,8 +4205,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 870,
-        "y": 660,
+        "x": 830,
+        "y": 740,
         "wires": [
             [
                 "858ac58593760eaa"
@@ -4218,14 +4219,14 @@
         "z": "9fe0155e5b3d31b1",
         "group": "896ce8892f69fd26",
         "name": "real_time_table",
-        "order": 1,
+        "order": 5,
         "width": 0,
         "height": 0,
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 1080,
-        "y": 660,
+        "x": 1040,
+        "y": 740,
         "wires": []
     },
     {
@@ -4234,8 +4235,8 @@
         "z": "9fe0155e5b3d31b1",
         "name": "",
         "group": "896ce8892f69fd26",
-        "order": 2,
-        "width": 24,
+        "order": 6,
+        "width": "18",
         "height": 3,
         "label": "TOU over time",
         "chartType": "line",
@@ -4266,8 +4267,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1080,
-        "y": 700,
+        "x": 1040,
+        "y": 780,
         "wires": [
             []
         ]
@@ -4284,8 +4285,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 870,
-        "y": 700,
+        "x": 830,
+        "y": 780,
         "wires": [
             [
                 "7c9d1a5aaa708145",
@@ -4305,8 +4306,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1000,
-        "y": 760,
+        "x": 960,
+        "y": 840,
         "wires": []
     },
     {
@@ -4326,12 +4327,83 @@
         "topic": "",
         "payload": "[]",
         "payloadType": "json",
-        "x": 1180,
-        "y": 600,
+        "x": 1140,
+        "y": 680,
         "wires": [
             [
                 "858ac58593760eaa",
                 "7c9d1a5aaa708145"
+            ]
+        ]
+    },
+    {
+        "id": "f82d7044a6028ac8",
+        "type": "ui_ui-button",
+        "z": "9fe0155e5b3d31b1",
+        "action": "click",
+        "actionType": "str",
+        "name": "send_midas_schedule_to_csms",
+        "group": "896ce8892f69fd26",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Send MIDAS schedule to CSMS",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "x": 150,
+        "y": 480,
+        "wires": [
+            [
+                "453f10c5a7350302"
+            ]
+        ]
+    },
+    {
+        "id": "7d3bb23e3d97455d",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "store_result_in_flow",
+        "rules": [
+            {
+                "t": "set",
+                "p": "midas_schedule",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "453f10c5a7350302",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "convert_to_recurring_schedule",
+        "func": "const midas_schedule = flow.get(\"midas_schedule\");\nnode.warn(midas_schedule);\n// the values that we get are in \n\nconst schedulePeriods = midas_schedule.ValueInformation.map((entry) => {\n    return {\n        // we get the hour by splitting the time and taking the\n        // first entry, then we multiply by 3600 to get it in seconds\n        startPeriod: entry.TimeStart.split(\":\")[0] * 3600,\n        limit: entry.value,\n        numberPhases: 3\n    }\n});\nnode.warn(schedulePeriods);\n\nconst final_schedule = {\n    \"id\": 100, \n    \"chargingProfileKind\": \"Recurring\",\n    \"chargingProfilePurpose\": \"TxDefaultProfile\",\n    \"recurrencyKind\": \"Daily\",\n    \"stackLevel\": 0,\n    \"chargingSchedule\": [\n    {\n        \"id\": 0,\n        \"chargingRateUnit\": \"A\",\n        \"chargingSchedulePeriod\": schedulePeriods,\n        \"duration\": 86400,\n        \"minChargingRate\": 0.0,\n        \"startSchedule\": new Date(\"2022-01-01T00:00:00Z\"),\n    }],\n}\n\n\n// based on section 3.6 of the OCPP spec\n/*\nconst final_schedule = {\n    id: 100,\n    stackLevel: 0,\n    chargingProfilePurpose: \"TxDefaultProfile\",\n    chargingProfileKind: \"Recurring\",\n    recurrencyKind: \"Daily\",\n    chargingSchedule: {\n        id: 0,\n        duration: 86400,\n        chargingRateUnit: \"A\",\n        startSchedule: new Date(\"2022-01-01T00:00:00Z\").toString(),\n        chargingSchedulePeriod: schedulePeriods\n    }\n}\n*/\nreturn {payload: final_schedule};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 480,
+        "wires": [
+            [
+                "0b8a2d5b13bb7809",
+                "dd5c01bd89d1a332"
             ]
         ]
     }
