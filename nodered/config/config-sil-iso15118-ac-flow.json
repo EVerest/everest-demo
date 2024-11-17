@@ -29,6 +29,14 @@
         "env": []
     },
     {
+        "id": "9fe0155e5b3d31b1",
+        "type": "tab",
+        "label": "External Power Control",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "2fdf74399d3a2276",
         "type": "group",
         "z": "a0826fab08a85be9",
@@ -271,53 +279,6 @@
         "hidden": false
     },
     {
-        "id": "9c00d65bdac51e5c",
-        "type": "ui_spacer",
-        "z": "663d251dbdfd20aa",
-        "name": "spacer",
-        "group": "27651fee38a05406",
-        "order": 4,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "c593d23dcd960bab",
-        "type": "ui_spacer",
-        "z": "663d251dbdfd20aa",
-        "name": "spacer",
-        "group": "27651fee38a05406",
-        "order": 4,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "25c6886fe5391a8f",
-        "type": "ui_spacer",
-        "z": "663d251dbdfd20aa",
-        "name": "spacer",
-        "group": "",
-        "order": 2,
-        "width": 6,
-        "height": 1
-    },
-    {
-        "id": "178f91bbe9f2fa1c",
-        "type": "ui_spacer",
-        "z": "663d251dbdfd20aa",
-        "name": "spacer",
-        "group": "",
-        "order": 5,
-        "width": "6",
-        "height": "1"
-    },
-    {
-        "id": "569f3ba3fa7d27ae",
-        "type": "ui_tab",
-        "name": "Home",
-        "icon": "home",
-        "order": 1
-    },
-    {
         "id": "ab3d4f6881421599",
         "type": "ui_group",
         "name": "PowerCurve Selection",
@@ -329,25 +290,22 @@
         "className": ""
     },
     {
-        "id": "4f0748909e7fcc0d",
-        "type": "ui_tab",
-        "name": "Home",
-        "icon": "home",
-        "order": 1
-    },
-    {
-        "id": "608cea72d1eb0b30",
-        "type": "ui_tab",
-        "name": "Home",
-        "icon": "home",
-        "order": 1
-    },
-    {
         "id": "f33656cf38af1793",
         "type": "ui_group",
         "name": "ISO + OCPP Messages",
         "tab": "d3ada9fa4cf6ac53",
         "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0e8d234f60b178a8",
+        "type": "ui_group",
+        "name": "External Limits",
+        "tab": "d3ada9fa4cf6ac53",
+        "order": 6,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -3574,6 +3532,359 @@
         "wires": [
             [
                 "142ed5afefab1cfd"
+            ]
+        ]
+    },
+    {
+        "id": "1ef1dcc581d80607",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "start_time",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "eb8c4d1be09b9511",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "create_post_message",
+        "func": "node.warn(\"Received payload \"+msg.payload);\nconst time_values = flow.get([\"start_time\", \"end_time\"]);\nconst energy_values = flow.get([\"max_current\"]);\nconst duration = Math.ceil((time_values[1] - time_values[0]) / 1000);\nnode.warn(\"time_values are \" + time_values+\" duration = \"+duration);\nconst charge_profile_template = {\n    \"id\": 2000,\n        \"chargingProfileKind\": \"Absolute\",\n        \"chargingProfilePurpose\": \"ChargingStationMaxProfile\",\n                \"chargingSchedule\": [\n                    {\n                        \"id\": 0,\n                        \"chargingRateUnit\": \"A\",\n                        \"chargingSchedulePeriod\": [\n                            {\n                                \"limit\": energy_values[0],\n                                \"numberPhases\": 3,\n                                \"startPeriod\": 0\n                            }\n                        ],\n                        \"duration\": duration,\n                        \"minChargingRate\": 0.0,\n                        \"startSchedule\": new Date(time_values[0]),\n                    }\n                ],\n                    \"stackLevel\": 0\n}\n\nconst wrapperMsg = {payload: charge_profile_template};\nreturn wrapperMsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 280,
+        "wires": [
+            [
+                "dd5c01bd89d1a332",
+                "0b8a2d5b13bb7809"
+            ]
+        ]
+    },
+    {
+        "id": "dd5c01bd89d1a332",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "formatted_post",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "0b8a2d5b13bb7809",
+        "type": "http request",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://host.docker.internal:9410/api/v0/cs/cp001/setchargingprofile",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 470,
+        "y": 340,
+        "wires": [
+            [
+                "28e4961dc9f0129e"
+            ]
+        ]
+    },
+    {
+        "id": "28e4961dc9f0129e",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "http_response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "3d44bdce67fb80de",
+        "type": "ui_text_input",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "label": "Start:",
+        "tooltip": "",
+        "group": "0e8d234f60b178a8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "datetime-local",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 110,
+        "y": 60,
+        "wires": [
+            [
+                "1ef1dcc581d80607",
+                "45fbfa036a572ce9"
+            ]
+        ]
+    },
+    {
+        "id": "b041a6efa19167c7",
+        "type": "ui_text_input",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "label": "End:",
+        "tooltip": "",
+        "group": "0e8d234f60b178a8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "datetime-local",
+        "delay": 300,
+        "topic": "external_limit_end",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 430,
+        "y": 60,
+        "wires": [
+            [
+                "15a95c5d894549e7",
+                "9b997430586ae6b5"
+            ]
+        ]
+    },
+    {
+        "id": "15a95c5d894549e7",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "end_time",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "45fbfa036a572ce9",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "set_start_time",
+        "rules": [
+            {
+                "t": "set",
+                "p": "start_time",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b997430586ae6b5",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "set_end_time",
+        "rules": [
+            {
+                "t": "set",
+                "p": "end_time",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 500,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4ff73892fd4c4ec0",
+        "type": "ui_text-input",
+        "z": "9fe0155e5b3d31b1",
+        "action": "set",
+        "actionType": "str",
+        "write": "payload",
+        "writeType": "msg",
+        "name": "current_limit",
+        "label": "Current",
+        "tooltip": "",
+        "group": "0e8d234f60b178a8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "number",
+        "change": true,
+        "delay": 300,
+        "topic": "",
+        "x": 810,
+        "y": 60,
+        "wires": [
+            [
+                "136a9980a3a2e5ad",
+                "aff8eeda481cde7a"
+            ]
+        ]
+    },
+    {
+        "id": "136a9980a3a2e5ad",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "set_max_current",
+        "rules": [
+            {
+                "t": "set",
+                "p": "max_current",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 830,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d8c82c7f6ae9e9fa",
+        "type": "ui_button",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "group": "0e8d234f60b178a8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Send to CSMS",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 100,
+        "y": 360,
+        "wires": [
+            [
+                "eb8c4d1be09b9511"
+            ]
+        ]
+    },
+    {
+        "id": "aff8eeda481cde7a",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "current_limit",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "ce8a2c522beb9fd2",
+        "type": "inject",
+        "z": "9fe0155e5b3d31b1",
+        "name": "now",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 290,
+        "y": 200,
+        "wires": [
+            [
+                "3d44bdce67fb80de",
+                "b041a6efa19167c7"
             ]
         ]
     }
