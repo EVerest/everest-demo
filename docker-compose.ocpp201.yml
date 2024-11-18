@@ -4,6 +4,8 @@ services:
   mqtt-server:
     image: ghcr.io/everest/everest-demo/mqtt-server:${TAG}
     platform: linux/x86_64
+    ports:
+      - 2727:1883 # (CSCS)
     logging:
       driver: none
 

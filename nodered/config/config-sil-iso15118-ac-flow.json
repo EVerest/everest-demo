@@ -29,6 +29,14 @@
         "env": []
     },
     {
+        "id": "9fe0155e5b3d31b1",
+        "type": "tab",
+        "label": "External Power Control",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "2fdf74399d3a2276",
         "type": "group",
         "z": "a0826fab08a85be9",
@@ -238,7 +246,7 @@
         "type": "ui_group",
         "name": "Connector 1 [ISO15118]",
         "tab": "d3ada9fa4cf6ac53",
-        "order": 2,
+        "order": 1,
         "disp": true,
         "width": "6",
         "collapse": false
@@ -248,7 +256,7 @@
         "type": "ui_group",
         "name": "RFID",
         "tab": "d3ada9fa4cf6ac53",
-        "order": 1,
+        "order": 5,
         "disp": true,
         "width": "6",
         "collapse": false
@@ -271,86 +279,47 @@
         "hidden": false
     },
     {
-        "id": "9c00d65bdac51e5c",
-        "type": "ui_spacer",
-        "z": "663d251dbdfd20aa",
-        "name": "spacer",
-        "group": "27651fee38a05406",
-        "order": 4,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "c593d23dcd960bab",
-        "type": "ui_spacer",
-        "z": "663d251dbdfd20aa",
-        "name": "spacer",
-        "group": "27651fee38a05406",
-        "order": 4,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "25c6886fe5391a8f",
-        "type": "ui_spacer",
-        "z": "663d251dbdfd20aa",
-        "name": "spacer",
-        "group": "",
-        "order": 2,
-        "width": 6,
-        "height": 1
-    },
-    {
-        "id": "178f91bbe9f2fa1c",
-        "type": "ui_spacer",
-        "z": "663d251dbdfd20aa",
-        "name": "spacer",
-        "group": "",
-        "order": 5,
-        "width": "6",
-        "height": "1"
-    },
-    {
-        "id": "569f3ba3fa7d27ae",
-        "type": "ui_tab",
-        "name": "Home",
-        "icon": "home",
-        "order": 1
-    },
-    {
         "id": "ab3d4f6881421599",
         "type": "ui_group",
         "name": "PowerCurve Selection",
         "tab": "d3ada9fa4cf6ac53",
-        "order": 4,
+        "order": 2,
         "disp": true,
         "width": "6",
         "collapse": false,
         "className": ""
     },
     {
-        "id": "4f0748909e7fcc0d",
-        "type": "ui_tab",
-        "name": "Home",
-        "icon": "home",
-        "order": 1
-    },
-    {
-        "id": "608cea72d1eb0b30",
-        "type": "ui_tab",
-        "name": "Home",
-        "icon": "home",
-        "order": 1
-    },
-    {
         "id": "f33656cf38af1793",
         "type": "ui_group",
         "name": "ISO + OCPP Messages",
         "tab": "d3ada9fa4cf6ac53",
-        "order": 4,
+        "order": 3,
         "disp": true,
         "width": "6",
         "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0e8d234f60b178a8",
+        "type": "ui_group",
+        "name": "External Limits",
+        "tab": "d3ada9fa4cf6ac53",
+        "order": 4,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "896ce8892f69fd26",
+        "type": "ui_group",
+        "name": "Schedule display",
+        "tab": "d3ada9fa4cf6ac53",
+        "order": 6,
+        "disp": true,
+        "width": 18,
+        "collapse": true,
         "className": ""
     },
     {
@@ -1395,7 +1364,7 @@
         "z": "f17b3c3577ed4179",
         "name": "",
         "group": "7cd2ccabb1265f7a",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1453,9 +1422,9 @@
         "label": "connectors",
         "tooltip": "",
         "group": "7cd2ccabb1265f7a",
-        "order": 0,
-        "width": "0",
-        "height": "0",
+        "order": 4,
+        "width": 0,
+        "height": 0,
         "wrap": false,
         "passthru": true,
         "topic": "connectors",
@@ -1570,8 +1539,8 @@
         "name": "",
         "group": "b364f7eb4621082b",
         "order": 1,
-        "width": "3",
-        "height": "1",
+        "width": 3,
+        "height": 1,
         "passthru": false,
         "label": "Pause",
         "tooltip": "",
@@ -1597,8 +1566,8 @@
         "name": "",
         "group": "b364f7eb4621082b",
         "order": 2,
-        "width": "3",
-        "height": "1",
+        "width": 3,
+        "height": 1,
         "passthru": false,
         "label": "Resume",
         "tooltip": "",
@@ -1701,7 +1670,7 @@
         "type": "ui_text",
         "z": "a0826fab08a85be9",
         "group": "b364f7eb4621082b",
-        "order": 3,
+        "order": 4,
         "width": 0,
         "height": 0,
         "name": "",
@@ -1717,7 +1686,7 @@
         "type": "ui_text",
         "z": "a0826fab08a85be9",
         "group": "b364f7eb4621082b",
-        "order": 5,
+        "order": 7,
         "width": 0,
         "height": 0,
         "name": "",
@@ -1816,7 +1785,7 @@
         "type": "ui_level",
         "z": "a0826fab08a85be9",
         "group": "b364f7eb4621082b",
-        "order": 7,
+        "order": 9,
         "width": 0,
         "height": 0,
         "name": "",
@@ -1919,7 +1888,7 @@
         "g": "2fdf74399d3a2276",
         "name": "",
         "group": "b364f7eb4621082b",
-        "order": 6,
+        "order": 8,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -2018,7 +1987,7 @@
         "label": "Simulation enable (HIL)",
         "tooltip": "",
         "group": "b364f7eb4621082b",
-        "order": 10,
+        "order": 14,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -2049,9 +2018,9 @@
         "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
-        "order": 8,
-        "width": "3",
-        "height": "1",
+        "order": 10,
+        "width": 3,
+        "height": 1,
         "passthru": false,
         "label": "Car Plugin",
         "tooltip": "",
@@ -2076,9 +2045,9 @@
         "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
-        "order": 9,
-        "width": "3",
-        "height": "1",
+        "order": 11,
+        "width": 3,
+        "height": 1,
         "passthru": false,
         "label": "Stop & Unplug",
         "tooltip": "",
@@ -2105,7 +2074,7 @@
         "label": "",
         "tooltip": "",
         "group": "b364f7eb4621082b",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -2132,7 +2101,7 @@
         "tooltip": "",
         "place": "Select option",
         "group": "b364f7eb4621082b",
-        "order": 10,
+        "order": 15,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -2247,9 +2216,9 @@
         "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
-        "order": 9,
-        "width": "3",
-        "height": "1",
+        "order": 12,
+        "width": 3,
+        "height": 1,
         "passthru": false,
         "label": "EV Pause",
         "tooltip": "",
@@ -2275,9 +2244,9 @@
         "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
-        "order": 9,
-        "width": "3",
-        "height": "1",
+        "order": 13,
+        "width": 3,
+        "height": 1,
         "passthru": false,
         "label": "EV Resume",
         "tooltip": "",
@@ -2305,9 +2274,9 @@
         "label": "EAmount",
         "tooltip": "",
         "group": "b364f7eb4621082b",
-        "order": 15,
-        "width": 0,
-        "height": 0,
+        "order": 17,
+        "width": 3,
+        "height": 1,
         "passthru": true,
         "mode": "text",
         "delay": 300,
@@ -2331,9 +2300,9 @@
         "label": "DepartureTime:",
         "tooltip": "",
         "group": "b364f7eb4621082b",
-        "order": 16,
-        "width": 0,
-        "height": 0,
+        "order": 18,
+        "width": 3,
+        "height": 1,
         "passthru": true,
         "mode": "text",
         "delay": 300,
@@ -2421,7 +2390,7 @@
         "tooltip": "",
         "place": "Select option",
         "group": "b364f7eb4621082b",
-        "order": 14,
+        "order": 16,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -3164,7 +3133,7 @@
         "tooltip": "",
         "place": "Select option",
         "group": "b364f7eb4621082b",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -3510,7 +3479,7 @@
         "z": "6e0f6f4f7ec3c163",
         "name": "",
         "group": "ab3d4f6881421599",
-        "order": 3,
+        "order": 2,
         "width": 0,
         "height": 0,
         "label": "Power Draw over Time",
@@ -3574,6 +3543,1052 @@
         "wires": [
             [
                 "142ed5afefab1cfd"
+            ]
+        ]
+    },
+    {
+        "id": "1ef1dcc581d80607",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "start_time",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "eb8c4d1be09b9511",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "create_post_message",
+        "func": "node.warn(\"Received payload \"+msg.payload);\nconst time_values = flow.get([\"start_time\", \"end_time\"]);\nconst energy_values = flow.get([\"max_current\"]);\nconst duration = Math.ceil((time_values[1] - time_values[0]) / 1000);\nnode.warn(\"time_values are \" + time_values+\" duration = \"+duration);\nconst charge_profile_template = {\n    \"id\": 2000,\n        \"chargingProfileKind\": \"Absolute\",\n        \"chargingProfilePurpose\": \"ChargingStationMaxProfile\",\n                \"chargingSchedule\": [\n                    {\n                        \"id\": 0,\n                        \"chargingRateUnit\": \"A\",\n                        \"chargingSchedulePeriod\": [\n                            {\n                                \"limit\": energy_values[0],\n                                \"numberPhases\": 3,\n                                \"startPeriod\": 0\n                            }\n                        ],\n                        \"duration\": duration,\n                        \"minChargingRate\": 0.0,\n                        \"startSchedule\": new Date(time_values[0]),\n                    }\n                ],\n                    \"stackLevel\": 0\n}\n\nconst wrapperMsg = {payload: charge_profile_template};\nreturn wrapperMsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 280,
+        "wires": [
+            [
+                "dd5c01bd89d1a332",
+                "0b8a2d5b13bb7809"
+            ]
+        ]
+    },
+    {
+        "id": "dd5c01bd89d1a332",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "formatted_post",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "0b8a2d5b13bb7809",
+        "type": "http request",
+        "z": "9fe0155e5b3d31b1",
+        "name": "send_set_charging_profile",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://host.docker.internal:9410/api/v0/cs/cp001/setchargingprofile",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 510,
+        "y": 340,
+        "wires": [
+            [
+                "28e4961dc9f0129e"
+            ]
+        ]
+    },
+    {
+        "id": "28e4961dc9f0129e",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "http_response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "3d44bdce67fb80de",
+        "type": "ui_text_input",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "label": "Start:",
+        "tooltip": "",
+        "group": "0e8d234f60b178a8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "datetime-local",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 110,
+        "y": 60,
+        "wires": [
+            [
+                "1ef1dcc581d80607",
+                "45fbfa036a572ce9"
+            ]
+        ]
+    },
+    {
+        "id": "b041a6efa19167c7",
+        "type": "ui_text_input",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "label": "End:",
+        "tooltip": "",
+        "group": "0e8d234f60b178a8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "datetime-local",
+        "delay": 300,
+        "topic": "external_limit_end",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 430,
+        "y": 60,
+        "wires": [
+            [
+                "15a95c5d894549e7",
+                "9b997430586ae6b5"
+            ]
+        ]
+    },
+    {
+        "id": "15a95c5d894549e7",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "end_time",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "45fbfa036a572ce9",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "set_start_time",
+        "rules": [
+            {
+                "t": "set",
+                "p": "start_time",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b997430586ae6b5",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "set_end_time",
+        "rules": [
+            {
+                "t": "set",
+                "p": "end_time",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 500,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4ff73892fd4c4ec0",
+        "type": "ui_text-input",
+        "z": "9fe0155e5b3d31b1",
+        "action": "set",
+        "actionType": "str",
+        "write": "payload",
+        "writeType": "msg",
+        "name": "current_limit",
+        "label": "Current",
+        "tooltip": "",
+        "group": "0e8d234f60b178a8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "number",
+        "change": true,
+        "delay": 300,
+        "topic": "",
+        "x": 810,
+        "y": 60,
+        "wires": [
+            [
+                "136a9980a3a2e5ad",
+                "aff8eeda481cde7a"
+            ]
+        ]
+    },
+    {
+        "id": "136a9980a3a2e5ad",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "set_max_current",
+        "rules": [
+            {
+                "t": "set",
+                "p": "max_current",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 830,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d8c82c7f6ae9e9fa",
+        "type": "ui_button",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "group": "0e8d234f60b178a8",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Send to CSMS",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 100,
+        "y": 360,
+        "wires": [
+            [
+                "eb8c4d1be09b9511"
+            ]
+        ]
+    },
+    {
+        "id": "aff8eeda481cde7a",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "current_limit",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "ce8a2c522beb9fd2",
+        "type": "inject",
+        "z": "9fe0155e5b3d31b1",
+        "name": "now",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 290,
+        "y": 200,
+        "wires": [
+            [
+                "3d44bdce67fb80de",
+                "b041a6efa19167c7"
+            ]
+        ]
+    },
+    {
+        "id": "127f32101eb457a9",
+        "type": "ui_text-input",
+        "z": "9fe0155e5b3d31b1",
+        "action": "set",
+        "actionType": "str",
+        "write": "payload",
+        "writeType": "msg",
+        "name": "midas_username",
+        "label": "MIDAS Username",
+        "tooltip": "",
+        "group": "896ce8892f69fd26",
+        "order": 1,
+        "width": 7,
+        "height": 1,
+        "passthru": true,
+        "mode": "text",
+        "change": true,
+        "delay": 300,
+        "topic": "",
+        "x": 110,
+        "y": 560,
+        "wires": [
+            [
+                "53e0a0fdef826546"
+            ]
+        ]
+    },
+    {
+        "id": "0c2a5407890f9d90",
+        "type": "ui_text-input",
+        "z": "9fe0155e5b3d31b1",
+        "action": "set",
+        "actionType": "str",
+        "write": "payload",
+        "writeType": "msg",
+        "name": "midas_password",
+        "label": "MIDAS Password",
+        "tooltip": "",
+        "group": "896ce8892f69fd26",
+        "order": 2,
+        "width": 5,
+        "height": 1,
+        "passthru": true,
+        "mode": "password",
+        "change": true,
+        "delay": 300,
+        "topic": "",
+        "x": 110,
+        "y": 620,
+        "wires": [
+            [
+                "32e72011475fdb43"
+            ]
+        ]
+    },
+    {
+        "id": "a776addbf7929283",
+        "type": "ui_ui-button",
+        "z": "9fe0155e5b3d31b1",
+        "action": "click",
+        "actionType": "str",
+        "name": "midas_login",
+        "group": "896ce8892f69fd26",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "label": "Login",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "x": 110,
+        "y": 680,
+        "wires": [
+            [
+                "54d622574f8d449c"
+            ]
+        ]
+    },
+    {
+        "id": "53e0a0fdef826546",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "store_username",
+        "rules": [
+            {
+                "t": "set",
+                "p": "midas_username",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "32e72011475fdb43",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "store_password",
+        "rules": [
+            {
+                "t": "set",
+                "p": "midas_password",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1c41db118d9d7fda",
+        "type": "http request",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://midasapi.energy.ca.gov/api/token",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Authorization",
+                "keyValue": "",
+                "valueType": "msg",
+                "valueValue": "payload"
+            }
+        ],
+        "x": 570,
+        "y": 680,
+        "wires": [
+            [
+                "3df84a10c312b65b"
+            ]
+        ]
+    },
+    {
+        "id": "54d622574f8d449c",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "create_credentials",
+        "func": "const [username, password] = flow.get([\"midas_username\", \"midas_password\"]);\nconst credentials = username+\":\"+password;\nconst encoded_creds = Buffer.from(credentials).toString('base64');\n// msg.raw_credential = credentials;\nreturn { payload: \"BASIC \" + encoded_creds };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 680,
+        "wires": [
+            [
+                "1c41db118d9d7fda"
+            ]
+        ]
+    },
+    {
+        "id": "af18076715eb4907",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "token_response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "ab888e97bf676f1f",
+        "type": "http request",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://midasapi.energy.ca.gov/api/valuedata?id=USCA-TSTS-TTOU-TEST&querytype=alldata",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Authorization",
+                "keyValue": "",
+                "valueType": "msg",
+                "valueValue": "payload"
+            },
+            {
+                "keyType": "Accept",
+                "keyValue": "",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 390,
+        "y": 760,
+        "wires": [
+            [
+                "8fd6bf8a808acc78"
+            ]
+        ]
+    },
+    {
+        "id": "b3db8a8d24a89e51",
+        "type": "template",
+        "z": "9fe0155e5b3d31b1",
+        "name": "prepend_bearer",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "Bearer {{payload}}",
+        "output": "str",
+        "x": 120,
+        "y": 760,
+        "wires": [
+            [
+                "ab888e97bf676f1f"
+            ]
+        ]
+    },
+    {
+        "id": "8fd6bf8a808acc78",
+        "type": "json",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 550,
+        "y": 760,
+        "wires": [
+            [
+                "d8a242215aa132ac"
+            ]
+        ]
+    },
+    {
+        "id": "3df84a10c312b65b",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "extract_token",
+        "func": "return {payload: msg.headers.token}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 680,
+        "wires": [
+            [
+                "af18076715eb4907",
+                "b3db8a8d24a89e51"
+            ]
+        ]
+    },
+    {
+        "id": "5c50f314b538a56a",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "format_table",
+        "func": "// var json = msg.payload;\n\n\n//tab[top] = {'Variable' : top, 'Value' : pay};\n\n\n// const newpayload = [];\n// for (var index in json) {\n//     newpayload.push({ 'Variable': index, 'Value': json[index] });\n// }\nreturn {payload: msg.payload.ValueInformation};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 740,
+        "wires": [
+            [
+                "858ac58593760eaa"
+            ]
+        ]
+    },
+    {
+        "id": "858ac58593760eaa",
+        "type": "ui_table",
+        "z": "9fe0155e5b3d31b1",
+        "group": "896ce8892f69fd26",
+        "name": "real_time_table",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "columns": [],
+        "outputs": 0,
+        "cts": false,
+        "x": 1040,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "7c9d1a5aaa708145",
+        "type": "ui_chart",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "group": "896ce8892f69fd26",
+        "order": 6,
+        "width": 18,
+        "height": 3,
+        "label": "Curtailment over time",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1060,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3d3182ef4b0aefd2",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "format_chart",
+        "func": "const data_array = msg.payload.ValueInformation.map((entry) => {\n    return {x: new Date(entry.DateStart+\"T\"+entry.TimeStart+\"-0800\").getTime(), y: entry.value}\n});\nnode.warn(data_array);\nreturn {payload: [{labels: [\"\"], series: [\"TOU\"], data: [data_array]}]};\n\n/*\nreturn {payload:\n    [{\n        \"series\": [\"A\", \"B\", \"C\"],\n        \"data\": [\n            [{ \"x\": 1504029632890, \"y\": 5 },\n            { \"x\": 1504029636001, \"y\": 4 },\n            { \"x\": 1504029638656, \"y\": 2 }\n            ],\n            [{ \"x\": 1504029633514, \"y\": 6 },\n            { \"x\": 1504029636622, \"y\": 7 },\n            { \"x\": 1504029639539, \"y\": 6 }\n            ],\n            [{ \"x\": 1504029634400, \"y\": 7 },\n            { \"x\": 1504029637959, \"y\": 7 },\n            { \"x\": 1504029640317, \"y\": 7 }\n            ]\n        ],\n        \"labels\": [\"\"]\n    }]\n    }\n    */",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 780,
+        "wires": [
+            [
+                "7c9d1a5aaa708145"
+            ]
+        ]
+    },
+    {
+        "id": "7bb036cb14fcfb0a",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "process_rate_schedules",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "87232c8ce6671d63",
+        "type": "inject",
+        "z": "9fe0155e5b3d31b1",
+        "name": "initialize",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[]",
+        "payloadType": "json",
+        "x": 1140,
+        "y": 680,
+        "wires": [
+            [
+                "858ac58593760eaa",
+                "7c9d1a5aaa708145"
+            ]
+        ]
+    },
+    {
+        "id": "f82d7044a6028ac8",
+        "type": "ui_ui-button",
+        "z": "9fe0155e5b3d31b1",
+        "action": "click",
+        "actionType": "str",
+        "name": "send_midas_schedule_to_csms",
+        "group": "896ce8892f69fd26",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Send MIDAS schedule to CSMS",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "x": 150,
+        "y": 480,
+        "wires": [
+            [
+                "453f10c5a7350302"
+            ]
+        ]
+    },
+    {
+        "id": "7d3bb23e3d97455d",
+        "type": "change",
+        "z": "9fe0155e5b3d31b1",
+        "name": "store_result_in_flow",
+        "rules": [
+            {
+                "t": "set",
+                "p": "midas_schedule",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "453f10c5a7350302",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "convert_to_recurring_schedule",
+        "func": "const midas_schedule = flow.get(\"midas_schedule\");\n\n// Assumptions:\n// time ranges start and end at hour boundaries\n// there are no gaps (not sure how to handle gaps, we would probably need to have separate schedules)\n// since the duration is only in the schedule\n// logic for that seems too complicated right now\n// start date is hardcoded (can make it be dynamic if we assume that the first entry\n// has the earliest start date)\n\nconst schedulePeriods = midas_schedule.ValueInformation.map((entry) => {\n    return {\n        // we get the hour by splitting the time and taking the\n        // first entry, then we multiply by 3600 to get it in seconds\n        startPeriod: entry.TimeStart.split(\":\")[0] * 3600,\n        limit: entry.value,\n        numberPhases: 3\n    }\n});\nnode.warn(schedulePeriods);\n\n// based on section 3.6 of the OCPP spec\n\nconst final_schedule = {\n    \"id\": 100, \n    \"chargingProfileKind\": \"Recurring\",\n    \"chargingProfilePurpose\": \"TxDefaultProfile\",\n    \"recurrencyKind\": \"Daily\",\n    \"stackLevel\": 0,\n    \"chargingSchedule\": [\n    {\n        \"id\": 0,\n        \"chargingRateUnit\": \"A\",\n        \"chargingSchedulePeriod\": schedulePeriods,\n        \"duration\": 86400,\n        \"minChargingRate\": 0.0,\n        \"startSchedule\": new Date(\"2022-01-01T00:00:00Z\"),\n    }],\n}\n\n\n/*\nconst final_schedule = {\n    id: 100,\n    stackLevel: 0,\n    chargingProfilePurpose: \"TxDefaultProfile\",\n    chargingProfileKind: \"Recurring\",\n    recurrencyKind: \"Daily\",\n    chargingSchedule: {\n        id: 0,\n        duration: 86400,\n        chargingRateUnit: \"A\",\n        startSchedule: new Date(\"2022-01-01T00:00:00Z\").toString(),\n        chargingSchedulePeriod: schedulePeriods\n    }\n}\n*/\nreturn {payload: final_schedule};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 480,
+        "wires": [
+            [
+                "0b8a2d5b13bb7809",
+                "dd5c01bd89d1a332"
+            ]
+        ]
+    },
+    {
+        "id": "d8a242215aa132ac",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "massage_and_rescale",
+        "func": "// The MIDAS data currently has tariffs, which we don't support\n// we want to actually get curtailment data,\n// but don't have time to coordinate with CARB\n// so let's massage the tariff data to look like a curtailment.\n// Steps:\n// find the range of tariff changes\n// assume that range of current changes is from 0-48 (45)\n// Determine the scaling factor\n// determine the increment over the minimum tariff\n// apply the scaling factor\n// more tariff = lower usage, so subtract from the max current\n\nnode.warn(msg.payload);\nconst original_value_objs = msg.payload.ValueInformation;\nconst original_values = original_value_objs.map((entry) => {\n    return entry.value;\n})\nconst min_original = Math.min(...original_values);\nconst max_original = Math.max(...original_values);\nconst scaling_factor = 48 / (max_original - min_original);\nnode.warn(\"min_original = \"+min_original+\" max original \"+max_original+\" scaling_factor\" + scaling_factor);\nconst new_value_objs = original_value_objs.map((entry) => {\n    entry.value = 48 - ((entry.value - min_original) * scaling_factor);\n    entry.Unit = 'A';\n    return entry;\n});\nmsg.payload.ValueInformation = new_value_objs;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 820,
+        "wires": [
+            [
+                "5c50f314b538a56a",
+                "3d3182ef4b0aefd2",
+                "7d3bb23e3d97455d",
+                "7bb036cb14fcfb0a"
+            ]
+        ]
+    },
+    {
+        "id": "563d0956472cfd36",
+        "type": "mqtt in",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "topic": "everest_external/nodered/+/state/max_current",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 1060,
+        "wires": [
+            [
+                "61d453e21fbe4b48"
+            ]
+        ]
+    },
+    {
+        "id": "61d453e21fbe4b48",
+        "type": "ui_chart",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "group": "0e8d234f60b178a8",
+        "order": 4,
+        "width": "6",
+        "height": "4",
+        "label": "Configured current limits",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 870,
+        "y": 1020,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8fd1767acadc72c4",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "extract_ocpp_limit",
+        "func": "function get_humanized_evse(evseId) {\n    if (evseId == 0) return \"Station\"\n    else return \"EVSE \"+evseId;\n}\n\nreturn {payload: msg.payload.charging_schedule_period[0].limit,\n    topic: get_humanized_evse(msg.payload.evse) + \" OCPP limit\"\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 1000,
+        "wires": [
+            [
+                "61d453e21fbe4b48",
+                "bfdde55c5b6eba0a"
+            ]
+        ]
+    },
+    {
+        "id": "84cf15f37335a643",
+        "type": "split",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 610,
+        "y": 920,
+        "wires": [
+            [
+                "8fd1767acadc72c4"
+            ]
+        ]
+    },
+    {
+        "id": "bfdde55c5b6eba0a",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "98027f96fc6092aa",
+        "type": "mqtt in",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "topic": "everest/ocpp/ocpp_generic/var",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 1000,
+        "wires": [
+            [
+                "8aeb84d9a7a87059"
+            ]
+        ]
+    },
+    {
+        "id": "8aeb84d9a7a87059",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "extract_schedules",
+        "func": "return {payload: msg.payload.data.schedules};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 920,
+        "wires": [
+            [
+                "84cf15f37335a643"
             ]
         ]
     }

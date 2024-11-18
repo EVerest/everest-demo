@@ -16,7 +16,7 @@ services:
         target: /mosquitto/config
         read_only: true
     ports:
-      - "1883:1883"
+      - "2767:1883" # CSMS
       - "9000:9000"
     user: "10000:10000"
     healthcheck:
