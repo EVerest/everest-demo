@@ -129,10 +129,6 @@ docker cp manager/config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/so
 docker exec everest-ac-demo-manager-1 rm /ext/dist/share/everest/modules/OCPP201/component_config/custom/EVSE_2.json
 docker exec everest-ac-demo-manager-1 rm /ext/dist/share/everest/modules/OCPP201/component_config/custom/Connector_2_1.json
 
-echo "Configuring and restarting nodered"
-docker cp nodered/config/config-sil-iso15118-ac-flow.json everest-ac-demo-nodered-1:/config/config-sil-iso15118-ac-flow.json
-docker restart everest-ac-demo-nodered-1
-
 if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
   docker cp manager/cached_certs_correct_name_emaid.tar.gz everest-ac-demo-manager-1:/ext/source/build
   docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source/build && tar xf cached_certs_correct_name_emaid.tar.gz"
