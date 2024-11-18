@@ -1686,7 +1686,7 @@
         "type": "ui_text",
         "z": "a0826fab08a85be9",
         "group": "b364f7eb4621082b",
-        "order": 6,
+        "order": 7,
         "width": 0,
         "height": 0,
         "name": "",
@@ -1785,7 +1785,7 @@
         "type": "ui_level",
         "z": "a0826fab08a85be9",
         "group": "b364f7eb4621082b",
-        "order": 8,
+        "order": 9,
         "width": 0,
         "height": 0,
         "name": "",
@@ -1888,7 +1888,7 @@
         "g": "2fdf74399d3a2276",
         "name": "",
         "group": "b364f7eb4621082b",
-        "order": 7,
+        "order": 8,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -1987,7 +1987,7 @@
         "label": "Simulation enable (HIL)",
         "tooltip": "",
         "group": "b364f7eb4621082b",
-        "order": 13,
+        "order": 14,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -2018,7 +2018,7 @@
         "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
-        "order": 9,
+        "order": 10,
         "width": 3,
         "height": 1,
         "passthru": false,
@@ -2045,7 +2045,7 @@
         "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
-        "order": 10,
+        "order": 11,
         "width": 3,
         "height": 1,
         "passthru": false,
@@ -2101,7 +2101,7 @@
         "tooltip": "",
         "place": "Select option",
         "group": "b364f7eb4621082b",
-        "order": 14,
+        "order": 15,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -2216,7 +2216,7 @@
         "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
-        "order": 11,
+        "order": 12,
         "width": 3,
         "height": 1,
         "passthru": false,
@@ -2244,7 +2244,7 @@
         "z": "a0826fab08a85be9",
         "name": "",
         "group": "b364f7eb4621082b",
-        "order": 12,
+        "order": 13,
         "width": 3,
         "height": 1,
         "passthru": false,
@@ -2274,9 +2274,9 @@
         "label": "EAmount",
         "tooltip": "",
         "group": "b364f7eb4621082b",
-        "order": 16,
-        "width": 0,
-        "height": 0,
+        "order": 17,
+        "width": 3,
+        "height": 1,
         "passthru": true,
         "mode": "text",
         "delay": 300,
@@ -2300,9 +2300,9 @@
         "label": "DepartureTime:",
         "tooltip": "",
         "group": "b364f7eb4621082b",
-        "order": 17,
-        "width": 0,
-        "height": 0,
+        "order": 18,
+        "width": 3,
+        "height": 1,
         "passthru": true,
         "mode": "text",
         "delay": 300,
@@ -2390,7 +2390,7 @@
         "tooltip": "",
         "place": "Select option",
         "group": "b364f7eb4621082b",
-        "order": 15,
+        "order": 16,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -3605,7 +3605,7 @@
         "id": "0b8a2d5b13bb7809",
         "type": "http request",
         "z": "9fe0155e5b3d31b1",
-        "name": "",
+        "name": "send_set_charging_profile",
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -3624,7 +3624,7 @@
                 "valueValue": "application/json"
             }
         ],
-        "x": 470,
+        "x": 510,
         "y": 340,
         "wires": [
             [
@@ -4162,13 +4162,11 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 570,
+        "x": 550,
         "y": 760,
         "wires": [
             [
-                "5c50f314b538a56a",
-                "3d3182ef4b0aefd2",
-                "7d3bb23e3d97455d"
+                "d8a242215aa132ac"
             ]
         ]
     },
@@ -4236,9 +4234,9 @@
         "name": "",
         "group": "896ce8892f69fd26",
         "order": 6,
-        "width": "18",
+        "width": 18,
         "height": 3,
-        "label": "TOU over time",
+        "label": "Curtailment over time",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -4267,7 +4265,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1040,
+        "x": 1060,
         "y": 780,
         "wires": [
             []
@@ -4289,8 +4287,7 @@
         "y": 780,
         "wires": [
             [
-                "7c9d1a5aaa708145",
-                "7bb036cb14fcfb0a"
+                "7c9d1a5aaa708145"
             ]
         ]
     },
@@ -4298,15 +4295,16 @@
         "id": "7bb036cb14fcfb0a",
         "type": "debug",
         "z": "9fe0155e5b3d31b1",
-        "name": "debug 3",
+        "name": "process_rate_schedules",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 960,
+        "x": 1010,
         "y": 840,
         "wires": []
     },
@@ -4391,7 +4389,7 @@
         "type": "function",
         "z": "9fe0155e5b3d31b1",
         "name": "convert_to_recurring_schedule",
-        "func": "const midas_schedule = flow.get(\"midas_schedule\");\nnode.warn(midas_schedule);\n// the values that we get are in \n\nconst schedulePeriods = midas_schedule.ValueInformation.map((entry) => {\n    return {\n        // we get the hour by splitting the time and taking the\n        // first entry, then we multiply by 3600 to get it in seconds\n        startPeriod: entry.TimeStart.split(\":\")[0] * 3600,\n        limit: entry.value,\n        numberPhases: 3\n    }\n});\nnode.warn(schedulePeriods);\n\nconst final_schedule = {\n    \"id\": 100, \n    \"chargingProfileKind\": \"Recurring\",\n    \"chargingProfilePurpose\": \"TxDefaultProfile\",\n    \"recurrencyKind\": \"Daily\",\n    \"stackLevel\": 0,\n    \"chargingSchedule\": [\n    {\n        \"id\": 0,\n        \"chargingRateUnit\": \"A\",\n        \"chargingSchedulePeriod\": schedulePeriods,\n        \"duration\": 86400,\n        \"minChargingRate\": 0.0,\n        \"startSchedule\": new Date(\"2022-01-01T00:00:00Z\"),\n    }],\n}\n\n\n// based on section 3.6 of the OCPP spec\n/*\nconst final_schedule = {\n    id: 100,\n    stackLevel: 0,\n    chargingProfilePurpose: \"TxDefaultProfile\",\n    chargingProfileKind: \"Recurring\",\n    recurrencyKind: \"Daily\",\n    chargingSchedule: {\n        id: 0,\n        duration: 86400,\n        chargingRateUnit: \"A\",\n        startSchedule: new Date(\"2022-01-01T00:00:00Z\").toString(),\n        chargingSchedulePeriod: schedulePeriods\n    }\n}\n*/\nreturn {payload: final_schedule};",
+        "func": "const midas_schedule = flow.get(\"midas_schedule\");\n\n// Assumptions:\n// time ranges start and end at hour boundaries\n// there are no gaps (not sure how to handle gaps, we would probably need to have separate schedules)\n// since the duration is only in the schedule\n// logic for that seems too complicated right now\n// start date is hardcoded (can make it be dynamic if we assume that the first entry\n// has the earliest start date)\n\nconst schedulePeriods = midas_schedule.ValueInformation.map((entry) => {\n    return {\n        // we get the hour by splitting the time and taking the\n        // first entry, then we multiply by 3600 to get it in seconds\n        startPeriod: entry.TimeStart.split(\":\")[0] * 3600,\n        limit: entry.value,\n        numberPhases: 3\n    }\n});\nnode.warn(schedulePeriods);\n\n// based on section 3.6 of the OCPP spec\n\nconst final_schedule = {\n    \"id\": 100, \n    \"chargingProfileKind\": \"Recurring\",\n    \"chargingProfilePurpose\": \"TxDefaultProfile\",\n    \"recurrencyKind\": \"Daily\",\n    \"stackLevel\": 0,\n    \"chargingSchedule\": [\n    {\n        \"id\": 0,\n        \"chargingRateUnit\": \"A\",\n        \"chargingSchedulePeriod\": schedulePeriods,\n        \"duration\": 86400,\n        \"minChargingRate\": 0.0,\n        \"startSchedule\": new Date(\"2022-01-01T00:00:00Z\"),\n    }],\n}\n\n\n/*\nconst final_schedule = {\n    id: 100,\n    stackLevel: 0,\n    chargingProfilePurpose: \"TxDefaultProfile\",\n    chargingProfileKind: \"Recurring\",\n    recurrencyKind: \"Daily\",\n    chargingSchedule: {\n        id: 0,\n        duration: 86400,\n        chargingRateUnit: \"A\",\n        startSchedule: new Date(\"2022-01-01T00:00:00Z\").toString(),\n        chargingSchedulePeriod: schedulePeriods\n    }\n}\n*/\nreturn {payload: final_schedule};",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -4404,6 +4402,193 @@
             [
                 "0b8a2d5b13bb7809",
                 "dd5c01bd89d1a332"
+            ]
+        ]
+    },
+    {
+        "id": "d8a242215aa132ac",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "massage_and_rescale",
+        "func": "// The MIDAS data currently has tariffs, which we don't support\n// we want to actually get curtailment data,\n// but don't have time to coordinate with CARB\n// so let's massage the tariff data to look like a curtailment.\n// Steps:\n// find the range of tariff changes\n// assume that range of current changes is from 0-48 (45)\n// Determine the scaling factor\n// determine the increment over the minimum tariff\n// apply the scaling factor\n// more tariff = lower usage, so subtract from the max current\n\nnode.warn(msg.payload);\nconst original_value_objs = msg.payload.ValueInformation;\nconst original_values = original_value_objs.map((entry) => {\n    return entry.value;\n})\nconst min_original = Math.min(...original_values);\nconst max_original = Math.max(...original_values);\nconst scaling_factor = 48 / (max_original - min_original);\nnode.warn(\"min_original = \"+min_original+\" max original \"+max_original+\" scaling_factor\" + scaling_factor);\nconst new_value_objs = original_value_objs.map((entry) => {\n    entry.value = 48 - ((entry.value - min_original) * scaling_factor);\n    entry.Unit = 'A';\n    return entry;\n});\nmsg.payload.ValueInformation = new_value_objs;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 820,
+        "wires": [
+            [
+                "5c50f314b538a56a",
+                "3d3182ef4b0aefd2",
+                "7d3bb23e3d97455d",
+                "7bb036cb14fcfb0a"
+            ]
+        ]
+    },
+    {
+        "id": "563d0956472cfd36",
+        "type": "mqtt in",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "topic": "everest_external/nodered/+/state/max_current",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 1060,
+        "wires": [
+            [
+                "61d453e21fbe4b48"
+            ]
+        ]
+    },
+    {
+        "id": "61d453e21fbe4b48",
+        "type": "ui_chart",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "group": "0e8d234f60b178a8",
+        "order": 4,
+        "width": "6",
+        "height": "4",
+        "label": "Configured current limits",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 870,
+        "y": 1020,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8fd1767acadc72c4",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "extract_ocpp_limit",
+        "func": "function get_humanized_evse(evseId) {\n    if (evseId == 0) return \"Station\"\n    else return \"EVSE \"+evseId;\n}\n\nreturn {payload: msg.payload.charging_schedule_period[0].limit,\n    topic: get_humanized_evse(msg.payload.evse) + \" OCPP limit\"\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 1000,
+        "wires": [
+            [
+                "61d453e21fbe4b48",
+                "bfdde55c5b6eba0a"
+            ]
+        ]
+    },
+    {
+        "id": "84cf15f37335a643",
+        "type": "split",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 610,
+        "y": 920,
+        "wires": [
+            [
+                "8fd1767acadc72c4"
+            ]
+        ]
+    },
+    {
+        "id": "bfdde55c5b6eba0a",
+        "type": "debug",
+        "z": "9fe0155e5b3d31b1",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "98027f96fc6092aa",
+        "type": "mqtt in",
+        "z": "9fe0155e5b3d31b1",
+        "name": "",
+        "topic": "everest/ocpp/ocpp_generic/var",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fc8686af.48d178",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 1000,
+        "wires": [
+            [
+                "8aeb84d9a7a87059"
+            ]
+        ]
+    },
+    {
+        "id": "8aeb84d9a7a87059",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "extract_schedules",
+        "func": "return {payload: msg.payload.data.schedules};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 920,
+        "wires": [
+            [
+                "84cf15f37335a643"
             ]
         ]
     }
