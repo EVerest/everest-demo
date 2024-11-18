@@ -1,0 +1,34 @@
+diff --git a/modules/API/API.cpp b/modules/API/API.cpp
+index 68c4900d..03425dc4 100644
+--- a/ext/source/modules/API/API.cpp
++++ b/ext/source/modules/API/API.cpp
+@@ -573,6 +573,7 @@ void API::init() {
+     if (this->r_ocpp.size() == 1) {
+ 
+         this->r_ocpp.at(0)->subscribe_is_connected([this](bool is_connected) {
++	    EVLOG_info << "Received OCPP connection status callback with is_connected: " << is_connected;
+             std::scoped_lock lock(ocpp_data_mutex);
+             if (is_connected) {
+                 this->ocpp_connection_status = "connected";
+@@ -582,6 +583,7 @@ void API::init() {
+         });
+ 
+         this->r_ocpp.at(0)->subscribe_charging_schedules([this, &var_ocpp_schedule](json schedule) {
++	    EVLOG_info << "Received OCPP charging schedule update: " << schedule;
+             std::scoped_lock lock(ocpp_data_mutex);
+             this->ocpp_charging_schedule = schedule;
+             this->ocpp_charging_schedule_updated = true;
+diff --git a/modules/OCPP201/OCPP201.cpp b/modules/OCPP201/OCPP201.cpp
+index 83f2324b..8eb7900f 100644
+--- a/ext/source/modules/OCPP201/OCPP201.cpp
++++ b/ext/source/modules/OCPP201/OCPP201.cpp
+@@ -1181,6 +1181,9 @@ void OCPP201::process_deauthorized(const int32_t evse_id, const int32_t connecto
+ }
+ 
+ void OCPP201::publish_charging_schedules(const std::vector<ocpp::v201::CompositeSchedule>& composite_schedules) {
++    EVLOG_info << "About to publish composite charging schedules: ";
++    for (ocpp::v201::CompositeSchedule cs: composite_schedules)
++           EVLOG_info << cs << '\n';
+     const auto everest_schedules = conversions::to_everest_charging_schedules(composite_schedules);
+     this->p_ocpp_generic->publish_charging_schedules(everest_schedules);
+ }
