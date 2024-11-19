@@ -2113,7 +2113,7 @@
         "order": 15,
         "width": 0,
         "height": 0,
-        "passthru": true,
+        "passthru": false,
         "multiple": false,
         "options": [
             {
@@ -2194,12 +2194,10 @@
         "topic": "sim_commands",
         "payload": "sleep 1;iec_wait_pwr_ready;sleep 1;draw_power_regulated 16,3;sleep 36000#unplug#pause;sleep 3600#draw_power_regulated 16,3;sleep 36000",
         "payloadType": "str",
-        "x": 150,
-        "y": 1280,
+        "x": 410,
+        "y": 1240,
         "wires": [
-            [
-                "7f4208bd3c3c4216"
-            ]
+            []
         ]
     },
     {
@@ -2650,7 +2648,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 620,
+        "x": 610,
         "y": 1460,
         "wires": [
             [
@@ -3035,6 +3033,60 @@
         "x": 675,
         "y": 660,
         "wires": []
+    },
+    {
+        "id": "ec79f8253d17deba",
+        "type": "inject",
+        "z": "a0826fab08a85be9",
+        "name": "Initialize MaxCurrent",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "initialize_max_current",
+        "payload": "16",
+        "payloadType": "num",
+        "x": 460,
+        "y": 660,
+        "wires": [
+            [
+                "74c85b51b355d691"
+            ]
+        ]
+    },
+    {
+        "id": "142ef8f602b0dda0",
+        "type": "inject",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "sleep 1;iso_wait_slac_matched;iso_set_departure_time null null;iso_start_v2g_session externalpayment,ac;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000#iso_stop_charging;iso_wait_v2g_session_stopped;unplug#iso_pause_charging;iso_wait_for_resume#iso_start_bcb_toogle 3;iso_wait_pwm_is_running;iso_start_v2g_session ExternalPayment,AC_three_phase_core;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000",
+        "payloadType": "str",
+        "x": 150,
+        "y": 1280,
+        "wires": [
+            [
+                "7f4208bd3c3c4216"
+            ]
+        ]
     },
     {
         "id": "32e0bed5f21a8e8e",
@@ -3625,7 +3677,7 @@
         "type": "function",
         "z": "6e0f6f4f7ec3c163",
         "name": "Generate Graph for no DT",
-        "func": "const eamount = global.get('sim_eamount')\nconst max_current = global.get(\"max_current\")\nconst power_draw = Number((240 * max_current) / 1000)\n\nfunction generateChargeProgressGraph() {\n    let charge_progress  = []\n    for (let x = 0; x <= 24; x++) {\n        let val = ((x * power_draw) < eamount) ? x * power_draw : eamount\n        charge_progress.push({ x: val, y: x * 3600 * 1000 });\n    }\n    console.log(charge_progress)\n    return charge_progress\n}\nfunction generatePowerDrawGraph() {\n    let power_draw_graph  = []\n    for (let x = 0; x <= 24; x++) {\n        let val = ((x * power_draw) < eamount) ? power_draw : 0\n        power_draw_graph.push({ x: val, y: x * 3600 * 1000 });\n    }\n    console.log(power_draw_graph)\n    return power_draw_graph\n}\n\nlet basic_array = [\n    {\n        series: [\"A\", \"B\"],\n        data: [\n            generateChargeProgressGraph(),\n            generatePowerDrawGraph()\n        ],\n        labels: [\"r1\", \"r2\"]\n    }\n]\n\nmsg.payload = basic_array\nreturn msg\n",
+        "func": "const eamount = global.get('sim_eamount')\nconst max_current = global.get(\"max_current\")\nconst power_draw = Number((240 * max_current) / 1000)\n\nfunction generateChargeProgressGraph() {\n    let charge_progress  = []\n    for (let x = 0; x <= 24; x++) {\n        let val = ((x * power_draw) < eamount) ? x * power_draw : eamount\n        charge_progress.push({ x: val, y: x * 3600 * 1000 });\n    }\n\n    return charge_progress\n}\nfunction generatePowerDrawGraph() {\n    let power_draw_graph  = []\n    for (let x = 0; x <= 24; x++) {\n        let val = ((x * power_draw) < eamount) ? power_draw : 0\n        val = val / 100\n        power_draw_graph.push({ x: x * 3600 * 1000, y: val});\n    }\n    console.log(power_draw_graph)\n    return power_draw_graph\n}\n\nlet basic_array = [\n    {\n        series: [\"A\", \"B\"],\n        data: [\n            generateChargeProgressGraph(),\n            generatePowerDrawGraph()\n        ],\n        labels: [\"r1\", \"r2\"]\n    }\n]\n\nmsg.payload = basic_array\nmsg.topic = 'power_curve_preview'\nif (global.get('sim_departure_time') === 0) {\n    return msg\n}\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
