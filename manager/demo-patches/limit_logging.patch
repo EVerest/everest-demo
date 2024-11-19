@@ -1,0 +1,56 @@
+diff --git a/modules/EnergyNode/energy_grid/energyImpl.cpp b/modules/EnergyNode/energy_grid/energyImpl.cpp
+index f7afcc99..fc88f8c2 100644
+--- a/modules/EnergyNode/energy_grid/energyImpl.cpp
++++ b/modules/EnergyNode/energy_grid/energyImpl.cpp
+@@ -64,6 +64,7 @@ void energyImpl::init() {
+ 
+ types::energy::ScheduleReqEntry energyImpl::get_local_schedule() {
+     // local schedule of this module
++    EVLOG_debug << "Getting local schedule with fuse limit: " << mod->config.fuse_limit_A;;
+     types::energy::ScheduleReqEntry local_schedule;
+     auto tp = date::utc_clock::now();
+ 
+@@ -79,6 +80,7 @@ types::energy::ScheduleReqEntry energyImpl::get_local_schedule() {
+ 
+ void energyImpl::set_external_limits(types::energy::ExternalLimits& l) {
+     std::scoped_lock lock(energy_mutex);
++    EVLOG_debug << "Setting external limits with fuse limit: " << mod->config.fuse_limit_A;;
+ 
+     if (l.schedule_import.has_value()) {
+         energy_flow_request.schedule_import = l.schedule_import;
+diff --git a/modules/EvseManager/energy_grid/energyImpl.cpp b/modules/EvseManager/energy_grid/energyImpl.cpp
+index af290e86..2260e819 100644
+--- a/modules/EvseManager/energy_grid/energyImpl.cpp
++++ b/modules/EvseManager/energy_grid/energyImpl.cpp
+@@ -54,6 +54,7 @@ void energyImpl::clear_import_request_schedule() {
+     const auto tp =
+         Everest::Date::to_rfc3339(date::floor<std::chrono::hours>(tpnow) + date::get_leap_second_info(tpnow).elapsed);
+ 
++    EVLOG_info << "Clearing import request schedule by setting max current from hw_caps = " << hw_caps.max_current_A_import;
+     entry_import.timestamp = tp;
+     entry_import.limits_to_root.ac_max_phase_count = hw_caps.max_phase_count_import;
+     entry_import.limits_to_root.ac_min_phase_count = hw_caps.min_phase_count_import;
+@@ -79,6 +80,7 @@ void energyImpl::clear_export_request_schedule() {
+     const auto tp =
+         Everest::Date::to_rfc3339(date::floor<std::chrono::hours>(tpnow) + date::get_leap_second_info(tpnow).elapsed);
+ 
++    EVLOG_info << "Clearing export request schedule by setting max current from hw_caps = " << hw_caps.max_current_A_import;
+     entry_export.timestamp = tp;
+     entry_export.limits_to_root.ac_max_phase_count = hw_caps.max_phase_count_export;
+     entry_export.limits_to_root.ac_min_phase_count = hw_caps.min_phase_count_export;
+@@ -353,6 +355,7 @@ void energyImpl::handle_enforce_limits(types::energy::EnforcedLimits& value) {
+         if (value.limits_root_side.has_value()) {
+             // set enforced AC current limit
+             if (value.limits_root_side.value().ac_max_current_A.has_value()) {
++		EVLOG_info << "Handle enforce limits with ac_max_current_A = " << value.limits_root_side.value().ac_max_current_A.value();
+                 limit = value.limits_root_side.value().ac_max_current_A.value();
+             }
+ 
+@@ -383,6 +386,7 @@ void energyImpl::handle_enforce_limits(types::energy::EnforcedLimits& value) {
+                 mod->mqtt.publish(fmt::format("everest_external/nodered/{}/state/max_watt", mod->config.connector_id),
+                                   value.limits_root_side.value().total_power_W.value());
+ 
++    		EVLOG_info << "Handle enforce limits with total_power_W = " << value.limits_root_side.value().total_power_W.value();
+                 float a = value.limits_root_side.value().total_power_W.value() / mod->config.ac_nominal_voltage /
+                           mod->ac_nr_phases_active;
+                 if (a < limit) {

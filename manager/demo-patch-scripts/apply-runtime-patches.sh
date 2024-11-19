@@ -17,6 +17,8 @@ echo "Applying enabled_payment_method_in_python.patch"
 cd /ext && patch -p0 -i /tmp/demo-patches/enable_payment_method_in_python.patch
 echo "Applying support_payment_in_jsevmanager.patch"
 cd /ext/dist/libexec/everest && patch -p1 -i /tmp/demo-patches/support_payment_in_jsevmanager.patch
+echo "Applying hw_cap_down_to_16A.patch"
+cd / && patch -p0 -i /tmp/demo-patches/hw_cap_down_to_16A.patch
 
 cp /tmp/demo-patches/power_curve.py \
 /ext/dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/
