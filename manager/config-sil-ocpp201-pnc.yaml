@@ -27,6 +27,7 @@ active_modules:
       ac_hlc_enabled: true
       ac_hlc_use_5percent: false
       ac_enforce_hlc: false
+      max_current_import_A: 16
     connections:
       bsp:
         - module_id: yeti_driver_1
