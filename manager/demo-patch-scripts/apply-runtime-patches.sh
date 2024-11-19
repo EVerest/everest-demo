@@ -12,6 +12,8 @@ echo "Applying pyjosev_module_enabledt.patch"
 cd / && patch -p0 -N -i /tmp/demo-patches/pyjosev_module_enabledt.patch
 echo "Applying simulator_enabledt.patch"
 cd / && patch -p0 -N -i /tmp/demo-patches/simulator_enabledt.patch
+echo "Applying iso15118_prevent_m1_crash.patch"
+cd / && patch -p0 -N -i /tmp/demo-patches/iso15118_prevent_m1_crash.patch
 
 echo "Applying enabled_payment_method_in_python.patch"
 cd /ext && patch -p0 -i /tmp/demo-patches/enable_payment_method_in_python.patch
