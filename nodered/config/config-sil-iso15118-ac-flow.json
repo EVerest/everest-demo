@@ -1661,7 +1661,8 @@
         "y": 280,
         "wires": [
             [
-                "bb7f6a1c5ac9e4fe"
+                "bb7f6a1c5ac9e4fe",
+                "9a0bfe4b692ea939"
             ]
         ]
     },
@@ -1677,6 +1678,11 @@
         "label": "Max Current",
         "format": "{{msg.payload | number: 1}}",
         "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
         "x": 890,
         "y": 280,
         "wires": []
@@ -2084,11 +2090,14 @@
         "min": "6",
         "max": "32",
         "step": "0.1",
+        "className": "",
         "x": 450,
         "y": 700,
         "wires": [
             [
-                "f09fc0c4c21685bb"
+                "f09fc0c4c21685bb",
+                "74c85b51b355d691",
+                "3f7bcc1f70c87c72"
             ]
         ]
     },
@@ -2965,6 +2974,69 @@
         "wires": []
     },
     {
+        "id": "74c85b51b355d691",
+        "type": "change",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "max_current",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9a0bfe4b692ea939",
+        "type": "change",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "max_current",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 880,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3f7bcc1f70c87c72",
+        "type": "link out",
+        "z": "a0826fab08a85be9",
+        "name": "Set MaxCurrent",
+        "mode": "link",
+        "links": [
+            "b1301ed430a72925"
+        ],
+        "x": 675,
+        "y": 660,
+        "wires": []
+    },
+    {
         "id": "32e0bed5f21a8e8e",
         "type": "link in",
         "z": "6e0f6f4f7ec3c163",
@@ -2972,11 +3044,12 @@
         "links": [
             "399abf8ec94726b5"
         ],
-        "x": 335,
-        "y": 180,
+        "x": 305,
+        "y": 200,
         "wires": [
             [
-                "7fb3b32cfa15b5ee"
+                "7fb3b32cfa15b5ee",
+                "1fcfcd105307888e"
             ]
         ]
     },
@@ -2992,8 +3065,8 @@
         "winHide": false,
         "oldrc": false,
         "name": "",
-        "x": 650,
-        "y": 220,
+        "x": 690,
+        "y": 260,
         "wires": [
             [
                 "af6292bfc559bd14"
@@ -3007,15 +3080,15 @@
         "type": "function",
         "z": "6e0f6f4f7ec3c163",
         "name": "Generate Python Call",
-        "func": "const dt = global.get('sim_departure_time')\nconst eamount = global.get('sim_eamount')\nconst ks = 1\n// The path to environment should match the path defined in `/everest-demo/nodered/Dockerfile`\nconst path_to_environment = '/usr/src/node-red/python_environments/everest/bin/'\n\nmsg.payload = `${path_to_environment}python3 /bin/scripts/preview_curve_4_nodered.py ${dt} ${eamount} ${ks}`\nmsg.topic = 'power_curve_preview'\nreturn msg;",
+        "func": "const dt = global.get('sim_departure_time')\nconst eamount = global.get('sim_eamount')\nconst ks = 1\n// The path to environment should match the path defined in `/everest-demo/nodered/Dockerfile`\nlet path_to_environment = '/usr/src/node-red/python_environments/everest/bin/'\nmsg.payload = `${path_to_environment}python3 /bin/scripts/preview_curve_4_nodered.py ${dt} ${eamount} ${ks}`\nmsg.topic = 'power_curve_preview'\n\n// Don't run sript if DT == 0, we use the base SASchedule for cases\n// where DT is not defined.  \nif (dt > 0) {\n  return msg;\n}",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 480,
-        "y": 220,
+        "x": 520,
+        "y": 260,
         "wires": [
             [
                 "2a382e0be60110c8"
@@ -3034,8 +3107,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 850,
-        "y": 180,
+        "x": 870,
+        "y": 160,
         "wires": [
             [
                 "26536e4ec1e28303"
@@ -3055,8 +3128,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 510,
-        "y": 120,
+        "x": 550,
+        "y": 100,
         "wires": [
             [
                 "af6292bfc559bd14"
@@ -3075,8 +3148,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1050,
-        "y": 180,
+        "x": 1090,
+        "y": 200,
         "wires": [
             [
                 "ec57465ae1fcac39",
@@ -3089,15 +3162,15 @@
         "type": "function",
         "z": "6e0f6f4f7ec3c163",
         "name": "Split Curve: Power Draw",
-        "func": "let draw_curve = {\n    \"series\": [msg.payload[0].series[1]],\n    \"data\": [msg.payload[0].data[1]],\n    \"labels\": [msg.payload[0].labels[1]]\n}\n\nlet time_scale = 1\nlet scale = 1000\nif (msg.topic === 'power_curve_preview') {\n    scale = 1000\n    time_scale = 1000\n    draw_curve.data[0] = draw_curve.data[0].map(item => {\n    return {\n        x: item.x * time_scale, // Chart expects miliseconds, convert\n        y: item.y * scale // Convert miliwatt to watt\n    };\n});\n}\nelse {\n    draw_curve.data[0] = draw_curve.data[0].map(item => {\n    // Patch 4 scale, need to fix in manager later\n    return {\n        x: item.y * time_scale, \n        y: item.x * scale // Convert miliwatt to watt\n    };\n});\n}\n\nmsg.payload = [draw_curve]\n\nreturn msg;",
+        "func": "let draw_curve = {\n    \"series\": [msg.payload[0].series[1]],\n    \"data\": [msg.payload[0].data[1]],\n    \"labels\": [msg.payload[0].labels[1]]\n}\n\n// The scales should eventually be fixed in the script, \n// but let's tweak them in nodered for now.\nlet time_scale = 1\nlet scale = 1000\nif (msg.topic === 'power_curve_preview') {\n    scale = 1000\n    time_scale = 1000\n    draw_curve.data[0] = draw_curve.data[0].map(item => {\n    return {\n        x: item.x * time_scale, // Chart expects miliseconds, convert\n        y: item.y * scale // Convert miliwatt to watt\n    };\n});\n}\nelse {\n    draw_curve.data[0] = draw_curve.data[0].map(item => {\n    // Patch 4 scale, need to fix in manager later\n    return {\n        x: item.y * time_scale, \n        y: item.x * scale // Convert miliwatt to watt\n    };\n});\n}\n\nmsg.payload = [draw_curve]\n\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1310,
-        "y": 200,
+        "x": 1370,
+        "y": 220,
         "wires": [
             [
                 "978e5f5f5abdd816"
@@ -3109,15 +3182,15 @@
         "type": "function",
         "z": "6e0f6f4f7ec3c163",
         "name": "Split Curve: Proggress to EAMount",
-        "func": "progress_curve = {\n    \"series\": [msg.payload[0].series[0]],\n    \"data\": [msg.payload[0].data[0]],\n    \"labels\": [msg.payload[0].labels[0]]\n}\nlet time_scale = 1\nlet scale = 1\nif (msg.topic === 'power_curve_preview') {\n    time_scale = 1000\n    scale = 1\n}\n\nprogress_curve.data[0] = progress_curve.data[0].map(item => {\n    return {\n        x: item.y * time_scale, // X & Y need swapped\n        y: item.x / scale // eamount progress\n    };\n});\n\nmsg.payload = [progress_curve]\n\nreturn msg;\n",
+        "func": "progress_curve = {\n    \"series\": [msg.payload[0].series[0]],\n    \"data\": [msg.payload[0].data[0]],\n    \"labels\": [msg.payload[0].labels[0]]\n}\nlet time_scale = 1\nlet scale = 1\n// The scales should eventually be fixed in the script, \n// but let's tweak them in nodered for now.\nif (msg.topic === 'power_curve_preview') {\n    time_scale = 1000\n    scale = 1\n}\n\nprogress_curve.data[0] = progress_curve.data[0].map(item => {\n    return {\n        x: item.y * time_scale, // X & Y need swapped\n        y: item.x / scale // eamount progress\n    };\n});\n\nmsg.payload = [progress_curve]\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1340,
-        "y": 160,
+        "x": 1400,
+        "y": 180,
         "wires": [
             [
                 "3a88d2530c5a3041"
@@ -3403,11 +3476,12 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 220,
-        "y": 220,
+        "x": 210,
+        "y": 260,
         "wires": [
             [
-                "7fb3b32cfa15b5ee"
+                "7fb3b32cfa15b5ee",
+                "1fcfcd105307888e"
             ]
         ]
     },
@@ -3468,7 +3542,7 @@
         "useDifferentColor": false,
         "className": "",
         "x": 1700,
-        "y": 160,
+        "y": 180,
         "wires": [
             []
         ]
@@ -3512,7 +3586,7 @@
         "useDifferentColor": false,
         "className": "",
         "x": 1700,
-        "y": 200,
+        "y": 220,
         "wires": [
             []
         ]
@@ -3543,6 +3617,60 @@
         "wires": [
             [
                 "142ed5afefab1cfd"
+            ]
+        ]
+    },
+    {
+        "id": "1fcfcd105307888e",
+        "type": "function",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "Generate Graph for no DT",
+        "func": "const eamount = global.get('sim_eamount')\nconst max_current = global.get(\"max_current\")\nconst power_draw = Number((240 * max_current) / 1000)\n\nfunction generateChargeProgressGraph() {\n    let charge_progress  = []\n    for (let x = 0; x <= 24; x++) {\n        let val = ((x * power_draw) < eamount) ? x * power_draw : eamount\n        charge_progress.push({ x: val, y: x * 3600 * 1000 });\n    }\n    console.log(charge_progress)\n    return charge_progress\n}\nfunction generatePowerDrawGraph() {\n    let power_draw_graph  = []\n    for (let x = 0; x <= 24; x++) {\n        let val = ((x * power_draw) < eamount) ? power_draw : 0\n        power_draw_graph.push({ x: val, y: x * 3600 * 1000 });\n    }\n    console.log(power_draw_graph)\n    return power_draw_graph\n}\n\nlet basic_array = [\n    {\n        series: [\"A\", \"B\"],\n        data: [\n            generateChargeProgressGraph(),\n            generatePowerDrawGraph()\n        ],\n        labels: [\"r1\", \"r2\"]\n    }\n]\n\nmsg.payload = basic_array\nreturn msg\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 200,
+        "wires": [
+            [
+                "3c3f473e6fd82473",
+                "26536e4ec1e28303"
+            ]
+        ]
+    },
+    {
+        "id": "3c3f473e6fd82473",
+        "type": "debug",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "b1301ed430a72925",
+        "type": "link in",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "Set Max Current In",
+        "links": [
+            "3f7bcc1f70c87c72"
+        ],
+        "x": 305,
+        "y": 160,
+        "wires": [
+            [
+                "1fcfcd105307888e"
             ]
         ]
     },

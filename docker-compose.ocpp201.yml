@@ -28,7 +28,8 @@ services:
       - "host.docker.internal:host-gateway"
 
   nodered:
-    image: ghcr.io/everest/everest-demo/nodered:${TAG}
+    # image: ghcr.io/everest/everest-demo/nodered:${TAG}
+    build: ./nodered
     depends_on:
       - mqtt-server
     ports:
