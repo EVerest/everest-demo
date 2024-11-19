@@ -2088,7 +2088,7 @@
         "topic": "everest_external/nodered/#/cmd/set_max_current",
         "topicType": "str",
         "min": "6",
-        "max": "32",
+        "max": "16",
         "step": "0.1",
         "className": "",
         "x": 450,
@@ -3800,7 +3800,7 @@
         "wires": [
             [
                 "1ef1dcc581d80607",
-                "45fbfa036a572ce9"
+                "61e3f2339b3e0da0"
             ]
         ]
     },
@@ -3827,7 +3827,7 @@
         "wires": [
             [
                 "15a95c5d894549e7",
-                "9b997430586ae6b5"
+                "31958f916cb20b65"
             ]
         ]
     },
@@ -4018,12 +4018,11 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 290,
+        "x": 190,
         "y": 200,
         "wires": [
             [
-                "3d44bdce67fb80de",
-                "b041a6efa19167c7"
+                "c050da8732b0983f"
             ]
         ]
     },
@@ -4517,7 +4516,7 @@
         "type": "function",
         "z": "9fe0155e5b3d31b1",
         "name": "convert_to_recurring_schedule",
-        "func": "const midas_schedule = flow.get(\"midas_schedule\");\n\n// Assumptions:\n// time ranges start and end at hour boundaries\n// there are no gaps (not sure how to handle gaps, we would probably need to have separate schedules)\n// since the duration is only in the schedule\n// logic for that seems too complicated right now\n// start date is hardcoded (can make it be dynamic if we assume that the first entry\n// has the earliest start date)\n\nconst schedulePeriods = midas_schedule.ValueInformation.map((entry) => {\n    return {\n        // we get the hour by splitting the time and taking the\n        // first entry, then we multiply by 3600 to get it in seconds\n        startPeriod: entry.TimeStart.split(\":\")[0] * 3600,\n        limit: entry.value,\n        numberPhases: 3\n    }\n});\nnode.warn(schedulePeriods);\n\n// based on section 3.6 of the OCPP spec\n\nconst final_schedule = {\n    \"id\": 100, \n    \"chargingProfileKind\": \"Recurring\",\n    \"chargingProfilePurpose\": \"TxDefaultProfile\",\n    \"recurrencyKind\": \"Daily\",\n    \"stackLevel\": 0,\n    \"chargingSchedule\": [\n    {\n        \"id\": 0,\n        \"chargingRateUnit\": \"A\",\n        \"chargingSchedulePeriod\": schedulePeriods,\n        \"duration\": 86400,\n        \"minChargingRate\": 0.0,\n        \"startSchedule\": new Date(\"2022-01-01T00:00:00Z\"),\n    }],\n}\n\n\n/*\nconst final_schedule = {\n    id: 100,\n    stackLevel: 0,\n    chargingProfilePurpose: \"TxDefaultProfile\",\n    chargingProfileKind: \"Recurring\",\n    recurrencyKind: \"Daily\",\n    chargingSchedule: {\n        id: 0,\n        duration: 86400,\n        chargingRateUnit: \"A\",\n        startSchedule: new Date(\"2022-01-01T00:00:00Z\").toString(),\n        chargingSchedulePeriod: schedulePeriods\n    }\n}\n*/\nreturn {payload: final_schedule};",
+        "func": "const midas_schedule = flow.get(\"midas_schedule\");\n\n// Assumptions:\n// time ranges start and end at hour boundaries\n// there are no gaps (not sure how to handle gaps, we would probably need to have separate schedules)\n// since the duration is only in the schedule\n// logic for that seems too complicated right now\n// start date is hardcoded (can make it be dynamic if we assume that the first entry\n// has the earliest start date)\n\nconst schedulePeriods = midas_schedule.ValueInformation.map((entry) => {\n    return {\n        // we get the hour by splitting the time and taking the\n        // first entry, then we multiply by 3600 to get it in seconds\n        startPeriod: entry.TimeStart.split(\":\")[0] * 3600,\n        limit: entry.value,\n        numberPhases: 3\n    }\n});\nnode.warn(schedulePeriods);\n\n// based on section 3.6 of the OCPP spec\n\nconst final_schedule = {\n    \"id\": 100, \n    \"chargingProfileKind\": \"Recurring\",\n    \"chargingProfilePurpose\": \"TxDefaultProfile\",\n    \"recurrencyKind\": \"Daily\",\n    \"stackLevel\": 0,\n    \"chargingSchedule\": [\n    {\n        \"id\": 0,\n        \"chargingRateUnit\": \"A\",\n        \"chargingSchedulePeriod\": schedulePeriods,\n        \"duration\": 86400,\n        \"minChargingRate\": 0.0,\n        \"startSchedule\": new Date(\"2022-01-01T08:00:00Z\"),\n    }],\n}\n\n\n/*\nconst final_schedule = {\n    id: 100,\n    stackLevel: 0,\n    chargingProfilePurpose: \"TxDefaultProfile\",\n    chargingProfileKind: \"Recurring\",\n    recurrencyKind: \"Daily\",\n    chargingSchedule: {\n        id: 0,\n        duration: 86400,\n        chargingRateUnit: \"A\",\n        startSchedule: new Date(\"2022-01-01T00:00:00Z\").toString(),\n        chargingSchedulePeriod: schedulePeriods\n    }\n}\n*/\nreturn {payload: final_schedule};",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -4538,7 +4537,7 @@
         "type": "function",
         "z": "9fe0155e5b3d31b1",
         "name": "massage_and_rescale",
-        "func": "// The MIDAS data currently has tariffs, which we don't support\n// we want to actually get curtailment data,\n// but don't have time to coordinate with CARB\n// so let's massage the tariff data to look like a curtailment.\n// Steps:\n// find the range of tariff changes\n// assume that range of current changes is from 0-48 (45)\n// Determine the scaling factor\n// determine the increment over the minimum tariff\n// apply the scaling factor\n// more tariff = lower usage, so subtract from the max current\n\nnode.warn(msg.payload);\nconst original_value_objs = msg.payload.ValueInformation;\nconst original_values = original_value_objs.map((entry) => {\n    return entry.value;\n})\nconst min_original = Math.min(...original_values);\nconst max_original = Math.max(...original_values);\nconst scaling_factor = 48 / (max_original - min_original);\nnode.warn(\"min_original = \"+min_original+\" max original \"+max_original+\" scaling_factor\" + scaling_factor);\nconst new_value_objs = original_value_objs.map((entry) => {\n    entry.value = 48 - ((entry.value - min_original) * scaling_factor);\n    entry.Unit = 'A';\n    return entry;\n});\nmsg.payload.ValueInformation = new_value_objs;\nreturn msg;",
+        "func": "// The MIDAS data currently has tariffs, which we don't support\n// we want to actually get curtailment data,\n// but don't have time to coordinate with CARB\n// so let's massage the tariff data to look like a curtailment.\n// Steps:\n// find the range of tariff changes\n// assume that range of current changes is from 0-16 (45)\n// Determine the scaling factor\n// determine the increment over the minimum tariff\n// apply the scaling factor\n// more tariff = lower usage, so subtract from the max current\n\nnode.warn(msg.payload);\nconst original_value_objs = msg.payload.ValueInformation;\nconst original_values = original_value_objs.map((entry) => {\n    return entry.value;\n})\nconst min_original = Math.min(...original_values);\nconst max_original = Math.max(...original_values);\nconst scaling_factor = 16 / (max_original - min_original);\nnode.warn(\"min_original = \"+min_original+\" max original \"+max_original+\" scaling_factor\" + scaling_factor);\nconst new_value_objs = original_value_objs.map((entry) => {\n    entry.value = 16 - ((entry.value - min_original) * scaling_factor);\n    entry.Unit = 'A';\n    return entry;\n});\nmsg.payload.ValueInformation = new_value_objs;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -4592,7 +4591,7 @@
         "xformat": "HH:mm:ss",
         "interpolate": "linear",
         "nodata": "",
-        "dot": false,
+        "dot": true,
         "ymin": "",
         "ymax": "",
         "removeOlder": "3",
@@ -4717,6 +4716,67 @@
         "wires": [
             [
                 "84cf15f37335a643"
+            ]
+        ]
+    },
+    {
+        "id": "c050da8732b0983f",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "convert_to_local_time",
+        "func": "node.warn(\"Converting \"+new Date(msg.payload)+ \" to \"+ new Date(msg.payload - 8*3600*1000))\nmsg.payload = msg.payload - 8 * 3600 * 1000\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 200,
+        "wires": [
+            [
+                "3d44bdce67fb80de",
+                "b041a6efa19167c7"
+            ]
+        ]
+    },
+    {
+        "id": "61e3f2339b3e0da0",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "convert_to_utc",
+        "func": "msg.payload = msg.payload + 8 * 3600 * 1000\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 20,
+        "wires": [
+            [
+                "45fbfa036a572ce9"
+            ]
+        ]
+    },
+    {
+        "id": "31958f916cb20b65",
+        "type": "function",
+        "z": "9fe0155e5b3d31b1",
+        "name": "convert_to_utc",
+        "func": "msg.payload = msg.payload + 8 * 3600 * 1000\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 20,
+        "wires": [
+            [
+                "9b997430586ae6b5"
             ]
         ]
     }
