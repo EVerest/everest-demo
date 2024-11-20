@@ -15,7 +15,7 @@ LQRchargeCurve
 @author: ANAND
 """
 # KS is btwn 1 and 20
-def LQRChargeCurve(DepTime, EAmount, KS):
+def LQRChargeCurve(DepTime, EAmount, PMax, KS):
     # system matrices
     A=np.array([[0]])
     B=np.array([[1]])
@@ -53,6 +53,7 @@ def LQRChargeCurve(DepTime, EAmount, KS):
     # define the input for closed-loop simulation
     inputCL=np.zeros(shape=(1,numberSamples))
     inputCL[0,:]=xd*np.ones(numberSamples)
+    print(f"Created input array with {EAmount=} and {numberSamples=}")
     returnSimulationCL = ct.forced_response(sysStateSpaceCl,
                                           timeVector,
                                           inputCL,
@@ -76,14 +77,13 @@ def LQRChargeCurve(DepTime, EAmount, KS):
 
     @author Katie
 '''
-def formatCurveData(yc, uc, tc):
+def formatCurveData(profile_entry_list):
     # Node-RED expects watts & miliseconds
-    yc_curve = [{"x": float(x), "y": float(y) * 1000} for x, y in zip(yc, tc)]
-    uc_curve = [{"x": float(x), "y": float(y) * 1000} for x, y in zip(uc, tc)] 
+    yc_curve = [{"x": float(ped.start), "y": float(ped.max_power.value)} for ped in profile_entry_list]
     return {
-      "series": ["A", "B"],
-      "data": [yc_curve, uc_curve],
-      "labels": ["r1", "r2"]
+      "series": ["A"],
+      "data": [yc_curve],
+      "labels": ["r1"]
     }
 
 
