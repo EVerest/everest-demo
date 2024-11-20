@@ -2975,51 +2975,7 @@
         "x": 335,
         "y": 180,
         "wires": [
-            [
-                "7fb3b32cfa15b5ee"
-            ]
-        ]
-    },
-    {
-        "id": "2a382e0be60110c8",
-        "type": "exec",
-        "z": "6e0f6f4f7ec3c163",
-        "command": "",
-        "addpay": "payload",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "",
-        "x": 650,
-        "y": 220,
-        "wires": [
-            [
-                "af6292bfc559bd14"
-            ],
-            [],
             []
-        ]
-    },
-    {
-        "id": "7fb3b32cfa15b5ee",
-        "type": "function",
-        "z": "6e0f6f4f7ec3c163",
-        "name": "Generate Python Call",
-        "func": "const dt = global.get('sim_departure_time')\nconst eamount = global.get('sim_eamount')\nconst ks = 1\n// The path to environment should match the path defined in `/everest-demo/nodered/Dockerfile`\nconst path_to_environment = '/usr/src/node-red/python_environments/everest/bin/'\n\nmsg.payload = `${path_to_environment}python3 /bin/scripts/preview_curve_4_nodered.py ${dt} ${eamount} ${ks}`\nmsg.topic = 'power_curve_preview'\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 480,
-        "y": 220,
-        "wires": [
-            [
-                "2a382e0be60110c8"
-            ]
         ]
     },
     {
@@ -3079,28 +3035,7 @@
         "y": 180,
         "wires": [
             [
-                "ec57465ae1fcac39",
                 "f33ec375c7595743"
-            ]
-        ]
-    },
-    {
-        "id": "ec57465ae1fcac39",
-        "type": "function",
-        "z": "6e0f6f4f7ec3c163",
-        "name": "Split Curve: Power Draw",
-        "func": "let draw_curve = {\n    \"series\": [msg.payload[0].series[1]],\n    \"data\": [msg.payload[0].data[1]],\n    \"labels\": [msg.payload[0].labels[1]]\n}\n\nlet time_scale = 1\nlet scale = 1000\nif (msg.topic === 'power_curve_preview') {\n    scale = 1000\n    time_scale = 1000\n    draw_curve.data[0] = draw_curve.data[0].map(item => {\n    return {\n        x: item.x * time_scale, // Chart expects miliseconds, convert\n        y: item.y * scale // Convert miliwatt to watt\n    };\n});\n}\nelse {\n    draw_curve.data[0] = draw_curve.data[0].map(item => {\n    // Patch 4 scale, need to fix in manager later\n    return {\n        x: item.y * time_scale, \n        y: item.x * scale // Convert miliwatt to watt\n    };\n});\n}\n\nmsg.payload = [draw_curve]\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1310,
-        "y": 200,
-        "wires": [
-            [
-                "978e5f5f5abdd816"
             ]
         ]
     },
@@ -3108,19 +3043,20 @@
         "id": "f33ec375c7595743",
         "type": "function",
         "z": "6e0f6f4f7ec3c163",
-        "name": "Split Curve: Proggress to EAMount",
-        "func": "progress_curve = {\n    \"series\": [msg.payload[0].series[0]],\n    \"data\": [msg.payload[0].data[0]],\n    \"labels\": [msg.payload[0].labels[0]]\n}\nlet time_scale = 1\nlet scale = 1\nif (msg.topic === 'power_curve_preview') {\n    time_scale = 1000\n    scale = 1\n}\n\nprogress_curve.data[0] = progress_curve.data[0].map(item => {\n    return {\n        x: item.y * time_scale, // X & Y need swapped\n        y: item.x / scale // eamount progress\n    };\n});\n\nmsg.payload = [progress_curve]\n\nreturn msg;\n",
+        "name": "Split Curve: Power draw",
+        "func": "progress_curve = {\n    \"series\": [msg.payload[0].series[0]],\n    \"data\": [msg.payload[0].data[0]],\n    \"labels\": [msg.payload[0].labels[0]]\n}\nlet time_scale = 1000\nlet scale = 1000\n\nprogress_curve.data[0] = progress_curve.data[0].map(item => {\n    return {\n        x: flow.get(\"charging_start_ts\") + item.y * time_scale, // X & Y need swapped\n        y: item.x / scale // eamount progress\n    };\n});\n\n\nmsg.payload = [progress_curve]\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1340,
+        "x": 1310,
         "y": 160,
         "wires": [
             [
-                "3a88d2530c5a3041"
+                "3a88d2530c5a3041",
+                "48810353c6d0ecb8"
             ]
         ]
     },
@@ -3396,7 +3332,7 @@
         "type": "function",
         "z": "6e0f6f4f7ec3c163",
         "name": "Reset Graph after Charge",
-        "func": "if (msg.payload === \"Idle\") {\n    return msg;\n}",
+        "func": "if (msg.payload === \"Idle\") {\n    return {payload: {}};\n}",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -3407,7 +3343,7 @@
         "y": 220,
         "wires": [
             [
-                "7fb3b32cfa15b5ee"
+                "3a88d2530c5a3041"
             ]
         ]
     },
@@ -3416,7 +3352,7 @@
         "type": "function",
         "z": "6e0f6f4f7ec3c163",
         "name": "SetLocalChargingState",
-        "func": "flow.set(\"charging_status\",msg.payload)\nreturn msg;",
+        "func": "flow.set(\"charging_status\",msg.payload)\nif (msg.payload === \"Charging\") {\n    flow.set(\"charging_start_ts\", new Date().getTime());\n}\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -3438,7 +3374,7 @@
         "order": 1,
         "width": 0,
         "height": 0,
-        "label": "Progress to EAmount",
+        "label": "Current Power curve",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -3452,7 +3388,7 @@
         "removeOlderUnit": "3600",
         "cutout": 0,
         "useOneColor": false,
-        "useUTC": false,
+        "useUTC": true,
         "colors": [
             "#1f77b4",
             "#aec7e8",
@@ -3469,50 +3405,6 @@
         "className": "",
         "x": 1700,
         "y": 160,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "978e5f5f5abdd816",
-        "type": "ui_chart",
-        "z": "6e0f6f4f7ec3c163",
-        "name": "",
-        "group": "ab3d4f6881421599",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "label": "Power Draw over Time",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": 1,
-        "removeOlderPoints": "",
-        "removeOlderUnit": "3600",
-        "cutout": 0,
-        "useOneColor": false,
-        "useUTC": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "useDifferentColor": false,
-        "className": "",
-        "x": 1700,
-        "y": 200,
         "wires": [
             []
         ]
@@ -3545,6 +3437,22 @@
                 "142ed5afefab1cfd"
             ]
         ]
+    },
+    {
+        "id": "48810353c6d0ecb8",
+        "type": "debug",
+        "z": "6e0f6f4f7ec3c163",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1560,
+        "y": 60,
+        "wires": []
     },
     {
         "id": "1ef1dcc581d80607",
