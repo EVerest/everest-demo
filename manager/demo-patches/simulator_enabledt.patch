@@ -1,5 +1,5 @@
---- /ext/dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/simulator.py
-+++ /ext/dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/simulator.py
+--- /ext/dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/simulator.py	2024-11-20 09:51:36.878132628 +0000
++++ /ext/dist/libexec/everest/3rd_party/josev/iso15118/evcc/controller/simulator.py	2024-11-20 09:51:36.878132628 +0000
 @@ -7,6 +7,7 @@
  import logging
  import random
@@ -32,7 +32,7 @@
  from iso15118.shared.settings import get_PKI_PATH
  
  logger = logging.getLogger(__name__)
-@@ -283,7 +294,7 @@
+@@ -290,7 +301,7 @@
          dc_charge_params = None
  
          if (await self.get_energy_transfer_mode(protocol)).startswith("AC"):
@@ -41,7 +41,7 @@
                                   unit=UnitSymbol.WATT_HOURS)
              ev_max_voltage = PVEVMaxVoltage(
                  multiplier=0, value=400, unit=UnitSymbol.VOLTAGE
-@@ -295,7 +306,7 @@
+@@ -302,7 +313,7 @@
                  multiplier=0, value=10, unit=UnitSymbol.AMPERE
              )
              ac_charge_params = ACEVChargeParameter(
@@ -50,7 +50,7 @@
                  e_amount=e_amount,
                  ev_max_voltage=ev_max_voltage,
                  ev_max_current=ev_max_current,
-@@ -306,7 +317,7 @@
+@@ -313,7 +324,7 @@
                  multiplier=1, value=6000, unit=UnitSymbol.WATT_HOURS
              )
              dc_charge_params = DCEVChargeParameter(
@@ -59,7 +59,7 @@
                  dc_ev_status=await self.get_dc_ev_status(),
                  ev_maximum_current_limit=self.dc_ev_charge_params.dc_max_current_limit,
                  ev_maximum_power_limit=self.dc_ev_charge_params.dc_max_power_limit,
-@@ -422,7 +433,7 @@
+@@ -429,7 +440,7 @@
          )
  
          scheduled_params = ScheduledScheduleExchangeReqParams(
@@ -68,7 +68,7 @@
              ev_target_energy_request=RationalNumber(exponent=3, value=10),
              ev_max_energy_request=RationalNumber(exponent=3, value=20),
              ev_min_energy_request=RationalNumber(exponent=-2, value=5),
-@@ -436,7 +447,7 @@
+@@ -443,7 +454,7 @@
      ) -> DynamicScheduleExchangeReqParams:
          """Overrides EVControllerInterface.get_dynamic_se_params()."""
          dynamic_params = DynamicScheduleExchangeReqParams(
@@ -77,7 +77,7 @@
              min_soc=30,
              target_soc=80,
              ev_target_energy_request=RationalNumber(exponent=3, value=40),
-@@ -577,12 +588,15 @@
+@@ -584,12 +595,15 @@
          return schedule.sa_schedule_tuple_id
  
      async def process_sa_schedules_v2(
@@ -94,18 +94,22 @@
          # The charging schedule coming from the SECC is called 'schedule', the
          # pendant coming from the EVCC (after having processed the offered
          # schedule(s)) is called 'profile'. Therefore, we use the prefix
-@@ -610,13 +624,43 @@
+@@ -617,13 +631,48 @@
                  )
                  evcc_profile_entry_list.append(last_profile_entry_details)
  
 +        print("Done processing schedules...")
 +        # Set Curve Variables...
++        print("About to handle pmax schedule %s" % secc_schedule.p_max_schedule.schedule_entries[0])
++        p_max = secc_schedule.p_max_schedule.schedule_entries[0].p_max
++        pmax:float = p_max.value * pow(10, p_max.multiplier)
++        print(f"{pmax=}")
 +        departure_time = secc_schedule.p_max_schedule.schedule_entries[0].time_interval.duration
 +        new_schedule = evcc_profile_entry_list
 +        print("Abt to generate Curve...", time_elapsed)
 +        if (time_elapsed  > departure_time):
 +            print("End of Profile! Defaulting to EVCC profile enteries")
-+        elif (departure_time != 86400):
++        else:
 +            ks = 1
 +            # Check EAmount
 +            mqtt_publish.single("everest_external/nodered/{}/evcc/check_eamount", "test", hostname="mqtt-server")
@@ -119,13 +123,14 @@
 +                ks = 10
 +            else: # == algorithm_two
 +                ks = 1
-+            power_draw_progress, power_draw, time_vector = LQRChargeCurve(departure_time, eamount, ks)
-+            formatted_curve = formatCurveData(power_draw_progress,power_draw,time_vector)
++            power_draw_progress, power_draw, time_vector = LQRChargeCurve(departure_time, eamount, pmax, ks)
 +            print(f"About to generate a new schedule with a EVCC_Profile {evcc_profile_entry_list}")
 +            new_schedule = generate_new_schedule(evcc_profile_entry_list, power_draw, time_vector, departure_time, time_elapsed)
 +            print(f"New schedule of length {len(new_schedule)} created")
 +
++            formatted_curve = formatCurveData(new_schedule)
 +            # Then Re-Publish the chosen curve as the final selection
++            print(f"About to publish {str(formatted_curve)=}")
 +            mqtt_publish.single("everest_external/nodered/{}/evcc/active_powercurve", str(formatted_curve), hostname="mqtt-server")
 +
          # TODO If a SalesTariff is present and digitally signed (and TLS is used),
@@ -139,7 +144,7 @@
          )
  
      async def continue_charging(self) -> bool:
-@@ -753,7 +797,7 @@
+@@ -760,7 +809,7 @@
          else:
              # Dynamic Mode
              dynamic_params = DynamicACChargeLoopReqParams(
@@ -148,7 +153,7 @@
                  ev_target_energy_request=RationalNumber(exponent=3, value=40),
                  ev_max_energy_request=RationalNumber(exponent=3, value=60),
                  ev_min_energy_request=RationalNumber(exponent=3, value=-20),
-@@ -905,7 +949,7 @@
+@@ -912,7 +961,7 @@
              multiplier=1, value=6000, unit=UnitSymbol.WATT_HOURS
          )
          dc_charge_params = DCEVChargeParameter(
