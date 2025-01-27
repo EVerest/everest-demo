@@ -26,7 +26,7 @@ services:
       retries: 3
 
   gateway:
-    image: ghcr.io/everest/everest-demo/maeve-gateway:${TAG}
+    image: ghcr.io/everest/everest-demo/maeve-gateway:0.0.23
     depends_on:
       mqtt:
         condition: service_healthy
@@ -67,7 +67,7 @@ services:
     user: "${UID}:${GID}"
 
   manager:
-    image: ghcr.io/everest/everest-demo/maeve-manager:${TAG}
+    image: ghcr.io/everest/everest-demo/maeve-manager:working_notify_limit
     build:
       context: manager
     depends_on:
