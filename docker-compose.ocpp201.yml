@@ -10,7 +10,7 @@ services:
       driver: none
 
   manager:
-    image: ghcr.io/everest/everest-demo/manager:${TAG}
+    image: ghcr.io/everest/everest-demo/manager:working_notify_limit
     platform: linux/x86_64
     deploy:
       resources:
@@ -28,7 +28,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   nodered:
-    image: ghcr.io/everest/everest-demo/nodered:${TAG}
+    image: ghcr.io/everest/everest-demo/nodered:working_notify_limit
     depends_on:
       - mqtt-server
     ports:
