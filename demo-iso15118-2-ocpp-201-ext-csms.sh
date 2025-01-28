@@ -69,7 +69,7 @@ trap delete_temporary_directory EXIT
 
 if [[ -z "${CSMS_SP1_URL}" ]]; then
   echo 'Error: no csms url provided.'
-  echp
+  echo
   echo 'set with export CSMS_SP1_URL="url"'
 
   exit 1
