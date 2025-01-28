@@ -303,11 +303,11 @@
     {
         "id": "0e8d234f60b178a8",
         "type": "ui_group",
-        "name": "External Limits",
+        "name": "Charging Network Limit",
         "tab": "d3ada9fa4cf6ac53",
         "order": 4,
         "disp": true,
-        "width": 6,
+        "width": "6",
         "collapse": false,
         "className": ""
     },

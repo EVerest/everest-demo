@@ -37,7 +37,8 @@ RUN git clone https://github.com/EVerest/everest-core.git \
 # it there. But this is what we have to work with :(
 
 RUN bash /tmp/demo-patch-scripts/apply-library-patches.sh
-RUN /entrypoint.sh run-script compile
+RUN    /entrypoint.sh run-script compile \
+    && /entrypoint.sh run-script install
 
 # cleanup
 RUN apt-get -y remove --purge build-essential
