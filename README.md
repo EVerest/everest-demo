@@ -73,6 +73,9 @@ should open the associated containers
   - **OCPP basic and ISO 15118-2 AC Charging with OCPP 2.0.1 CSMS (MaEVe Security Profile 2):** `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ocpp-201.sh | bash -s -- -2`
   - **OCPP basic and ISO 15118-2 AC Charging with OCPP 2.0.1 CSMS (MaEVe Security Profile 3):** `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ocpp-201.sh | bash -s -- -3`
   - **OCPP basic and ISO 15118-2 AC Charging with OCPP 2.0.1 CSMS (CitrineOS Security Profile 1):** `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ocpp-201.sh | bash -s -- -c -1`
+  - **External CSMS**
+    - Set the url of CSMS with echo 'set with export CSMS_SP1_URL="url"'
+    - `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ocpp-201-ext-csms.sh | bash -s -- -1`
 
 ### Step 2: Open Demo Interface and Supporting Materials
 
