@@ -76,6 +76,7 @@ should open the associated containers
   - **External CSMS**
     - Set the url of CSMS with `export CSMS_SP1_URL=your_url_here` ie `export CSMS_SP1_URL="ws://host.docker.internal/ws/cp001"`
     - `curl https://raw.githubusercontent.com/everest/everest-demo/main/demo-iso15118-2-ocpp-201-ext-csms.sh | bash -s -- -1`
+    - NOTE: only security profile 1 (-1) is tested and known to work at this time
 
 ### Step 2: Open Demo Interface and Supporting Materials
 
