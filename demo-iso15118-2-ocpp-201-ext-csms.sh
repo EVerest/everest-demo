@@ -114,7 +114,7 @@ fi
 
 if [[ "$DEMO_VERSION" =~ sp1 ]]; then
 echo "Configured to SecurityProfile: 1, disabling TLS and configuring server to ${CSMS_SP1_URL}"
-docker exec everest-ac-demo-manager-1 /bin/bash -c "sed -i 's#ws://localhost:9000#${CSMS_SP1_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
+docker exec everest-ac-demo-manager-1 /bin/bash -c "sed -i 's#host.docker.internal#${CSMS_SP1_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
 docker cp manager/disable_iso_tls.patch everest-ac-demo-manager-1:/tmp/
 docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source && patch -p0 -i /tmp/disable_iso_tls.patch"
 elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
