@@ -25,7 +25,7 @@ where:
 
 
 DEMO_VERSION=
-DEMO_COMPOSE_FILE_NAME=
+DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml"
 DEMO_CSMS=maeve
 
 # loop through positional options/arguments
@@ -33,12 +33,9 @@ while getopts ':r:b:123chm' option; do
   case "$option" in
     r)  DEMO_REPO="$OPTARG" ;;
     b)  DEMO_BRANCH="$OPTARG" ;;
-    1)  DEMO_VERSION="v2.0.1-sp1"
-        DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
-    2)  DEMO_VERSION="v2.0.1-sp2"
-        DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
-    3)  DEMO_VERSION="v2.0.1-sp3"
-        DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml" ;;
+    1)  DEMO_VERSION="v2.0.1-sp1" ;;
+    2)  DEMO_VERSION="v2.0.1-sp2" ;;
+    3)  DEMO_VERSION="v2.0.1-sp3" ;;
     c)  DEMO_CSMS="citrineos" ;;
     m)  START_OPTION="manual" ;;
     h)  echo -e "$usage"; exit ;;
@@ -126,30 +123,13 @@ pushd everest-demo || exit 1
 echo "API calls to CSMS finished, Starting everest"
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
 docker cp manager/config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
-docker exec everest-ac-demo-manager-1 rm /ext/dist/share/everest/modules/OCPP201/component_config/custom/EVSE_2.json
-docker exec everest-ac-demo-manager-1 rm /ext/dist/share/everest/modules/OCPP201/component_config/custom/Connector_2_1.json
-
-if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
-  docker cp manager/cached_certs_correct_name_emaid.tar.gz everest-ac-demo-manager-1:/ext/source/build
-  docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source/build && tar xf cached_certs_correct_name_emaid.tar.gz"
-
-  echo "Configured everest certs, validating that the chain is set up correctly"
-  docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source/build && openssl verify -show_chain -CAfile dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA1.pem --untrusted dist/etc/everest/certs/ca/csms/CPO_SUB_CA2.pem dist/etc/everest/certs/client/csms/CSMS_LEAF.pem"
-fi
-
-if [[ "$DEMO_VERSION" =~ sp1 ]]; then
-echo "Configured to SecurityProfile: 1, disabling TLS and configuring server to ${CSMS_SP1_URL}"
-docker exec everest-ac-demo-manager-1 /bin/bash -c "sed -i 's#ws://localhost:9000#${CSMS_SP1_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
-docker cp manager/disable_iso_tls.patch everest-ac-demo-manager-1:/tmp/
-docker exec everest-ac-demo-manager-1 /bin/bash -c "pushd /ext/source && patch -p0 -i /tmp/disable_iso_tls.patch"
-elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
-echo "Configured to SecurityProfile: 2, configuring server to  ${CSMS_SP2_URL}"
-docker exec everest-ac-demo-manager-1 /bin/bash -c "sed -i 's#ws://localhost:9000#${CSMS_SP2_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
-elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
-echo "Running with SP3, TLS should be enabled"
-echo "Configured to SecurityProfile: 2, configuring server to  ${CSMS_SP3_URL}"
-docker exec everest-ac-demo-manager-1 /bin/bash -c "sed -i 's#ws://localhost:9000#${CSMS_SP3_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
-fi
+docker exec \
+        -e DEMO_VERSION=${DEMO_VERSION} \
+        -e CSMS_SP1_URL=${CSMS_SP1_URL} \
+        -e CSMS_SP2_URL=${CSMS_SP2_URL} \
+        -e CSMS_SP3_URL=${CSMS_SP3_URL} \
+        everest-ac-demo-manager-1 \
+        /bin/bash /tmp/ocpp201-sp-config.sh
 
 if [[ "$START_OPTION" == "auto" ]]; then
   echo "Starting software in the loop simulation automatically"
