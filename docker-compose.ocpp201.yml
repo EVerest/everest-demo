@@ -3,15 +3,13 @@ version: "3.6"
 services:
   mqtt-server:
     image: ghcr.io/everest/everest-demo/mqtt-server:${TAG}
-    platform: linux/x86_64
     ports:
       - 2727:1883 # (CSCS)
     logging:
       driver: none
 
   manager:
-    image: ghcr.io/everest/everest-demo/manager:working_notify_limit
-    platform: linux/x86_64
+    image: ghcr.io/everest/everest-demo/manager:${TAG}
     deploy:
       resources:
         limits:
@@ -28,7 +26,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   nodered:
-    image: ghcr.io/everest/everest-demo/nodered:working_notify_limit
+    image: ghcr.io/everest/everest-demo/nodered:${TAG}
     depends_on:
       - mqtt-server
     ports:

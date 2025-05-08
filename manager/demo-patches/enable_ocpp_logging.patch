@@ -1,33 +1,32 @@
---- /ext/cache/cpm/libocpp/56452082640eeee05feec42f2f502d6beb8e684c/libocpp/lib/ocpp/v201/charge_point.cpp
-+++ /ext/cache/cpm/libocpp/56452082640eeee05feec42f2f502d6beb8e684c/libocpp/lib/ocpp/v201/charge_point.cpp
-@@ -3358,7 +3358,7 @@
+--- /ext/cache/cpm/libocpp/d84451d775fdc545cd345d552061af128c9c2465/libocpp/lib/ocpp/v2/functional_blocks/smart_charging.cpp
++++ /ext/cache/cpm/libocpp/d84451d775fdc545cd345d552061af128c9c2465/libocpp/lib/ocpp/v2/functional_blocks/smart_charging.cpp
+@@ -696,7 +696,7 @@ void SmartCharging::notify_ev_charging_needs_req(const NotifyEVChargingNeedsRequ
  }
- 
- void ChargePoint::handle_set_charging_profile_req(Call<SetChargingProfileRequest> call) {
+
+ void SmartCharging::handle_set_charging_profile_req(Call<SetChargingProfileRequest> call) {
 -    EVLOG_debug << "Received SetChargingProfileRequest: " << call.msg << "\nwith messageId: " << call.uniqueId;
 +    EVLOG_info << "Received SetChargingProfileRequest: " << call.msg << "\nwith messageId: " << call.uniqueId;
      auto msg = call.msg;
      SetChargingProfileResponse response;
      response.status = ChargingProfileStatusEnum::Rejected;
-@@ -3383,7 +3383,7 @@
+@@ -721,7 +721,7 @@ void SmartCharging::handle_set_charging_profile_req(Call<SetChargingProfileReque
          response.statusInfo = StatusInfo();
          response.statusInfo->reasonCode = "InvalidValue";
          response.statusInfo->additionalInfo = "ChargingStationExternalConstraintsInSetChargingProfileRequest";
 -        EVLOG_debug << "Rejecting SetChargingProfileRequest:\n reasonCode: " << response.statusInfo->reasonCode.get()
 +        EVLOG_info << "Rejecting SetChargingProfileRequest:\n reasonCode: " << response.statusInfo->reasonCode.get()
                      << "\nadditionalInfo: " << response.statusInfo->additionalInfo->get();
- 
+
          ocpp::CallResult<SetChargingProfileResponse> call_result(response, call.uniqueId);
-@@ -3394,10 +3394,10 @@
- 
-     response = this->smart_charging_handler->validate_and_add_profile(msg.chargingProfile, msg.evseId);
+@@ -732,10 +732,10 @@ void SmartCharging::handle_set_charging_profile_req(Call<SetChargingProfileReque
+
+     response = this->conform_validate_and_add_profile(msg.chargingProfile, msg.evseId);
      if (response.status == ChargingProfileStatusEnum::Accepted) {
 -        EVLOG_debug << "Accepting SetChargingProfileRequest";
 +        EVLOG_info << "Accepting SetChargingProfileRequest";
-         this->callbacks.set_charging_profiles_callback();
+         this->set_charging_profiles_callback();
      } else {
 -        EVLOG_debug << "Rejecting SetChargingProfileRequest:\n reasonCode: " << response.statusInfo->reasonCode.get()
 +        EVLOG_info << "Rejecting SetChargingProfileRequest:\n reasonCode: " << response.statusInfo->reasonCode.get()
                      << "\nadditionalInfo: " << response.statusInfo->additionalInfo->get();
      }
- 

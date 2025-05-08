@@ -1,6 +1,6 @@
-FROM ghcr.io/everest/everest-ci/build-kit-base:v1.4.2
+FROM ghcr.io/catarial/everest-ci/build-kit-base:v1.5.2
 
-ARG EVEREST_VERSION=2024.9.0
+ARG EVEREST_VERSION=2025.3.0
 ENV EVEREST_VERSION=${EVEREST_VERSION}
 
 RUN echo "Copying compile-time patches before starting compile"
