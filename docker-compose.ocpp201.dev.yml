@@ -17,9 +17,10 @@ services:
       - MQTT_SERVER_ADDRESS=mqtt-server
       - DEMO_CSMS=maeve
       - DEMO_VERSION=v2.0.1-sp1
-      - CSMS_SP1_URL=ws://host.docker.internal/ws/cp001
-      - CSMS_SP2_URL=wss://host.docker.internal/ws/cp001
-      - CSMS_SP3_URL=wss://host.docker.internal/ws/cp001
+      - CHARGE_STATION_ID=cp001
+      - CSMS_SP1_BASE=ws://host.docker.internal/ws
+      - CSMS_SP2_BASE=wss://host.docker.internal/ws
+      - CSMS_SP3_BASE=wss://host.docker.internal/ws
     entrypoint: "tail -f /dev/null"
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0

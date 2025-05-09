@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-export CSMS_SP1_URL="ws://host.docker.internal/ws/cp001"
-export CSMS_SP2_URL="wss://host.docker.internal/ws/cp001"
-export CSMS_SP3_URL="wss://host.docker.internal/ws/cp001"
+export CSMS_SP1_BASE="ws://host.docker.internal/ws"
+export CSMS_SP2_BASE="wss://host.docker.internal/ws"
+export CSMS_SP3_BASE="wss://host.docker.internal/ws"
 
   if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
     echo "Patching the CSMS to enable EVerest organization"

@@ -1,3 +1,4 @@
+#!/bin/bash
 /entrypoint.sh run-script compile
 /entrypoint.sh run-script install
 

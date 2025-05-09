@@ -342,6 +342,7 @@ these containers, so it can be edited locally, and for compiling and
 reconfiguring so that it works.
 
 Steps (can be edited to be more clear, currently only works for the OCPP 201 demo):
+
 - Set up the CSMS:
     - run the `demo-iso15118-2-ocpp-201.sh` script to set up the CSMS
     - delete the everest containers
@@ -357,6 +358,7 @@ Steps (can be edited to be more clear, currently only works for the OCPP 201 dem
 - You should now have the source code available at `$CONTAINER_EXT_PATH/source`.
   `$CONTAINER_EXT_PATH/cache` (for libraries) and `$CONTAINER_EXT_PATH/dist`
    (for the binary distribution) might also be helpful
+- Compile for the first time `bash /tmp/dev-build-install-configure.sh`
 - Apply library patches; you should only need to do this once, but it must
   happen after the initial compile because that pulls down the libraries
   `bash /tmp/demo-patch-scripts/apply-library-patches.sh`
@@ -367,6 +369,8 @@ Steps (can be edited to be more clear, currently only works for the OCPP 201 dem
 - After your changes are finalized, don't forget to convert them into patches
   using `git diff` and putting them into the manager so that the final
   precompiled images can be pushed up
-
-
-- Create the initial installation ``
+- On MaEVe, if you want to register the dev station with a different
+  `station_id` (maybe so that you can compare the behavior with and without
+  your changes, you can edit the `docker-compose.ocpp201.dev.yml` and change
+  `cp001` to (say) `cpdev`.  In that case, you will also need to add the station
+  to the CSMS - e.g.  `DEMO_VERSION=sp1 CHARGE_STATION_ID=cpdev bash maeve/add-charger-and-rfid-card.sh`

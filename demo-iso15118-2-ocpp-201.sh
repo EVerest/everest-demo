@@ -3,6 +3,7 @@
 
 DEMO_REPO="https://github.com/everest/everest-demo.git"
 DEMO_BRANCH="main"
+CHARGE_STATION_ID="cp001"
 
 START_OPTION="auto"
 
@@ -16,6 +17,7 @@ directory to the -r option (e.g., '-r \$(pwd)').
 where:
     -r   URL to everest-demo repo to use (default: $DEMO_REPO, '$PWD' uses the current dir)
     -b   Branch of everest-demo repo to use (default: $DEMO_BRANCH)
+    -s   Charge Station ID (cp001 by default)
     -1   OCPP v2.0.1 Security Profile 1
     -2   OCPP v2.0.1 Security Profile 2
     -3   OCPP v2.0.1 Security Profile 3
@@ -29,10 +31,11 @@ DEMO_COMPOSE_FILE_NAME="docker-compose.ocpp201.yml"
 DEMO_CSMS=maeve
 
 # loop through positional options/arguments
-while getopts ':r:b:123chm' option; do
+while getopts ':r:b:s:123chm' option; do
   case "$option" in
     r)  DEMO_REPO="$OPTARG" ;;
     b)  DEMO_BRANCH="$OPTARG" ;;
+    s)  CHARGE_STATION_ID="$OPTARG" ;;
     1)  DEMO_VERSION="v2.0.1-sp1" ;;
     2)  DEMO_VERSION="v2.0.1-sp2" ;;
     3)  DEMO_VERSION="v2.0.1-sp3" ;;
@@ -73,9 +76,7 @@ echo "DEMO VERSION:     $DEMO_VERSION"
 echo "DEMO CONFIG:      $DEMO_COMPOSE_FILE_NAME"
 echo "DEMO DIR:         $DEMO_DIR"
 echo "DEMO CSMS:        $DEMO_CSMS"
-echo "CSMS_SP1_URL:     $CSMS_SP1_URL"
-echo "CSMS_SP2_URL:     $CSMS_SP2_URL"
-echo "CSMS_SP3_URL:     $CSMS_SP3_URL"
+echo "CHARGE STATION:   $CHARGE_STATION_ID"
 
 
 cd "${DEMO_DIR}" || exit 1
@@ -102,6 +103,10 @@ fi
 
   source ../${DEMO_CSMS}/apply-runtime-patches.sh
 
+  echo "CSMS_SP1_BASE:     $CSMS_SP1_BASE"
+  echo "CSMS_SP2_BASE:     $CSMS_SP2_BASE"
+  echo "CSMS_SP3_BASE:     $CSMS_SP3_BASE"
+
   if ! docker compose --project-name "${DEMO_CSMS}"-csms up -d --wait; then
       echo "Failed to start ${DEMO_CSMS}"
       exit 1
@@ -125,9 +130,10 @@ docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}"
 docker cp manager/config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
 docker exec \
         -e DEMO_VERSION=${DEMO_VERSION} \
-        -e CSMS_SP1_URL=${CSMS_SP1_URL} \
-        -e CSMS_SP2_URL=${CSMS_SP2_URL} \
-        -e CSMS_SP3_URL=${CSMS_SP3_URL} \
+        -e CSMS_SP1_BASE=${CSMS_SP1_BASE} \
+        -e CSMS_SP2_BASE=${CSMS_SP2_BASE} \
+        -e CSMS_SP3_BASE=${CSMS_SP3_BASE} \
+        -e CHARGE_STATION_ID=${CHARGE_STATION_ID} \
         everest-ac-demo-manager-1 \
         /bin/bash /tmp/ocpp201-sp-config.sh
 
