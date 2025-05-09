@@ -344,8 +344,8 @@ reconfiguring so that it works.
 Steps (can be edited to be more clear, currently only works for the OCPP 201 demo):
 
 - Set up the CSMS:
-    - run the `demo-iso15118-2-ocpp-201.sh` script to set up the CSMS
-    - delete the everest containers
+  - run the `demo-iso15118-2-ocpp-201.sh` script to set up the CSMS
+  - delete the everest containers
 - Set the `CONTAINER_EXT_PATH` variable to the location where you would like
   the everest source and dist to go. It should be an absolute path
   `export CONTAINER_EXT_PATH=/Users/...`
@@ -354,7 +354,7 @@ Steps (can be edited to be more clear, currently only works for the OCPP 201 dem
   parallel with the precompiled version for comparison.
   `docker compose -f docker-compose.ocpp201.dev.yml --project-name everest-dev-ocpp up -d`
 - Once the container has started, in the container:
-    - `(container)# bash /tmp/os-pkg-install.sh && bash /tmp/initial-install.sh`
+  - `(container)# bash /tmp/os-pkg-install.sh && bash /tmp/initial-install.sh`
 - You should now have the source code available at `$CONTAINER_EXT_PATH/source`.
   `$CONTAINER_EXT_PATH/cache` (for libraries) and `$CONTAINER_EXT_PATH/dist`
    (for the binary distribution) might also be helpful
@@ -363,9 +363,9 @@ Steps (can be edited to be more clear, currently only works for the OCPP 201 dem
   happen after the initial compile because that pulls down the libraries
   `bash /tmp/demo-patch-scripts/apply-library-patches.sh`
 - The build-deploy-test cycle would then be:
-    - make changes in `$CONTAINER_EXT_PATH` using the editor of your choice
-    - build in the container: `bash /tmp/dev-build-install-configure.sh`
-    - deploy in the container: `sh /ext/build/run-scripts/run-sil-ocpp201-pnc.sh`
+  - make changes in `$CONTAINER_EXT_PATH` using the editor of your choice
+  - build in the container: `bash /tmp/dev-build-install-configure.sh`
+  - deploy in the container: `sh /ext/build/run-scripts/run-sil-ocpp201-pnc.sh`
 - After your changes are finalized, don't forget to convert them into patches
   using `git diff` and putting them into the manager so that the final
   precompiled images can be pushed up

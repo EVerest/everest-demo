@@ -98,10 +98,10 @@ fi
   cp ../manager/cached_certs_correct_name_emaid.tar.gz .
 
   if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
-    source ../${DEMO_CSMS}/copy-certs.sh
+      source "../$DEMO_CSMS/copy-certs.sh"
   fi
 
-  source ../${DEMO_CSMS}/apply-runtime-patches.sh
+  source "../$DEMO_CSMS/apply-runtime-patches.sh"
 
   echo "CSMS_SP1_BASE:     $CSMS_SP1_BASE"
   echo "CSMS_SP2_BASE:     $CSMS_SP2_BASE"
@@ -119,8 +119,8 @@ fi
   sleep 5
 
   echo "Adding a charger and RFID card to ${DEMO_CSMS}"
-  source ../${DEMO_CSMS}/add-charger-and-rfid-card.sh
-
+  source "../{$DEMO_CSMS}/add-charger-and-rfid-card.sh"
+  
   popd || exit 1
 # END: Setting up the CSMS
 
@@ -129,11 +129,11 @@ echo "API calls to CSMS finished, Starting everest"
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
 docker cp manager/config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
 docker exec \
-        -e DEMO_VERSION=${DEMO_VERSION} \
-        -e CSMS_SP1_BASE=${CSMS_SP1_BASE} \
-        -e CSMS_SP2_BASE=${CSMS_SP2_BASE} \
-        -e CSMS_SP3_BASE=${CSMS_SP3_BASE} \
-        -e CHARGE_STATION_ID=${CHARGE_STATION_ID} \
+        -e DEMO_VERSION="${DEMO_VERSION}" \
+        -e CSMS_SP1_BASE="${CSMS_SP1_BASE}" \
+        -e CSMS_SP2_BASE="${CSMS_SP2_BASE}" \
+        -e CSMS_SP3_BASE="${CSMS_SP3_BASE}" \
+        -e CHARGE_STATION_ID="${CHARGE_STATION_ID}" \
         everest-ac-demo-manager-1 \
         /bin/bash /tmp/ocpp201-sp-config.sh
 
