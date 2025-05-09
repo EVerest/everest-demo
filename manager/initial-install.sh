@@ -1,7 +1,7 @@
 #!/bin/bash
 git clone https://github.com/EVerest/everest-core.git
 cd everest-core
-git checkout ${EVEREST_VERSION}
+git checkout "${EVEREST_VERSION}"
 cd ..
 mkdir -p /ext/scripts
 cp -r everest-core/.ci/build-kit/scripts/* /ext/scripts/
