@@ -17,7 +17,7 @@ fi
 if [[ "$DEMO_VERSION" =~ sp1 ]]; then
     echo "Configured to SecurityProfile: 1, disabling TLS and configuring server to ${CSMS_SP1_URL}"
     sed -i "s#ws://localhost:9000#${CSMS_SP1_URL}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
-    pushd /ext/source && patch -p0 -i /tmp/disable_iso_tls.patch && popd
+    pushd /ext/source && patch -N -p0 -i /tmp/disable_iso_tls.patch && popd
 elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
     echo "Configured to SecurityProfile: 2, configuring server to  ${CSMS_SP2_URL}"
     sed -i 's#ws://localhost:9000#${CSMS_SP2_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
