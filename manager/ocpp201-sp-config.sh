@@ -1,4 +1,5 @@
-echo "Applying generic OCPP configuration with ${DEMO_VERSION} and ${CSMS_SP1_URL}"
+#!/bin/bash
+echo "Applying generic OCPP configuration with ${DEMO_VERSION}, ${CSMS_SP1_BASE} and ${CHARGE_STATION_ID}"
 if [[ "$DEMO_VERSION" =~ sp1 || "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
     cp /tmp/config-sil-ocpp201-pnc.yaml /ext/source/config/config-sil-ocpp201-pnc.yaml
     rm /ext/dist/share/everest/modules/OCPP201/component_config/custom/EVSE_2.json
@@ -15,14 +16,23 @@ if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
 fi
 
 if [[ "$DEMO_VERSION" =~ sp1 ]]; then
+    CSMS_SP1_URL=${CSMS_SP1_BASE}/${CHARGE_STATION_ID}
     echo "Configured to SecurityProfile: 1, disabling TLS and configuring server to ${CSMS_SP1_URL}"
     sed -i "s#ws://localhost:9000#${CSMS_SP1_URL}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
     pushd /ext/source && patch -N -p0 -i /tmp/disable_iso_tls.patch && popd
 elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
+    CSMS_SP2_URL=${CSMS_SP2_BASE}/${CHARGE_STATION_ID}
     echo "Configured to SecurityProfile: 2, configuring server to  ${CSMS_SP2_URL}"
-    sed -i 's#ws://localhost:9000#${CSMS_SP2_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
+    sed -i "s#ws://localhost:9000#${CSMS_SP2_URL}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
 elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
+    CSMS_SP3_URL=${CSMS_SP3_BASE}/${CHARGE_STATION_ID}
     echo "Running with SP3, TLS should be enabled"
     echo "Configured to SecurityProfile: 2, configuring server to  ${CSMS_SP3_URL}"
-    sed -i 's#ws://localhost:9000#${CSMS_SP3_URL}#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
+    sed -i "s#ws://localhost:9000#${CSMS_SP3_URL}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
+fi
+
+if [[ "$CHARGE_STATION_ID" != cp001 ]]; then
+    echo "Found non-standard CHARGE_STATION_ID ${CHARGE_STATION_ID}, replacing in InternalCtrlr.json and SecurityCtrlr.json"
+    sed -i "s#cp001#${CHARGE_STATION_ID}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
+    sed -i "s#cp001#${CHARGE_STATION_ID}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json
 fi
