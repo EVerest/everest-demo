@@ -4,33 +4,38 @@ services:
   mqtt-server:
     image: ghcr.io/everest/everest-demo/mqtt-server:${TAG}
     ports:
-      - 2727:1883 # (CSCS)
+      - 3386:1883 # (CSCS)
     logging:
       driver: none
 
   manager:
-    image: ghcr.io/everest/everest-demo/manager:${TAG}
-    deploy:
-      resources:
-        limits:
-          cpus: "${EVEREST_MANAGER_CPUS}"
-          memory: "${EVEREST_MANAGER_MEMORY}"
+    image: ghcr.io/catarial/everest-ci/build-kit-base:v1.5.2
     depends_on:
       - mqtt-server
     environment:
+      - EVEREST_VERSION=2025.3.0
       - MQTT_SERVER_ADDRESS=mqtt-server
+      - DEMO_CSMS=maeve
+      - DEMO_VERSION=v2.0.1-sp1
+      - CHARGE_STATION_ID=cp001
+      - CSMS_SP1_BASE=ws://host.docker.internal/ws
+      - CSMS_SP2_BASE=wss://host.docker.internal/ws
+      - CSMS_SP3_BASE=wss://host.docker.internal/ws
     entrypoint: "tail -f /dev/null"
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - $CONTAINER_EXT_PATH:/ext
+      - $PWD/manager:/tmp
 
   nodered:
     image: ghcr.io/everest/everest-demo/nodered:${TAG}
     depends_on:
       - mqtt-server
     ports:
-      - 1880:1880
+      - 3388:1880
     environment:
       - MQTT_SERVER_ADDRESS=mqtt-server
       - FLOWS=/config/config-sil-iso15118-ac-flow.json

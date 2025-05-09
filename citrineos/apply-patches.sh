@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-export CSMS_SP1_URL="ws://host.docker.internal:8082/cp001"
-export CSMS_SP2_URL="wss://host.docker.internal:8443/cp001"
-export CSMS_SP3_URL="wss://host.docker.internal:8444/cp001"
+export CSMS_SP1_BASE="ws://host.docker.internal:8082"
+export CSMS_SP2_BASE="wss://host.docker.internal:8443"
+export CSMS_SP3_BASE="wss://host.docker.internal:8444"

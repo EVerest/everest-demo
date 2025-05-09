@@ -19,16 +19,16 @@ index 68c4900d..03425dc4 100644
              this->ocpp_charging_schedule = schedule;
              this->ocpp_charging_schedule_updated = true;
 diff --git a/modules/OCPP201/OCPP201.cpp b/modules/OCPP201/OCPP201.cpp
-index 83f2324b..8eb7900f 100644
+index 0c3d953f..16ae318c 100644
 --- a/ext/source/modules/OCPP201/OCPP201.cpp
 +++ b/ext/source/modules/OCPP201/OCPP201.cpp
-@@ -1181,6 +1181,9 @@ void OCPP201::process_deauthorized(const int32_t evse_id, const int32_t connecto
+@@ -1313,6 +1313,9 @@ void OCPP201::process_reservation_end(const int32_t evse_id, const int32_t conne
  }
- 
- void OCPP201::publish_charging_schedules(const std::vector<ocpp::v201::CompositeSchedule>& composite_schedules) {
+
+ void OCPP201::publish_charging_schedules(const std::vector<ocpp::v2::CompositeSchedule>& composite_schedules) {
 +    EVLOG_info << "About to publish composite charging schedules: ";
-+    for (ocpp::v201::CompositeSchedule cs: composite_schedules)
-+           EVLOG_info << cs << '\n';
++    for (ocpp::v2::CompositeSchedule cs: composite_schedules)
++        EVLOG_info << cs << '\n';
      const auto everest_schedules = conversions::to_everest_charging_schedules(composite_schedules);
      this->p_ocpp_generic->publish_charging_schedules(everest_schedules);
  }

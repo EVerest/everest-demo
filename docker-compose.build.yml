@@ -4,14 +4,15 @@ services:
   mqtt-server:
     image: ghcr.io/everest/everest-demo/mqtt-server:${TAG}
     build: mosquitto
-    platform: linux/x86_64
     logging:
       driver: none
 
   manager:
     image: ghcr.io/everest/everest-demo/manager:${TAG}
-    build: manager
-    platform: linux/x86_64
+    build:
+      context: manager
+      platforms:
+        - linux/arm64
     depends_on:
       - mqtt-server
     environment:
