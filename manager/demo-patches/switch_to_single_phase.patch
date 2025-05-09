@@ -1,0 +1,15 @@
+diff --git a/modules/EvseManager/EvseManager.cpp b/modules/EvseManager/EvseManager.cpp
+index 75fe2062..d5aaf448 100644
+--- a/ext/source/modules/EvseManager/EvseManager.cpp
++++ b/ext/source/modules/EvseManager/EvseManager.cpp
+@@ -262,8 +262,8 @@ void EvseManager::ready() {
+
+             // FIXME: we cannot change this during run time at the moment. Refactor ISO interface to exclude transfer
+             // modes from setup
+-            // transfer_modes.push_back(types::iso15118::EnergyTransferMode::AC_single_phase_core);
+-            transfer_modes.push_back({types::iso15118::EnergyTransferMode::AC_three_phase_core, support_bidi});
++            transfer_modes.push_back({types::iso15118::EnergyTransferMode::AC_single_phase_core, support_bidi});
++            // transfer_modes.push_back({types::iso15118::EnergyTransferMode::AC_three_phase_core, support_bidi});
+
+         } else if (config.charge_mode == "DC") {
+             transfer_modes.push_back({types::iso15118::EnergyTransferMode::DC_extended, false});
