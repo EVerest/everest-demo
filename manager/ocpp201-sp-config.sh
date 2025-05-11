@@ -66,4 +66,7 @@ if [[ "$CHARGE_STATION_ID" != cp001 ]]; then
     echo "Found non-standard CHARGE_STATION_ID ${CHARGE_STATION_ID}, replacing in InternalCtrlr.json and SecurityCtrlr.json"
     sed -i "s#cp001#${CHARGE_STATION_ID}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
     sed -i "s#cp001#${CHARGE_STATION_ID}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json
+    # If we change the STATION_ID but don't delete this, the STATION_ID gets
+    # appended to the end of the URL, so we end up with 
+    rm /ext/dist/share/everest/modules/OCPP201/device_model_storage.db
 fi
