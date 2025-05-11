@@ -53,6 +53,12 @@ elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
     jq '.properties.SecurityProfile.attributes[0].value |= 3' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json > /var/tmp/SecurityCtrlr.modified.json && mv /var/tmp/SecurityCtrlr.modified.json /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json
 fi
 
+if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
+    echo "Verifying security settings for $DEMO_VERSION"
+    jq '.properties.SecurityProfile.attributes[0]' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json
+    jq '.properties.NetworkConnectionProfiles.attributes[0].value | fromjson[0] ' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
+fi
+
 if [[ "$CHARGE_STATION_ID" != cp001 ]]; then
     echo "Found non-standard CHARGE_STATION_ID ${CHARGE_STATION_ID}, replacing in InternalCtrlr.json and SecurityCtrlr.json"
     sed -i "s#cp001#${CHARGE_STATION_ID}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
