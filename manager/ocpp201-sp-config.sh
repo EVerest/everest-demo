@@ -39,6 +39,9 @@ elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
     echo "Configured to SecurityProfile: 2, configuring server to  ${CSMS_SP2_URL}"
     sed -i "s#ws://localhost:9000#${CSMS_SP2_URL}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
     # https://github.com/EVerest/everest-demo/issues/113#issuecomment-2869188558
+    # TODO: convert this to `jq` as well; something like the following should work, but I don't have time to test it out now
+    # jq -arg mod_profile $(jq '.properties.NetworkConnectionProfiles.attributes[0].value | fromjson[0] | .connectionData.securityProfile |= 2 | @json ' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json)
+    # jq '.properties.NetworkConnectionProfiles.attributes[0].value |= $mod_profile' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json > /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
     sed -i 's#securityProfile\\": [0-9]#securityProfile\\": 2#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
     # https://github.com/EVerest/everest-demo/issues/113#issuecomment-2868939967
     jq '.properties.SecurityProfile.attributes[0].value |= 2' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json > /var/tmp/SecurityCtrlr.modified.json && mv /var/tmp/SecurityCtrlr.modified.json /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json
