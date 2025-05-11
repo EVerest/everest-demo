@@ -12,6 +12,8 @@ if [[ "$DEMO_VERSION" =~ sp1 || "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3
     else
         echo "TLS is not active in the configuration file, not configuring certs"
     fi
+    # https://github.com/EVerest/everest-demo/issues/113#issuecomment-2869188558
+    cp /ext/dist/etc/everest/certs/ca/v2g/V2G_ROOT_CA.pem /ext/dist/etc/everest/certs/ca/csms/CSMS_ROOT_CA.pem
     rm /ext/dist/share/everest/modules/OCPP201/component_config/custom/EVSE_2.json
     rm /ext/dist/share/everest/modules/OCPP201/component_config/custom/Connector_2_1.json
 fi
@@ -36,11 +38,19 @@ elif [[ "$DEMO_VERSION" =~ sp2 ]]; then
     CSMS_SP2_URL=${CSMS_SP2_BASE}/${CHARGE_STATION_ID}
     echo "Configured to SecurityProfile: 2, configuring server to  ${CSMS_SP2_URL}"
     sed -i "s#ws://localhost:9000#${CSMS_SP2_URL}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
+    # https://github.com/EVerest/everest-demo/issues/113#issuecomment-2869188558
+    sed -i 's#securityProfile\\": [0-9]#securityProfile\\": 2#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
+    # https://github.com/EVerest/everest-demo/issues/113#issuecomment-2868939967
+    jq '.properties.SecurityProfile.attributes[0].value |= 2' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json > /var/tmp/SecurityCtrlr.modified.json && mv /var/tmp/SecurityCtrlr.modified.json /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json
 elif [[ "$DEMO_VERSION" =~ sp3 ]]; then
     CSMS_SP3_URL=${CSMS_SP3_BASE}/${CHARGE_STATION_ID}
     echo "Running with SP3, TLS should be enabled"
     echo "Configured to SecurityProfile: 2, configuring server to  ${CSMS_SP3_URL}"
     sed -i "s#ws://localhost:9000#${CSMS_SP3_URL}#" /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
+    # https://github.com/EVerest/everest-demo/issues/113#issuecomment-2869188558
+    sed -i 's#securityProfile\\": [0-9]#securityProfile\\": 3#' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
+    # https://github.com/EVerest/everest-demo/issues/113#issuecomment-2868939967
+    jq '.properties.SecurityProfile.attributes[0].value |= 3' /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json > /var/tmp/SecurityCtrlr.modified.json && mv /var/tmp/SecurityCtrlr.modified.json /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json
 fi
 
 if [[ "$CHARGE_STATION_ID" != cp001 ]]; then
