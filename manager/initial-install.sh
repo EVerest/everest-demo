@@ -12,3 +12,5 @@ echo "Installing python to allow the power_curve to run"
 pip install --break-system-packages numpy==2.1.3
 pip install --break-system-packages control==0.10.1
 pip install --break-system-packages paho-mqtt==2.1.0
+pip install --break-system-packages pyasn1==0.4.8
+pip install --break-system-packages hexdump==3.3
