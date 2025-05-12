@@ -67,7 +67,7 @@ services:
     user: "${UID}:${GID}"
 
   manager:
-    image: ghcr.io/everest/everest-demo/maeve-manager:working_notify_limit
+    image: ghcr.io/everest/everest-demo/maeve-manager:2025.3.0-with-dt
     build:
       context: manager
     depends_on:
