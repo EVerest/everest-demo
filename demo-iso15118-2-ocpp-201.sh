@@ -119,7 +119,7 @@ fi
   sleep 5
 
   echo "Adding a charger and RFID card to ${DEMO_CSMS}"
-  source "../{$DEMO_CSMS}/add-charger-and-rfid-card.sh"
+  source "../${DEMO_CSMS}/add-charger-and-rfid-card.sh"
   
   popd || exit 1
 # END: Setting up the CSMS

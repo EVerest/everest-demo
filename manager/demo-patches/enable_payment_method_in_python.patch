@@ -71,10 +71,17 @@ diff -r -uw /tmp/dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/iso15
          if evcc_settings.ev_session_context.selected_auth_option:
              logger.debug(
                  "Reusing authorization option "
-@@ -282,6 +284,21 @@
+@@ -279,15 +284,30 @@
              )
              evcc_settings.ev_session_context.selected_auth_option = None
          else:
+-            # Choose Plug & Charge (pnc) or External Identification Means (eim)
+-            # as the selected authorization option. The car manufacturer might
+-            # have a mechanism to determine a user-defined or default
+-            # authorization option. This implementation favors pnc, but
+-            # feel free to change if need be.
+-            if AuthEnum.PNC_V2 in auth_option_list and self.comm_session.is_tls:
+-                self.comm_session.selected_auth_option = AuthEnum.PNC_V2
 +            logger.warn("V2G_PAYMENT: about to read value from state")
 +            self.comm_session.selected_auth_option = (
 +                await self.comm_session.ev_controller.get_selected_auth_option(
@@ -86,11 +93,21 @@ diff -r -uw /tmp/dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/iso15
 +                logger.debug(
 +                        "V2G_PAYMENT: Found Payment Option %s passed in from the PyJoseV module, using it" % self.comm_session.selected_auth_option
 +                )
-+            else:
+             else:
+-                self.comm_session.selected_auth_option = AuthEnum.EIM_V2
 +                logger.debug(
 +                        "V2G_PAYMENT: No previous paused session, no PaymentOption set, using TLS flag %s to decide auth method" % self.comm_session.is_tls
 +                )
-             # Choose Plug & Charge (pnc) or External Identification Means (eim)
-             # as the selected authorization option. The car manufacturer might
-             # have a mechanism to determine a user-defined or default
++                # Choose Plug & Charge (pnc) or External Identification Means (eim)
++                # as the selected authorization option. The car manufacturer might
++                # have a mechanism to determine a user-defined or default
++                # authorization option. This implementation favors pnc, but
++                # feel free to change if need be.
++                if AuthEnum.PNC_V2 in auth_option_list and self.comm_session.is_tls:
++                    self.comm_session.selected_auth_option = AuthEnum.PNC_V2
++                else:
++                    self.comm_session.selected_auth_option = AuthEnum.EIM_V2
+
+     async def select_services(self, service_discovery_res: ServiceDiscoveryRes):
+         """
 Only in dist/libexec/everest/3rd_party/josev/iso15118/evcc/states: iso15118_2_states.py.orig

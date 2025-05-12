@@ -42,7 +42,10 @@ active_modules:
         - module_id: iso15118_charger
           implementation_id: charger
   yeti_driver_1:
-    module: JsYetiSimulator
+    module: YetiSimulator
+    mapping:
+      module:
+        evse: 1
     config_module:
       connector_id: 1
   slac:
@@ -80,6 +83,17 @@ active_modules:
       security:
         - module_id: evse_security
           implementation_id: main
+      evse_energy_sink:
+        - module_id: grid_connection_point
+          implementation_id: external_limits
+        - module_id: evse_manager_1_ocpp_sink
+          implementation_id: external_limits
+      reservation:
+        - module_id: auth
+          implementation_id: reservation
+      extensions_15118:
+        - module_id: iso15118_charger
+          implementation_id: extensions
   evse_security:
     module: EvseSecurity
     config_module:
@@ -111,19 +125,46 @@ active_modules:
       energy_trunk:
         - module_id: grid_connection_point
           implementation_id: energy_grid
+  evse_manager_1_ocpp_sink:
+    module: EnergyNode
+    mapping:
+      module:
+        evse: 1
+    config_module:
+      fuse_limit_A: 32.0
+      phase_count: 3
+    connections:
+      energy_consumer:
+        - module_id: evse_manager_1
+          implementation_id: energy_grid
+  evse_manager_1_api_sink:
+    module: EnergyNode
+    mapping:
+      module:
+        evse: 1
+    config_module:
+      fuse_limit_A: 32.0
+      phase_count: 3
+    connections:
+      energy_consumer:
+        - module_id: evse_manager_1_ocpp_sink
+          implementation_id: energy_grid
+      powermeter:
+        - module_id: yeti_driver_1
+          implementation_id: powermeter
   grid_connection_point:
     module: EnergyNode
+    mapping:
+      module:
+        evse: 0
     config_module:
       fuse_limit_A: 40.0
       phase_count: 3
     connections:
       price_information: []
       energy_consumer:
-        - module_id: evse_manager_1
+        - module_id: evse_manager_1_api_sink
           implementation_id: energy_grid
-      powermeter:
-        - module_id: yeti_driver_1
-          implementation_id: powermeter
   api:
     module: API
     connections:
@@ -136,12 +177,14 @@ active_modules:
       error_history:
         - module_id: error_history
           implementation_id: error_history
+      evse_energy_sink:
+        - module_id: evse_manager_1_api_sink
+          implementation_id: external_limits
   error_history:
     module: ErrorHistory
     config_implementation:
       error_history:
         database_path: /tmp/error_history.db
-
   system:
     module: System
 
