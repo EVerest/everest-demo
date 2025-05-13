@@ -2965,6 +2965,121 @@
         "wires": []
     },
     {
+        "id": "7039be115bc5d839",
+        "type": "ui_switch",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "label": "EmergencyStop",
+        "tooltip": "",
+        "group": "b364f7eb4621082b",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "everest_external/nodered/#/carsim/error",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "{\"error_type\":\"MREC8EmergencyStop\",\"raise\":\"true\"}",
+        "onvalueType": "json",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "{\"error_type\":\"MREC8EmergencyStop\",\"raise\":\"false\"}",
+        "offvalueType": "json",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 160,
+        "y": 1900,
+        "wires": [
+            [
+                "84361b05d3d18e86"
+            ]
+        ]
+    },
+    {
+        "id": "f26d901619482f55",
+        "type": "ui_switch",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "label": "PilotFault",
+        "tooltip": "",
+        "group": "b364f7eb4621082b",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "everest_external/nodered/#/carsim/error",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "{\"error_type\":\"MREC14PilotFault\",\"raise\":\"true\"}",
+        "onvalueType": "json",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "{\"error_type\":\"MREC14PilotFault\",\"raise\":\"false\"}",
+        "offvalueType": "json",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 140,
+        "y": 1940,
+        "wires": [
+            [
+                "84361b05d3d18e86"
+            ]
+        ]
+    },
+    {
+        "id": "84361b05d3d18e86",
+        "type": "change",
+        "z": "a0826fab08a85be9",
+        "name": "Insert Connector Number",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "#",
+                "fromt": "str",
+                "to": "connector_number",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 1920,
+        "wires": [
+            [
+                "d8cf5673b6db5eb3"
+            ]
+        ]
+    },
+    {
+        "id": "d8cf5673b6db5eb3",
+        "type": "mqtt out",
+        "z": "a0826fab08a85be9",
+        "name": "",
+        "topic": "",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fc8686af.48d178",
+        "x": 670,
+        "y": 1920,
+        "wires": []
+    },
+    {
         "id": "32e0bed5f21a8e8e",
         "type": "link in",
         "z": "6e0f6f4f7ec3c163",
