@@ -1,0 +1,33 @@
+diff --git a/lib/evse_security/certificate/x509_bundle.cpp b/lib/evse_security/certificate/x509_bundle.cpp
+index 9cd916e..1c7fd0a 100644
+--- a/ext/cache/cpm/libevse-security/8aad9da74f07a734a7a9d472d10c19c496e30261/libevse-security/lib/evse_security/certificate/x509_bundle.cpp
++++ b/ext/cache/cpm/libevse-security/8aad9da74f07a734a7a9d472d10c19c496e30261/libevse-security/lib/evse_security/certificate/x509_bundle.cpp
+@@ -75,8 +75,11 @@ std::vector<X509Wrapper> X509CertificateBundle::split() {
+ 
+     // Append all chains
+     for (const auto& chains : certificates) {
+-        for (const auto& cert : chains.second)
++        EVLOG_info << "SHANKARI: Considering chain " << chains.first;
++        for (const auto& cert : chains.second) {
++            EVLOG_info << "SHANKARI: Considering cert " << cert.get_common_name();
+             full_certificates.push_back(cert);
++        }
+     }
+ 
+     return full_certificates;
+@@ -362,6 +365,15 @@ X509CertificateHierarchy& X509CertificateBundle::get_certificate_hierarchy() {
+         hierarchy_invalidated = false;
+ 
+         auto certificates = split();
++        EVLOG_info << "SHANKARI: There are "
++                   << get_certificate_count()
++                   << " certificates, which are: ";
++        for (const auto& cert : certificates) {
++            EVLOG_info << "SHANKARI: Certificate " << cert.get_common_name()
++                       << "self_signed: " << cert.is_selfsigned()
++                       << "with path " << cert.get_file().value_or("No path available");
++            EVLOG_info << cert.get_export_string();
++        }
+         hierarchy = X509CertificateHierarchy::build_hierarchy(certificates);
+     }
+ 
