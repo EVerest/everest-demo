@@ -2054,6 +2054,7 @@
         "tooltip": "",
         "color": "",
         "bgcolor": "",
+        "className": "",
         "icon": "",
         "payload": "stop",
         "payloadType": "str",
@@ -2131,7 +2132,7 @@
         "type": "function",
         "z": "a0826fab08a85be9",
         "name": "Buffer sim commands",
-        "func": "function handleDTEAChange() {\n    let dt = Number(global.get('sim_departure_time'));\n    let ea = Number(global.get('sim_eamount'));\n\n    node.warn(flow.get('sim_commands_start'))\n\n    let start = flow.get('sim_commands_start').split(';')\n    let resume = flow.get('sim_commands_resume').split(';');\n\n    for (let i = 0; i < start.length; i++) {\n        if (start[i].includes(\"iso_start_v2g\")) {\n            let cmd = start[i].split(\",\")\n            node.warn(dt)\n            node.warn(ea)\n            if (dt > 0){\n                node.warn(\"setting dt\")\n                cmd[1] = dt;\n            }\n            if (ea > 0){\n                node.warn(\"setting ea\")\n                cmd[2] = ea;\n            }\n            start[i] = cmd.join(\",\");\n        }\n    }\n\n    start = start.join(\";\")\n\n    flow.set('sim_commands_start', start);\n    flow.set('sim_commands_resume', resume);\n\n}\n\n\nif (msg.topic.indexOf('sim_commands') > -1) {\n    const s = msg.payload.split('#');\n    flow.set('sim_commands_start', s[0]);\n    flow.set('sim_commands_stop', s[1]);\n    flow.set('sim_commands_pause', s[2]);\n    flow.set('sim_commands_resume', s[3]);\n    // handleDTEAChange();\n} else if (msg.topic === 'eamount' || msg.topic === 'departure_time') {\n    // handleDTEAChange();\n} else if (msg.payload == 'start') {\n    handleDTEAChange();\n    msg.payload = flow.get('sim_commands_start');\n    // handle DT and EA from global?\n    return msg;\n} else if (msg.payload == 'stop') {\n    msg.payload = flow.get('sim_commands_stop');\n    return msg;\n} else if (msg.payload == 'pause') {\n    msg.payload = flow.get('sim_commands_pause');\n    return msg;\n} else if (msg.payload == 'resume') {\n    msg.payload = flow.get('sim_commands_resume');\n    return msg;\n} else {\n    msg.payload = 'NONE';\n    return msg;\n}\n",
+        "func": "function handleDTEAChange() {\n    let dt = Number(global.get('sim_departure_time'));\n    let ea = Number(global.get('sim_eamount'));\n\n    node.warn(dt)\n    node.warn(ea)\n\n    node.warn(flow.get('sim_commands_start'))\n    node.warn(flow.get('sim_commands_resume'))\n\n    let start = flow.get('sim_commands_start').split(';')\n    let resume = flow.get('sim_commands_resume').split(';')\n\n    for (let i = 0; i < start.length; i++) {\n        if (start[i].includes(\"iso_start_v2g\")) {\n            let cmd = start[i].split(\",\")\n\n            if (dt > 0){\n                node.warn(\"setting dt\")\n                cmd[1] = dt;\n            } \n            else {\n                cmd[1] = -1;\n            }\n            if (ea > 0){\n                node.warn(\"setting ea\")\n                cmd[2] = ea;\n            }\n            else {\n                cmd[2] = -1;\n            }\n            start[i] = cmd.join(\",\");\n        }\n    }\n\n    for (let i = 0; i < resume.length; i++) {\n        if (resume[i].includes(\"iso_start_v2g\")) {\n            let cmd = resume[i].split(\",\")\n            if (dt > 0){\n                node.warn(\"setting dt\")\n                cmd[1] = dt;\n            } \n            else {\n                cmd[1] = -1;\n            }\n            if (ea > 0){\n                node.warn(\"setting ea\")\n                cmd[2] = ea;\n            }\n            else {\n                cmd[2] = -1;\n            }\n            resume[i] = cmd.join(\",\");\n        }\n    }\n\n    start = start.join(\";\")\n    resume = resume.join(\";\")\n\n    flow.set('sim_commands_start', start);\n    flow.set('sim_commands_resume', resume);\n\n}\n\n\nif (msg.topic.indexOf('sim_commands') > -1) {\n    const s = msg.payload.split('#');\n    flow.set('sim_commands_start', s[0]);\n    flow.set('sim_commands_stop', s[1]);\n    flow.set('sim_commands_pause', s[2]);\n    flow.set('sim_commands_resume', s[3]);\n} else if (msg.topic === 'eamount' || msg.topic === 'departure_time') {\n} else if (msg.payload == 'start') {\n    handleDTEAChange();\n    msg.payload = flow.get('sim_commands_start');\n    return msg;\n} else if (msg.payload == 'stop') {\n    msg.payload = flow.get('sim_commands_stop');\n    return msg;\n} else if (msg.payload == 'pause') {\n    msg.payload = flow.get('sim_commands_pause');\n    return msg;\n} else if (msg.payload == 'resume') {\n    msg.payload = flow.get('sim_commands_resume');\n    return msg;\n} else {\n    msg.payload = 'NONE';\n    return msg;\n}\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -2324,11 +2325,11 @@
         "type": "function",
         "z": "a0826fab08a85be9",
         "name": "Set SIM EAmount & DepartureTime",
-        "func": "if (msg.payload == '') {\n    if (msg.topic == 'eamount') {\n        global.set('sim_eamount', 60);\n        return msg;\n    }\n    // topic == 'departure_time'\n    global.set('sim_departure_time', 0);\n    return msg;\n}\nif (msg.topic == 'eamount') {\n    global.set('sim_eamount', msg.payload);\n    return msg;\n}\n\nglobal.set('sim_departure_time', msg.payload);\nreturn msg;",
+        "func": "if (msg.topic == 'eamount') {\n    global.set('sim_eamount', msg.payload);\n    return msg;\n}\n\nglobal.set('sim_departure_time', msg.payload);\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
-        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\nflow.set('sim_eamount', 60);\nflow.set('sim_departure_time', 86400);",
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\n// flow.set('sim_eamount', 60);\n// flow.set('sim_departure_time', 86400);",
         "finalize": "",
         "libs": [],
         "x": 460,
@@ -2352,35 +2353,6 @@
         "x": 725,
         "y": 940,
         "wires": []
-    },
-    {
-        "id": "02c89bb9da8b7c6b",
-        "type": "inject",
-        "z": "a0826fab08a85be9",
-        "name": "Initialize EAmount",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "initialize_eamount",
-        "payload": "60",
-        "payloadType": "num",
-        "x": 150,
-        "y": 960,
-        "wires": [
-            [
-                "2c905996b70be7b2"
-            ]
-        ]
     },
     {
         "id": "bf54d6e7f4407eb4",
