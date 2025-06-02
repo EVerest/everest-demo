@@ -51,7 +51,7 @@ active_modules:
   slac:
     module: SlacSimulator
   car_simulator_1:
-    module: JsEvManager
+    module: EvManager
     config_module:
       connector_id: 1
       auto_enable: true
