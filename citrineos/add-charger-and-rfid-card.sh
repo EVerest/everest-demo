@@ -155,7 +155,7 @@ add_cp001_password() {
                     "dataType": "passwordString",
                     "supportsMonitoring": false
                 }
-            }' | tee /dev/tty)
+            }')
 
         if [[ $response -ge 200 && $response -lt 300 ]]; then
             echo "Password update successful."
@@ -188,7 +188,7 @@ add_evdriver_authorization() {
                "idTokenInfo": {
                    "status": "Accepted"
                }
-           }' | tee /dev/tty)
+           }')
 
         if [[ $response -ge 200 && $response -lt 300 ]]; then
             echo "Authorization update successful."
