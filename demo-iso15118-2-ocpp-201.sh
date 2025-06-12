@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-DEMO_REPO="https://github.com/everest/everest-demo.git"
+DEMO_REPO="${DEMO_REPO:-https://github.com/everest/everest-demo.git}"
 DEMO_BRANCH="main"
 CHARGE_STATION_ID="cp001"
 
