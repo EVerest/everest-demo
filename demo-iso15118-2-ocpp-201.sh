@@ -107,9 +107,52 @@ fi
   echo "CSMS_SP2_BASE:     $CSMS_SP2_BASE"
   echo "CSMS_SP3_BASE:     $CSMS_SP3_BASE"
 
-  if ! docker compose --project-name "${DEMO_CSMS}"-csms up -d --wait; then
-      echo "Failed to start ${DEMO_CSMS}"
-      exit 1
+  if [[ "$DEMO_CSMS" == "citrineos" ]]; then
+    # CSMS="citrine"
+    CSMS_REPO="https://github.com/citrineos/citrineos-core" 
+    CSMS_BRANCH="0be080f6b6abd6463c7eeb39d529f81fe9fd5d46"
+
+    echo "Cloning ${CSMS} CSMS from ${CSMS_REPO} into ${DEMO_DIR}/${DEMO_CSMS}-csms and starting it"
+    git clone ${CSMS_REPO} ${DEMO_CSMS}-csms
+
+    pushd ${DEMO_CSMS}-csms || exit 1
+
+    git reset --hard ${CSMS_BRANCH}
+
+    # Set up certificates for SP2 and SP3
+    if [[ "$DEMO_VERSION" =~ sp2 || "$DEMO_VERSION" =~ sp3 ]]; then
+      if [[ "$DEMO_CSMS" == "citrineos" ]]; then 
+        echo "Security profile 2/3 is not supported with Citrine yet!"
+        exit 1
+      fi
+    fi
+
+    # Start the CSMS
+    echo "Starting the CSMS"
+    if [[ ${DEMO_CSMS} == "citrine" ]]; then 
+      cd "Server"
+      # Remap the CitrineOS 8081 port (HTTP w/ no auth) to 80 port
+      CITRINE_DOCKER="docker-compose.arm64.yml"
+
+      if [[ -f "$CITRINE_DOCKER" ]]; then
+        # Use sed to find and replace the string
+        sed -i '' 's/8082:8082/80:8082/g' "$CITRINE_DOCKER"
+        echo "Replaced mapping CitrineOS 8082 to 80 completed successfully."
+      else
+        echo "Error: File $CITRINE_DOCKER does not exist."
+        exit 1
+      fi
+    fi
+
+    docker-compose -f docker-compose.arm64.yml up -d
+
+    popd || exit 1
+  else
+      echo "Using MaEVe CSMS, using the default docker compose file"
+      if ! docker compose --project-name "${DEMO_CSMS}"-csms up -d --wait; then
+        echo "Failed to start ${DEMO_CSMS}"
+        exit 1
+      fi
   fi
 
   # note that docker compose --wait only waits for the
