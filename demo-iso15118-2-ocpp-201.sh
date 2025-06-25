@@ -130,6 +130,14 @@ fi
     # Start the CSMS
     echo "Starting the CSMS"
     if [[ ${DEMO_CSMS} == "citrineos" ]]; then 
+      OS=$(uname -s)
+
+      if [ "$OS" == "Darwin" ]; then
+        CITRINE_DOCKER="docker-compose.arm64.yml"
+      else
+        CITRINE_DOCKER="docker-compose.yml"
+      fi
+
       ls ../../citrineos
       cp ../../citrineos/docker-compose.arm64.yml Server
       cd "Server"
