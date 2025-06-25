@@ -129,7 +129,9 @@ fi
 
     # Start the CSMS
     echo "Starting the CSMS"
-    if [[ ${DEMO_CSMS} == "citrine" ]]; then 
+    if [[ ${DEMO_CSMS} == "citrineos" ]]; then 
+      ls ../../citrineos
+      cp ../../citrineos/docker-compose.arm64.yml Server
       cd "Server"
       # Remap the CitrineOS 8081 port (HTTP w/ no auth) to 80 port
       CITRINE_DOCKER="docker-compose.arm64.yml"
