@@ -34,7 +34,7 @@ download_demo_file .env
 
 docker compose --project-name everest-ac-demo \
 	       --file "${DEMO_DIR}/${DEMO_COMPOSE_FILE_NAME}" up
-docker cp ${DEMO_DIR}/manager/config-sil-dc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-dc.yaml
+docker cp "${DEMO_DIR}/manager/config-sil-dc.yaml"  everest-ac-demo-manager-1:/ext/source/config/config-sil-dc.yaml
 
 if [[ "$START_OPTION" == "auto" ]]; then
   echo "Starting software in the loop simulation automatically"
