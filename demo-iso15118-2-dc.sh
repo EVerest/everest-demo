@@ -3,6 +3,8 @@
 DEMO_COMPOSE_FILE_NAME='docker-compose.iso15118-dc.yml'
 DEMO_DIR="$(mktemp -d)"
 
+START_OPTION="auto"
+
 delete_temporary_directory() { rm -rf "${DEMO_DIR}"; }
 trap delete_temporary_directory EXIT
 
@@ -32,3 +34,14 @@ download_demo_file .env
 
 docker compose --project-name everest-ac-demo \
 	       --file "${DEMO_DIR}/${DEMO_COMPOSE_FILE_NAME}" up
+docker cp ${DEMO_DIR}/manager/config-sil-dc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-dc.yaml
+
+if [[ "$START_OPTION" == "auto" ]]; then
+  echo "Starting software in the loop simulation automatically"
+  docker exec everest-ac-demo-manager-1 sh /ext/build/run-scripts/run-sil-dc.sh
+else
+  echo "Please start the software in the loop simulation manually by running"
+  echo "on your laptop: docker exec -it everest-ac-demo-manager-1 /bin/bash"
+  echo "in the container: sh /ext/build/run-scripts/run-sil-dc.sh"
+  echo "You can now stop and restart the manager without re-creating the container"
+fi
