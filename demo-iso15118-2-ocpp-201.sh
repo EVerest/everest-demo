@@ -146,7 +146,7 @@ fi
 
       if [[ -f "$CITRINE_DOCKER" ]]; then
         # Use sed to find and replace the string
-        sed -i '' 's/8082:8082/80:8082/g' "$CITRINE_DOCKER"
+        sed -i '' 's/80:8082/8082:8082/g' "$CITRINE_DOCKER"
         echo "Replaced mapping CitrineOS 8082 to 80 completed successfully."
       else
         echo "Error: File $CITRINE_DOCKER does not exist."
