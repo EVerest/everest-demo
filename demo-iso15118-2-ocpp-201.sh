@@ -138,7 +138,6 @@ fi
         CITRINE_DOCKER="docker-compose.yml"
       fi
 
-      ls ../../citrineos
       cp ../../citrineos/docker-compose.arm64.yml Server
       cd "Server"
       # Remap the CitrineOS 8081 port (HTTP w/ no auth) to 80 port
@@ -157,6 +156,7 @@ fi
     docker-compose -f docker-compose.arm64.yml up -d
 
     popd || exit 1
+
   else
       echo "Using MaEVe CSMS, using the default docker compose file"
       if ! docker compose --project-name "${DEMO_CSMS}"-csms up -d --wait; then
