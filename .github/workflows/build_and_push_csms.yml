@@ -36,9 +36,12 @@ jobs:
             image_name: gateway
             context: ./maeve-csms/gateway
             host_namespace: ghcr.io/everest/everest-demo
-#           - csms_dir: citrineos
-#             csms_repo: https://github.com/citrineos/citrineos-core.git
-#             csms_branch: feature/everest-demo
+          - csms: citrineos
+            csms_repo: Abby-Wheelis/citrineos-core
+            csms_branch: main-rolledback
+            image_name: Server
+            context: ./citrineos-core/Server
+            host_namespace: ghcr.io/everest/everest-demo
 
     steps:
       - name: Checkout this repo
