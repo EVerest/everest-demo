@@ -34,7 +34,7 @@ download_demo_file .env
 download_demo_file manager/config-sil-dc.yaml
 
 docker compose --project-name everest-ac-demo \
-	       --file "${DEMO_DIR}/${DEMO_COMPOSE_FILE_NAME}" up -d --wait
+	       --file "${DEMO_DIR}/${DEMO_COMPOSE_FILE_NAME}" up -d
 docker cp "${DEMO_DIR}/manager/config-sil-dc.yaml"  everest-ac-demo-manager-1:/ext/source/config/config-sil-dc.yaml
 
 if [[ "$START_OPTION" == "auto" ]]; then
