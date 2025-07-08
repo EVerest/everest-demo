@@ -137,7 +137,10 @@ add_cp001_password() {
 
     until $success; do
         echo "Attempt $attempt: Updating SP1 password..."
+        echo "checking http code? $http_code"
+        # echo "http://localhost:8080/data/monitoring/variableAttribute?stationId=${CHARGEPOINT_ID}&setOnCharger=true&tenantId=1"
         response=$(curl -s -o /dev/null -w "%{http_code}" --location --request PUT "http://localhost:8080/data/monitoring/variableAttribute?stationId=${CHARGEPOINT_ID}&setOnCharger=true" \
+            --header 'accept: */*' \
             --header "Content-Type: application/json" \
             --data-raw '{
                 "component": {
@@ -162,6 +165,7 @@ add_cp001_password() {
             success=true
         else
             echo "Password update failed with HTTP status: $response. Retrying in 2 seconds..."
+            echo $response
             sleep 2
             ((attempt++))
         fi
