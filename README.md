@@ -42,7 +42,9 @@ Below is a table of demonstrations that are currently available.
 
 ## Install and Set-up
 
-1. Install docker with the following link [Get Docker](https://docs.docker.com/get-docker/)
+1. Install docker with the following link [Get Docker](https://docs.docker.com/get-docker/).
+On MacOS it's possible to have issues with ipv6 not working correctly. Version 4.29 of docker
+desktop is known to work with ipv6, download it [here](https://docs.docker.com/desktop/release-notes/#4290).
 
 2. Ensure that docker is installed by opening your machines terminal and typing
 `docker --version`
