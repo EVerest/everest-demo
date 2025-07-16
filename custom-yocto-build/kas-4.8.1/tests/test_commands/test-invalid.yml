@@ -1,0 +1,7 @@
+header:
+  version: 14
+
+repos:
+  kas_invalid:
+    url: https://example.com/kas.git
+    branch: this-ref-is-invalid

@@ -1,0 +1,61 @@
+name: master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy_containers:
+    name: Build and deploy container images
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      packages: write
+      contents: read
+      attestations: write
+    strategy:
+      matrix:
+        image-name: ["kas", "kas-isar"]
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Identify release build
+        run: |
+          # The release workflow will push :latest for tagged revisions
+          if git describe --exact-match --tags --match '*.*'; then
+              echo "PUSH_MASTER=false" >> $GITHUB_ENV
+          else
+              echo "PUSH_MASTER=true" >> $GITHUB_ENV
+          fi
+      - name: Set up docker build
+        uses: ./.github/actions/docker-init
+        if: ${{ env.PUSH_MASTER == 'true' }}
+        with:
+          deploy-user: ${{ github.actor }}
+          deploy-token: ${{ secrets.GITHUB_TOKEN }}
+          image-name: ${{ matrix.image-name }}
+      - name: Build ${{ matrix.image-name }} image
+        uses: docker/build-push-action@v6
+        if: ${{ env.PUSH_MASTER == 'true' }}
+        id: push
+        with:
+          context: /home/runner/kas-clone
+          target: ${{ matrix.image-name }}
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            SOURCE_DATE_EPOCH=${{ env.SOURCE_DATE_EPOCH }}
+            DEBIAN_TAG=${{ env.DEBIAN_TAG }}
+          provenance: false
+          outputs: type=registry,rewrite-timestamp=true
+          tags: ghcr.io/${{ github.repository }}/${{ matrix.image-name }}
+          annotations: ${{ env.DOCKER_METADATA_OUTPUT_ANNOTATIONS }}
+      - name: Attest ${{ matrix.image-name }} image
+        uses: actions/attest-build-provenance@v1
+        if: ${{ env.PUSH_MASTER == 'true' }}
+        with:
+          subject-name: ghcr.io/${{ github.repository }}/${{ matrix.image-name }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true

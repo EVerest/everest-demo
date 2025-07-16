@@ -1,0 +1,139 @@
+name: next
+
+on:
+  push:
+    branches-ignore:
+      - 'master'
+      # keep as path to test exclusions
+      - 'ci/ignore-master'
+
+env:
+  SHELLCHECK_VERSION: v0.10.0
+  SHELLCHECK_SHA256: 6c881ab0698e4e6ea235245f22832860544f17ba386442fe7e9d629f8cbedf87
+  NEWT_VERSION: 0.52.24
+  NEWT_SHA256: 5ded7e221f85f642521c49b1826c8de19845aa372baf5d630a51774b544fbdbb
+
+jobs:
+  codestyle:
+    name: Code style
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v4
+    - name: Install Checkcode dependencies
+      run: |
+        pip install flake8 pycodestyle doc8 Pygments
+    - name: Install recent shellcheck
+      run: |
+        wget -q https://github.com/koalaman/shellcheck/releases/download/$SHELLCHECK_VERSION/shellcheck-$SHELLCHECK_VERSION.linux.x86_64.tar.xz
+        echo "$SHELLCHECK_SHA256 shellcheck-$SHELLCHECK_VERSION.linux.x86_64.tar.xz" | sha256sum -c
+        tar -xJf shellcheck-$SHELLCHECK_VERSION.linux.x86_64.tar.xz
+        sudo cp shellcheck-$SHELLCHECK_VERSION/shellcheck /usr/local/bin/
+    - name: Check code
+      run: scripts/checkcode.sh .
+
+  perform_tests:
+    name: Modern Python
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+      - name: PyTest
+        uses: ./.github/actions/perform-tests
+        with:
+          python-version: ${{ matrix.python-version }}
+
+  build_containers:
+    name: Build, test and deploy container images
+    needs:
+      - codestyle
+      - perform_tests
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      packages: write
+      contents: read
+      attestations: write
+    strategy:
+      matrix:
+        image-name: ["kas", "kas-isar"]
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+      - name: Set up docker build
+        uses: ./.github/actions/docker-init
+        with:
+          deploy-user: ${{ github.actor }}
+          deploy-token: ${{ secrets.GITHUB_TOKEN }}
+          image-name: ${{ matrix.image-name }}
+
+      - name: Build ${{ matrix.image-name }} image
+        uses: docker/build-push-action@v6
+        with:
+          context: /home/runner/kas-clone
+          target: ${{ matrix.image-name }}
+          platforms: linux/amd64
+          build-args: |
+            SOURCE_DATE_EPOCH=${{ env.SOURCE_DATE_EPOCH }}
+            DEBIAN_TAG=${{ env.DEBIAN_TAG }}
+          outputs: type=docker,rewrite-timestamp=true
+          tags: ghcr.io/${{ github.repository }}/${{ matrix.image-name }}:next
+      - name: Test ${{ matrix.image-name }} image
+        env:
+          KAS_CONTAINER_IMAGE: ghcr.io/${{ github.repository }}/${{ matrix.image-name }}:next
+          KAS_CLONE_DEPTH: 1
+        run: |
+          cd image-tests/${{ matrix.image-name }}
+          ../../kas-container build kas.yml
+          [ -d build/tmp ]
+          echo "Test kas clean"
+          ../../kas-container clean kas.yml
+          ! [ -d build/tmp/deploy ]
+          [ -d build/sstate-cache ] && [ -d build/downloads ]
+          [ -d poky ] || [ -d isar ]
+          echo "Test kas purge"
+          ../../kas-container purge kas.yml
+          ! [ -d poky ] && ! [ -d isar ] && ! [ -d build ]
+      - name: Complete build and deploy ${{ matrix.image-name }} image
+        if: github.ref == 'refs/heads/next'
+        uses: docker/build-push-action@v6
+        id: push
+        with:
+          context: /home/runner/kas-clone
+          target: ${{ matrix.image-name }}
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            SOURCE_DATE_EPOCH=${{ env.SOURCE_DATE_EPOCH }}
+            DEBIAN_TAG=${{ env.DEBIAN_TAG }}
+          provenance: false
+          outputs: type=registry,rewrite-timestamp=true
+          tags: ghcr.io/${{ github.repository }}/${{ matrix.image-name }}:next
+          annotations: ${{ env.DOCKER_METADATA_OUTPUT_ANNOTATIONS }}
+      - name: Attest ${{ matrix.image-name }} image
+        if: github.ref == 'refs/heads/next'
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ghcr.io/${{ github.repository }}/${{ matrix.image-name }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+  cleanup_ghcr_containers:
+    name: cleanup untagged ${{ matrix.image-name }} containers
+    if: github.ref == 'refs/heads/next'
+    runs-on: ubuntu-24.04
+    needs: build_containers
+    permissions:
+      packages: write
+    strategy:
+      matrix:
+        image-name: ["kas", "kas-isar"]
+    steps:
+      - uses: dataaxiom/ghcr-cleanup-action@98b4022383d6ddb70ccbf6a378b4d8c67a60f066 #v1.0.13
+        with:
+          dry-run: false
+          validate: true
+          package: kas/${{ matrix.image-name }}
+          token: ${{ secrets.GITHUB_TOKEN }}

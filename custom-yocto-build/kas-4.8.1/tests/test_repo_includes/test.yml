@@ -1,0 +1,19 @@
+header:
+  version: 11
+  includes:
+    - repo: subrepo
+      file: test.yml
+
+env:
+  TESTVAR_FOO: "BAR"
+
+repos:
+  this:
+
+  subrepo:
+    path: subrepo
+    name: sub-repo
+
+  externalrepo:
+    refspec: master
+    name: external-repo
