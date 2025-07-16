@@ -1,0 +1,3 @@
+[submodule "custom-yocto-build/kas"]
+	path = custom-yocto-build/kas
+	url = https://github.com/siemens/kas.git
