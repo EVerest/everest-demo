@@ -86,13 +86,6 @@ RUN echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder-nopasswd && \
     groupadd builder -g 30000 && \
     useradd builder -u 30000 -g 30000 --create-home --home-dir /builder
 
-# copy your certs
-COPY certs/* /usr/local/share/ca-certificates
-RUN update-ca-certificates
-
-# suppresses a warning in yocto
-RUN mkdir -p /usr/include/python3.11
-
 ENTRYPOINT ["/container-entrypoint"]
 
 #

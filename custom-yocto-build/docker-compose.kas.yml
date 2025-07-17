@@ -1,0 +1,9 @@
+services:
+  kas:
+    build: kas-4.8.1
+    entrypoint: "tail -f /dev/null"
+    volumes:
+      - workdir:/workdir
+
+volumes:
+  workdir:
