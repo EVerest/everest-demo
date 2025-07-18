@@ -67,7 +67,7 @@ fi
 
 
 delete_temporary_directory() { rm -rf "${DEMO_DIR}"; }
-trap delete_temporary_directory EXIT
+# trap delete_temporary_directory EXIT
 
 
 echo "DEMO REPO:        $DEMO_REPO"
