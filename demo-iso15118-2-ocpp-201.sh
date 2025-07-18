@@ -107,7 +107,7 @@ fi
   echo "CSMS_SP2_BASE:     $CSMS_SP2_BASE"
   echo "CSMS_SP3_BASE:     $CSMS_SP3_BASE"
 
-  if ! docker compose --project-name "${DEMO_CSMS}"-csms up -d; then
+  if ! docker compose --project-name "${DEMO_CSMS}"-csms up -d --wait; then
       echo "Failed to start ${DEMO_CSMS}"
       exit 1
   fi
