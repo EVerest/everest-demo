@@ -296,7 +296,7 @@ add_authorization "$TOKEN_ID"
 echo "Adding cp001 password to citrine..."
 add_cp001_password "$CP_PASSWORD"
 
-echo "Adding ev driver rfid authorization to citrine..."
-add_evdriver_authorization "$ID_TOKEN" "$ID_TOKEN_TYPE"
+# echo "Adding ev driver rfid authorization to citrine..."
+# add_evdriver_authorization "$ID_TOKEN" "$ID_TOKEN_TYPE"
 
 echo "Setup completed successfully!" 
