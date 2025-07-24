@@ -100,7 +100,8 @@ services:
     user: "${UID}:${GID}"
 
   firestore:
-    image: google/cloud-sdk
+    image: google/cloud-sdk:522.0.0
+    platform: linux/amd64
     command:
       - gcloud
       - emulators
