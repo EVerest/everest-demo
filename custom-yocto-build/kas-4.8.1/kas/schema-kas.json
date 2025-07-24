@@ -1,0 +1,411 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://github.com/siemens/kas/blob/master/kas/schema-kas.json",
+    "title": "kas configuration",
+    "description": "kas, a setup tool for bitbake based projects",
+    "type": "object",
+    "required": [
+        "header"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "header": {
+            "description": "Header of every kas configuration file. It contains information about the context of the file.",
+            "type": "object",
+            "required": [
+                "version"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "version": {
+                    "description": "Version of the configuration file format.",
+                    "anyOf": [
+                        {
+                            "const": "0.10"
+                        },
+                        {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 19
+                        }
+                    ]
+                },
+                "includes": {
+                    "description": "List of configuration files to include (parsed depth-first). They are merged in order they are stated. So a latter one could overwrite settings from previous files. The current file can overwrite settings from every included file.",
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "description": "Path to a kas configuration file, relative to the repository root of the current file.",
+                                "type": "string"
+                            },
+                            {
+                                "description": "If files from other repositories should be included, choose this (dict) representation.",
+                                "type": "object",
+                                "required": [
+                                    "repo",
+                                    "file"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "repo": {
+                                        "description": "Repository ``key`` the configuration file is located in.",
+                                        "type": "string"
+                                    },
+                                    "file": {
+                                        "description": "Path to the configuration file relative to the repository.",
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "build_system": {
+            "description": "Defines the bitbake-based build system.",
+            "enum": [
+                "openembedded",
+                "oe",
+                "isar"
+            ]
+        },
+        "defaults": {
+            "description": "Default values applied to all configuration nodes.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "repos": {
+                    "description": "Default values for some repository properties.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "branch": {
+                            "description": "Default ``branch`` property applied to all repositories that do not override this.",
+                            "type": "string"
+                        },
+                        "tag": {
+                            "description": "Default ``tag`` property applied to all repositories that do not override this.",
+                            "type": "string"
+                        },
+                        "refspec": {
+                            "description": "Deprecated: Use 'branch' / 'tag' instead.",
+                            "type": "string"
+                        },
+                        "patches": {
+                            "description": "Default patches to apply to all repositories.",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "repo": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "overrides": {
+            "description": "Overrides for specific configuration nodes. By that, only items that already exist are overridden. Note, that all entries below this key are reserved for auto-generation using kas plugins. Do not manually add entries.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "repos": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "commit": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "machine": {
+            "description": "Value of the ``MACHINE`` variable that is written into the ``local.conf``. Can be overwritten by the ``KAS_MACHINE`` environment variable.",
+            "default": "qemux86-64",
+            "type": "string"
+        },
+        "distro": {
+            "description": "Value of the ``DISTRO`` variable that is written into the ``local.conf``. Can be overwritten by the ``KAS_DISTRO`` environment variable.",
+            "default": "poky",
+            "type": "string"
+        },
+        "env": {
+            "description": "Environment variables to forward and their default values (set to nulltype to only forward if set). These variables are made available to bitbake via ``BB_ENV_PASSTHROUGH_ADDITIONS`` (``BB_ENV_EXTRAWHITE`` in older Bitbake versions) and can be overwritten by the variables of the environment in which kas is started.",
+            "type": "object",
+            "additionalProperties": {
+                "type": ["string", "null"]
+            }
+        },
+        "target": {
+            "description": "Single target or a list of targets to build by bitbake. Can be overwritten by the ``KAS_TARGET`` environment variable.  Space is used as a delimiter if multiple targets should be specified via the environment variable. For targets prefixed with ``multiconfig:`` or ``mc:``, corresponding entries are added to the ``BBMULTICONFIG`` in ``local.conf``.",
+            "default": "core-image-minimal",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            ]
+        },
+        "task": {
+            "description": "Task to build by bitbake. Can be overwritten by the ``KAS_TASK`` environment variable.",
+            "default": "build",
+            "type": "string"
+        },
+        "repos": {
+            "description": "Definitions of all available repos and layers. The layers are appended to the ``bblayers.conf`` sorted by the repository name first and then by the layer name.",
+            "type": "object",
+            "additionalProperties": {
+                "anyOf": [
+                    {
+                        "description": "Definition of a repository and the layers, that should be part of the build. If the value is ``None``, the repository, where the current configuration file is located is defined as ``<repo-id>`` and added as a layer to the build. It is recommended that the ``<repo-id>`` is related to the containing repository/layer to ease cross-project referencing.",
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "name": {
+                                "description": "Defines under which name the repository is stored. If its missing the ``<repo-id>`` will be used.",
+                                "type": "string"
+                            },
+                            "url": {
+                                "description": "URL of the repository. If this is missing, no version control operations are performed.",
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ]
+                            },
+                            "type": {
+                                "description": "Type of version control repository.",
+                                "default": "git",
+                                "enum": ["git", "hg"]
+                            },
+                            "commit": {
+                                "description": "Full-length commit ID (all-lowercase, no branch names, no symbolic refs, no tags) that should be used. If ``url`` was specified but no ``commit``, ``branch`` or ``tag``, the revision you get depends on the defaults of the version control system used.",
+                                "type": "string"
+                            },
+                            "branch": {
+                                "description": "Upstream branch that should be tracked. If ``commit`` was specified, kas checks that the branch contains the commit. If no ``commit`` was specified, the head of the upstream branch is checked out. The nothing (``null``) value is used to remove a possible default value.",
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ]
+                            },
+                            "tag": {
+                                "description": "Tag that should be checked out. If a ``commit`` was specified, kas checks that the tag points to this commit. This must not be combined with ``branch``. The nothing (``null``) value is used to remove a possible default value.",
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ]
+                            },
+                            "refspec": {
+                                "description": "Deprecated. Use 'commit' / 'branch' / 'tag' instead.",
+                                "type": "string"
+                            },
+                            "signed": {
+                                "description": "Whether the commit / tag must be signed. If enabled, 'allowed_signers' must be defined. If both tag and commit are specified, only the signature of the tag is checked. Git only.",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            "allowed_signers": {
+                                "description": "List of signer-ids to verify the signature against. Must be non-empty if 'signed=true'. Git only.",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "path": {
+                                "description": "Path where the repository is stored.",
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ]
+                            },
+                            "layers": {
+                                "description": "List of layers to append to the ``bblayers.conf``. If this is missing or ``None`` or an empty dictionary, the path to the repo itself is added as a layer. Additionally, ``.`` is a valid value if the repo itself should be added as a layer.",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "anyOf": [
+                                        {
+                                            "type": "null"
+                                        },
+                                        {
+                                            "description": "Exclude this layer from bblayers.conf.",
+                                            "const": "disabled"
+                                        },
+                                        {
+                                            "description": "Deprecated, use ``disabled`` instead.",
+                                            "enum": ["excluded", "n", "no", "0", "false", 0, false]
+                                        }
+                                    ]
+                                }
+                            },
+                            "patches": {
+                                "description": "Patches to apply to the repository.",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": [
+                                                "path"
+                                            ],
+                                            "properties": {
+                                                "repo": {
+                                                    "type": "string"
+                                                },
+                                                "path": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "null"
+                    }
+                ]
+            }
+        },
+        "bblayers_conf_header": {
+            "description": "Header to prepend to the ``bblayers.conf`` before any layers are included.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "local_conf_header": {
+            "description": "Header to prepend to the ``local.conf``.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "proxy_config": {
+            "description": "Deprecated. Proxy variables are automatically forwarded.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "http_proxy": {
+                    "type": "string"
+                },
+                "https_proxy": {
+                    "type": "string"
+                },
+                "ftp_proxy": {
+                    "type": "string"
+                },
+                "no_proxy": {
+                    "type": "string"
+                }
+            }
+        },
+        "menu_configuration": {
+            "description": "Menu configuration, auto-generated by menu plugin.",
+            "type": "object",
+            "additionalProperties": {
+                "anyOf": [
+                    {
+                        "type": "boolean"
+                    },
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "artifacts": {
+            "description": "Artifacts which are expected to be present after executing the build (id / path pairs).",
+            "type": "object",
+            "additionalProperties": {
+                "type": ["string"]
+            }
+        },
+        "signers": {
+            "description": "Specification of the repository signature verification.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "description": "Pairs of name and location of a public key or certificate. The name is used to reference the entry in the repository configuration.",
+                "additionalProperties": false,
+                "properties": {
+                    "type": {
+                        "description": "Type of the cryptographic material.",
+                        "enum": ["gpg", "ssh"],
+                        "default": "gpg"
+                    },
+                    "repo": {
+                        "description": "Repo <repo-id> which provides the public key or certificate file."
+                    },
+                    "path": {
+                        "description": "Path to the public key or certificate file, relative to the repo. Must be used together with 'repo'.",
+                        "type": "string"
+                    },
+                    "fingerprint": {
+                        "description": "Fingerprint of the key or certificate (gpg: long-form, 40 hex digits, ssh: SHA256:...). If not provided, it is read from the file.",
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "description": "GnuPG fingerprint of the key (long-form, 40 hex digits).",
+                                "minLength": 40,
+                                "maxLength": 40
+                            },
+                            {
+                                "type": "string",
+                                "description": "SSH fingerprint of the key (SHA256:...).",
+                                "minLength": 50,
+                                "maxLength": 50
+                            }
+                        ]
+                    },
+                    "gpg_keyserver": {
+                        "description": "GnuPG keyserver to use for key retrieval (if no local path is provided). The 'fingerprint' must be provided. GPG only.",
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "_source_dir": {
+            "description": "Path to the top repo at time of invoking the plugin (auto-generated by the menu plugin). It must not be set manually and might only be defined in the top-level ``.config.yaml`` file.",            "type": "string"
+        },
+        "_source_dir_host": {
+            "description": "Source directory of the config file on the host (auto-generated by kas menu plugin, when using kas-container).",
+            "type": "string"
+        }
+    }
+}

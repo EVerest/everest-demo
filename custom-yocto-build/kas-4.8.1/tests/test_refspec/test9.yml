@@ -1,0 +1,11 @@
+header:
+  version: 15
+
+repos:
+  this:
+
+  evolve:
+    url: ../evolve
+    type: hg
+    branch: stable
+    commit: '6634:991cbf0f66f2'
