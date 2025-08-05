@@ -36,9 +36,13 @@ jobs:
             image_name: gateway
             context: ./maeve-csms/gateway
             host_namespace: ghcr.io/everest/everest-demo
-#           - csms_dir: citrineos
-#             csms_repo: https://github.com/citrineos/citrineos-core.git
-#             csms_branch: feature/everest-demo
+          - csms: citrineos
+            csms_repo: US-JOET/citrineos-core
+            csms_branch: main
+            image_name: citrineos-server
+            host_namespace: ghcr.io/everest/everest-demo
+            context: ./citrineos-csms/
+            dockerfile: ./citrineos-csms/Server/deploy.Dockerfile
 
     steps:
       - name: Checkout this repo
@@ -151,9 +155,10 @@ jobs:
 # 
 
       - name: Build and export to Docker
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
