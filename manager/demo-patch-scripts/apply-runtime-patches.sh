@@ -1,17 +1,5 @@
 #!/bin/bash
 
-echo "Applying comm_session_handler_enabledt.patch"
-cd / && patch -N -p0  -i /tmp/demo-patches/comm_session_handler_enabledt.patch
-echo "Applying ev_state_enabledt.patch"
-cd / && patch -N -p0  -i /tmp/demo-patches/ev_state_enabledt.patch
-echo "Applying iso15118_2_states_enabledt.patch"
-cd / && patch -N -p0  -i /tmp/demo-patches/iso15118_2_states_enabledt.patch
-echo "Applying jsevmanager_index_enabledt.patch"
-cd / && patch -N -p0  -i /tmp/demo-patches/jsevmanager_index_enabledt.patch
-echo "Applying pyjosev_module_enabledt.patch"
-cd / && patch -N -p0  -i /tmp/demo-patches/pyjosev_module_enabledt.patch
-echo "Applying simulator_enabledt.patch"
-cd / && patch -N -p0  -i /tmp/demo-patches/simulator_enabledt.patch
 echo "Applying iso15118_prevent_m1_crash.patch"
 cd / && patch -p0 -N -i /tmp/demo-patches/iso15118_prevent_m1_crash.patch
 
