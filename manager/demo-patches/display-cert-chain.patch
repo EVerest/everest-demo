@@ -1,7 +1,7 @@
 diff --git a/lib/evse_security/certificate/x509_bundle.cpp b/lib/evse_security/certificate/x509_bundle.cpp
 index 9cd916e..1c7fd0a 100644
---- a/ext/cache/cpm/libevse-security/8aad9da74f07a734a7a9d472d10c19c496e30261/libevse-security/lib/evse_security/certificate/x509_bundle.cpp
-+++ b/ext/cache/cpm/libevse-security/8aad9da74f07a734a7a9d472d10c19c496e30261/libevse-security/lib/evse_security/certificate/x509_bundle.cpp
+--- a/ext/cache/cpm/libevse-security/941866ee405f7ceb5b32f9ed1fc9be05b46e3385/libevse-security/lib/evse_security/certificate/x509_bundle.cpp
++++ b/ext/cache/cpm/libevse-security/941866ee405f7ceb5b32f9ed1fc9be05b46e3385/libevse-security/lib/evse_security/certificate/x509_bundle.cpp
 @@ -75,8 +75,11 @@ std::vector<X509Wrapper> X509CertificateBundle::split() {
  
      // Append all chains
