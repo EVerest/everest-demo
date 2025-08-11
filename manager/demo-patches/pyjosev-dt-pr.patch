@@ -1,0 +1,15 @@
+diff --git /ext/source/modules/PyEvJosev/module.py /ext/source/modules/PyEvJosev/module.py
+new file mode 100644
+index 35a2f94f..c265382b 100644
+--- /ext/dist/libexec/everest/modules/PyEvJosev/module.py
++++ /ext/dist/libexec/everest/modules/PyEvJosev/module.py
+@@ -98,6 +98,8 @@ class PyEVJosevModule():
+ 
+     def _handler_start_charging(self, args) -> bool:
++        log.info('_handler_start_charging() args: %s' % str(args))
+ 
++        self._es.DepartureTime = args['DepartureTime']
++        self._es.EAmount = args['EAmount']
+         self._es.EnergyTransferMode = args['EnergyTransferMode']
+ 
+         self._ready_event.set()
