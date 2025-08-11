@@ -1,9 +1,10 @@
-diff --git /ext/source/modules/PyEvJosev/module.py /ext/source/modules/PyEvJosev/module.py
+diff --git /ext/dist/libexec/everest/modules/PyEvJosev/module.py /ext/dist/libexec/everest/modules/PyEvJosev/module.py
 new file mode 100644
-index 35a2f94f..c265382b 100644
+index 35a2f94f..985c6233 100644
 --- /ext/dist/libexec/everest/modules/PyEvJosev/module.py
 +++ /ext/dist/libexec/everest/modules/PyEvJosev/module.py
-@@ -98,6 +98,8 @@ class PyEVJosevModule():
+@@ -97,7 +97,10 @@ class PyEVJosevModule():
+     # implementation handlers
  
      def _handler_start_charging(self, args) -> bool:
 +        log.info('_handler_start_charging() args: %s' % str(args))
