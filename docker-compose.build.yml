@@ -13,6 +13,7 @@ services:
       context: manager
       platforms:
         - linux/arm64
+        - linux/amd64
     depends_on:
       - mqtt-server
     environment:
