@@ -67,7 +67,7 @@ active_modules:
         simulate_error: false
         simulate_error_delay: 5
   ev_manager:
-    module: JsEvManager
+    module: EvManager
     config_module:
       connector_id: 1
       auto_enable: true

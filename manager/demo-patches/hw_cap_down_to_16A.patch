@@ -1,14 +1,3 @@
---- /ext/dist/libexec/everest/modules/JsYetiSimulator/index.js
-+++ /ext/dist/libexec/everest/modules/JsYetiSimulator/index.js
-@@ -1434,7 +1434,7 @@ boot_module(async ({
-   clearData(mod);
- 
-   mod.provides.board_support.publish.capabilities({
--    max_current_A_import: 32.0,
-+    max_current_A_import: 16.0,
-     min_current_A_import: 6.0,
-     max_phase_count_import: 3,
-     min_phase_count_import: 1,
 --- /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SmartChargingCtrlr.json
 +++ /ext/dist/share/everest/modules/OCPP201/component_config/standardized/SmartChargingCtrlr.json
 @@ -191,7 +191,7 @@
