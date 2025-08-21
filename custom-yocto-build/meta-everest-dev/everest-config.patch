@@ -1,0 +1,25 @@
+From 1e349e92d8bd0594a00336bce2ebe697b2d692c0 Mon Sep 17 00:00:00 2001
+From: Aria Nolan <aria@chytrid.org>
+Date: Wed, 6 Nov 2024 15:49:45 -0700
+Subject: [PATCH] change everest config
+
+---
+ .../recipes-core/everest/everest-yeti-yak/everest.service       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta-yeti-yak/recipes-core/everest/everest-yeti-yak/everest.service b/meta-yeti-yak/recipes-core/everest/everest-yeti-yak/everest.service
+index b94dd45..3270d06 100644
+--- a/meta-yeti-yak/recipes-core/everest/everest-yeti-yak/everest.service
++++ b/meta-yeti-yak/recipes-core/everest/everest-yeti-yak/everest.service
+@@ -13,7 +13,7 @@ LimitCORE=infinity
+ ExecCondition=grep Compute /sys/firmware/devicetree/base/model
+ WorkingDirectory=/usr/bin
+ ExecStartPre=sleep 5
+-ExecStart=/usr/bin/manager --conf /etc/everest/config-yeti-yak-pwm.yaml
++ExecStart=/usr/bin/manager --conf /etc/everest/config-charin.yaml
+ 
+ [Install]
+ WantedBy=multi-user.target
+-- 
+2.47.0
+

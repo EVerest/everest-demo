@@ -1,0 +1,37 @@
+From 0faf1b261454d74859a72bd150469f1d84b69ebc Mon Sep 17 00:00:00 2001
+From: Aria Nolan <aria@chytrid.org>
+Date: Thu, 7 Nov 2024 11:28:54 -0700
+Subject: [PATCH] add some debug logs
+
+---
+ modules/EvseManager/IECStateMachine.cpp                          | 1 +
+ .../MicroMegaWattBSP/board_support/evse_board_supportImpl.cpp    | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/modules/EvseManager/IECStateMachine.cpp b/modules/EvseManager/IECStateMachine.cpp
+index 60a8f836..b93d1874 100644
+--- a/modules/EvseManager/IECStateMachine.cpp
++++ b/modules/EvseManager/IECStateMachine.cpp
+@@ -474,6 +474,7 @@ void IECStateMachine::setup(bool has_ventilation) {
+ 
+ // enable/disable the charging port and CP signal
+ void IECStateMachine::enable(bool en) {
++    EVLOG_info << "DEBUG: Reached IECStateMachine::enable";
+     enabled = en;
+     r_bsp->call_enable(en);
+ }
+diff --git a/modules/MicroMegaWattBSP/board_support/evse_board_supportImpl.cpp b/modules/MicroMegaWattBSP/board_support/evse_board_supportImpl.cpp
+index 9d39772e..53b90474 100644
+--- a/modules/MicroMegaWattBSP/board_support/evse_board_supportImpl.cpp
++++ b/modules/MicroMegaWattBSP/board_support/evse_board_supportImpl.cpp
+@@ -84,6 +84,7 @@ void evse_board_supportImpl::init() {
+ 
+ void evse_board_supportImpl::ready() {
+     {
++        EVLOG_info << "DEBUG: Called evse_board_supportImpl::ready";
+         // Publish caps once in the beginning
+         std::scoped_lock lock(capsMutex);
+         publish_capabilities(caps);
+-- 
+2.47.0
+

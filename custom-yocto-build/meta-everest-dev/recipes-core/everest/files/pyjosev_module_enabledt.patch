@@ -1,0 +1,13 @@
+--- a/modules/PyEvJosev/module.py
++++ b/modules/PyEvJosev/module.py
+@@ -94,7 +94,10 @@
+     # implementation handlers
+ 
+     def _handler_start_charging(self, args) -> bool:
++        log.info('_handler_start_charging() args: %s' % str(args))
+ 
++        self._es.DepartureTime = args['DepartureTime']
++        self._es.EAmount = args['EAmount']
+         self._es.EnergyTransferMode = args['EnergyTransferMode']
+ 
+         self._ready_event.set()

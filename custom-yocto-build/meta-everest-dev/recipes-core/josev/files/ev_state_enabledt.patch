@@ -1,0 +1,19 @@
+--- a/iso15118/evcc/everest/ev_state.py
++++ b/iso15118/evcc/everest/ev_state.py
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: Apache-2.0
+ # Copyright 2020 - 2023 Pionix GmbH and Contributors to EVerest
+ from dataclasses import dataclass, field
++from typing import Optional
+ 
+ DEFAULT_DC_MAX_CURRENT_LIMIT_A = 300
+ DEFAULT_DC_MAX_POWER_LIMIT_W = 150000
+@@ -13,6 +14,8 @@ DEFAULT_TARGET_VOLTAGE_V = 200
+ class EVState:
+     # Common
+     PaymentOption: str = ''
++    EAmount: int = 60 
++    DepartureTime: Optional[int] = None 
+     EnergyTransferMode: str = ''
+     StopCharging = False
+     Pause = False

@@ -1,0 +1,23 @@
+From fac1d6f99c6f54b2b354bc73931e6f96d31c00dc Mon Sep 17 00:00:00 2001
+From: Aria Nolan <aria@chytrid.org>
+Date: Fri, 1 Nov 2024 11:22:16 -0400
+Subject: [PATCH] alkdsjfoauewb
+
+---
+ recipes-core/everest/everest-framework_0.17.2.bb | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/recipes-core/everest/everest-framework_0.17.2.bb b/recipes-core/everest/everest-framework_0.17.2.bb
+index 8ec05e4..992331b 100644
+--- a/recipes-core/everest/everest-framework_0.17.2.bb
++++ b/recipes-core/everest/everest-framework_0.17.2.bb
+@@ -41,6 +41,5 @@ EXTRA_OECMAKE += "\
+     -DDISABLE_EDM=ON \
+     -DNO_FETCH_CONTENT=ON \
+     -DPYTHON_MODULE_EXTENSION=.so \
+-    -DPYBIND11_PYTHONLIBS_OVERWRITE=OFF \
+     -DEVEREST_INSTALL_ADMIN_PANEL=OFF \
+ "
+-- 
+2.47.0
+

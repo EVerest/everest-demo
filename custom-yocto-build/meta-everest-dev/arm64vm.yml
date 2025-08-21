@@ -1,0 +1,23 @@
+header:
+  version: 19
+  includes:
+    - common.yml
+
+machine: genericarm64
+
+repos:
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm.git
+    commit: 8e0f8af90fefb03f08cd2228cde7a89902a6b37c
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+      meta-arm-bsp:
+  meta-raspberrypi:
+    url: https://git.yoctoproject.org/meta-raspberrypi.git
+    commit: 48452445d779b0f69bf1ead12b3850d50eb8920d
+
+local_conf_header:
+  fstypes: |
+    IMAGE_FSTYPES += " wic.vdi"
+
