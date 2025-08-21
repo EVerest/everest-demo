@@ -1,4 +1,5 @@
 #!/bin/bash
 #! /bin/sh
-pip install pytest
-pytest --everest-prefix ../build/dist core_tests/startup_tests.py 
+cmake --build /ext/build --target install_everest_testing
+. /ext/build/venv/bin/activate
+pytest --everest-prefix /ext/dist core_tests/*.py framework_tests/*.py
