@@ -54,6 +54,17 @@ may also need to update the host distribution (e.g. Debian Jessie -> Stretch).
 EOF
 fi
 
+# if the container is started from a not supported terminal, fallback to xterm
+if [ -n "$TERM" ]; then
+	infocmp "$TERM" > /dev/null 2>&1 || TERM=xterm
+fi
+
+if [ -z "$USER_ID" ] && [ -n "$CI_PROJECT_DIR" ]; then
+	# Work around for gitlab-runner not aligning checked out repo ownership
+	# with our builder user. We handle that internally in kas, but we
+	# need the exception here as well for git calls outside of kas.
+	sudo git config --system safe.directory "$CI_PROJECT_DIR"
+fi
 if [ -z "$USER_ID" ] || [ "$USER_ID" = 0 ]; then
 	# Not a kas-container call, or we shall run everything as root
 	GOSU=""
@@ -66,6 +77,11 @@ else
 	# copy host SSH config into home of builder
 	if [ -d /var/kas/userdata/.ssh ]; then
 		cp -a /var/kas/userdata/.ssh /builder/
+	fi
+	# adjust timezone to host
+	if [ -n "${KAS_HOST_TZ}" ] && [ -f "/usr/share/zoneinfo/${KAS_HOST_TZ}" ]; then
+		echo "${KAS_HOST_TZ}" > /etc/timezone
+		ln -sf "/usr/share/zoneinfo/${KAS_HOST_TZ}" /etc/localtime
 	fi
 
 	GOSU="gosu builder"
