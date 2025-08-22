@@ -41,5 +41,6 @@ RUN echo "Applying Post-Build patches..."
 RUN bash /tmp/demo-patch-scripts/apply-runtime-patches.sh
 
 COPY run-test.sh /ext/source/tests/run-test.sh
+COPY run-ocpp-tests.sh /ext/source/tests/run-ocpp-tests.sh
 
 LABEL org.opencontainers.image.source=https://github.com/everest/everest-demo
