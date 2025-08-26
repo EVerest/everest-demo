@@ -746,8 +746,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 160,
-        "y": 960,
+        "x": 140,
+        "y": 1180,
         "wires": [
             [
                 "1777b1cd3c9d696d"
@@ -762,8 +762,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 350,
-        "y": 960,
+        "x": 330,
+        "y": 1180,
         "wires": [
             [
                 "624adadaad6b47e5"
@@ -781,8 +781,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 510,
-        "y": 960,
+        "x": 490,
+        "y": 1180,
         "wires": [
             [
                 "802ba2f1665a9e85"
@@ -801,8 +801,8 @@
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 680,
-        "y": 960,
+        "x": 660,
+        "y": 1180,
         "wires": []
     },
     {
@@ -818,8 +818,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 170,
-        "y": 1140,
+        "x": 150,
+        "y": 1300,
         "wires": [
             [
                 "37cae9211f2e38b2"
@@ -834,8 +834,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 350,
-        "y": 1140,
+        "x": 330,
+        "y": 1300,
         "wires": [
             [
                 "69c9b81785a9f15e"
@@ -853,8 +853,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 510,
-        "y": 1140,
+        "x": 490,
+        "y": 1300,
         "wires": [
             [
                 "fd543037ee2d33ab"
@@ -873,8 +873,8 @@
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 690,
-        "y": 1140,
+        "x": 670,
+        "y": 1300,
         "wires": []
     },
     {
@@ -890,8 +890,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 170,
-        "y": 1200,
+        "x": 150,
+        "y": 1360,
         "wires": [
             [
                 "e2d7c1af5d8d0186"
@@ -906,8 +906,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 360,
-        "y": 1200,
+        "x": 340,
+        "y": 1360,
         "wires": [
             [
                 "ab5211ea8ceefe01"
@@ -925,8 +925,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 520,
-        "y": 1200,
+        "x": 500,
+        "y": 1360,
         "wires": [
             [
                 "c5c9a9e9918a34f7"
@@ -945,8 +945,8 @@
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 710,
-        "y": 1200,
+        "x": 690,
+        "y": 1360,
         "wires": []
     },
     {
@@ -962,8 +962,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 140,
-        "y": 1020,
+        "x": 120,
+        "y": 1240,
         "wires": [
             [
                 "94bfdcd30fd97469"
@@ -981,8 +981,8 @@
         "initialize": "// Code added here will be run once\n// whenever the node is started.\nglobal.set(\"state_topics_list\", []);\nglobal.set(\"state_payload_list\", []);",
         "finalize": "",
         "libs": [],
-        "x": 520,
-        "y": 1020,
+        "x": 500,
+        "y": 1240,
         "wires": [
             [
                 "703f01832a52d59a"
@@ -1001,8 +1001,8 @@
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 690,
-        "y": 1020,
+        "x": 670,
+        "y": 1240,
         "wires": []
     },
     {
@@ -1116,6 +1116,121 @@
         "x": 110,
         "y": 40,
         "wires": []
+    },
+    {
+        "id": "e406222ce63042b3",
+        "type": "ui_switch",
+        "z": "663d251dbdfd20aa",
+        "name": "",
+        "label": "EmergencyStop",
+        "tooltip": "",
+        "group": "ebbb0e3f.53fbf",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "everest_external/nodered/#/carsim/error",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "{\"error_type\":\"MREC8EmergencyStop\",\"raise\":\"true\"}",
+        "onvalueType": "json",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "{\"error_type\":\"MREC8EmergencyStop\",\"raise\":\"false\"}",
+        "offvalueType": "json",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 140,
+        "y": 900,
+        "wires": [
+            [
+                "a638b1ea0b091605"
+            ]
+        ]
+    },
+    {
+        "id": "a638b1ea0b091605",
+        "type": "change",
+        "z": "663d251dbdfd20aa",
+        "name": "Insert Connector Number",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "#",
+                "fromt": "str",
+                "to": "1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 900,
+        "wires": [
+            [
+                "ee1bd67b3b34cd99"
+            ]
+        ]
+    },
+    {
+        "id": "ee1bd67b3b34cd99",
+        "type": "mqtt out",
+        "z": "663d251dbdfd20aa",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fc8686af.48d178",
+        "x": 610,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "42d8727567738856",
+        "type": "ui_switch",
+        "z": "663d251dbdfd20aa",
+        "name": "",
+        "label": "PilotFault",
+        "tooltip": "",
+        "group": "ebbb0e3f.53fbf",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "everest_external/nodered/#/carsim/error",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "{\"error_type\":\"MREC14PilotFault\",\"raise\":\"true\"}",
+        "onvalueType": "json",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "{\"error_type\":\"MREC14PilotFault\",\"raise\":\"false\"}",
+        "offvalueType": "json",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 120,
+        "y": 960,
+        "wires": [
+            [
+                "a638b1ea0b091605"
+            ]
+        ]
     },
     {
         "id": "2774a937638309a4",
@@ -2026,6 +2141,7 @@
         "tooltip": "",
         "color": "",
         "bgcolor": "",
+        "className": "",
         "icon": "",
         "payload": "start",
         "payloadType": "str",
@@ -2053,6 +2169,7 @@
         "tooltip": "",
         "color": "",
         "bgcolor": "",
+        "className": "",
         "icon": "",
         "payload": "stop",
         "payloadType": "str",
@@ -2081,7 +2198,7 @@
         "outs": "all",
         "topic": "everest_external/nodered/#/cmd/set_max_current",
         "topicType": "str",
-        "min": "0",
+        "min": "6",
         "max": "16",
         "step": "0.1",
         "x": 450,
@@ -2109,7 +2226,7 @@
         "options": [
             {
                 "label": "AC ISO15118-2",
-                "value": "sleep 1;iso_wait_slac_matched;iso_set_departure_time null null;iso_start_v2g_session externalpayment,ac;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000#iso_stop_charging;iso_wait_v2g_session_stopped;unplug#iso_pause_charging;iso_wait_for_resume#iso_start_bcb_toogle 3;iso_wait_pwm_is_running;iso_start_v2g_session ExternalPayment,AC_three_phase_core;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000",
+                "value": "sleep 1;iso_wait_slac_matched;iso_start_v2g_session ac,-1,-1;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000#iso_stop_charging;iso_wait_v2g_session_stopped;unplug#iso_pause_charging;iso_wait_for_resume#iso_start_bcb_toogle 3;iso_wait_pwm_is_running;iso_start_v2g_session AC_three_phase_core,-1,-1;iso_wait_pwr_ready;iso_draw_power_regulated 16,3;sleep 36000",
                 "type": "str"
             }
         ],
@@ -2130,7 +2247,7 @@
         "type": "function",
         "z": "a0826fab08a85be9",
         "name": "Buffer sim commands",
-        "func": "function handleDTEAChange() {\n    let dt = global.get('sim_departure_time')\n    let ea = global.get('sim_eamount')\n    let cmd = `iso_set_departure_time ${dt} ${ea}`\n\n    let start = flow.get('sim_commands_start').split(';')\n    let resume = flow.get('sim_commands_resume').split(';')\n\n    start.splice(2, 1, cmd)\n    resume.splice(2, 1, cmd)\n    start = start.join(';')\n    resume = resume.join(';')\n\n    flow.set('sim_commands_start', start);\n    flow.set('sim_commands_resume', resume);\n\n}\n\n\nif (msg.topic.indexOf('sim_commands') > -1) {\n    const s = msg.payload.split('#');\n    flow.set('sim_commands_start', s[0]);\n    flow.set('sim_commands_stop', s[1]);\n    flow.set('sim_commands_pause', s[2]);\n    flow.set('sim_commands_resume', s[3]);\n    handleDTEAChange();\n} else if (msg.topic === 'eamount' || msg.topic === 'departure_time') {\n    handleDTEAChange();\n} else if (msg.payload == 'start') {\n    msg.payload = flow.get('sim_commands_start');\n    return msg;\n} else if (msg.payload == 'stop') {\n    msg.payload = flow.get('sim_commands_stop');\n    return msg;\n} else if (msg.payload == 'pause') {\n    msg.payload = flow.get('sim_commands_pause');\n    return msg;\n} else if (msg.payload == 'resume') {\n    msg.payload = flow.get('sim_commands_resume');\n    return msg;\n} else {\n    msg.payload = 'NONE';\n    return msg;\n}\n",
+        "func": "function handleDTEAChange() {\n    let dt = Number(global.get('sim_departure_time'));\n    let ea = Number(global.get('sim_eamount'));\n\n    node.warn(dt)\n    node.warn(ea)\n\n    node.warn(flow.get('sim_commands_start'))\n    node.warn(flow.get('sim_commands_resume'))\n\n    let start = flow.get('sim_commands_start').split(';')\n    let resume = flow.get('sim_commands_resume').split(';')\n\n    for (let i = 0; i < start.length; i++) {\n        if (start[i].includes(\"iso_start_v2g\")) {\n            let cmd = start[i].split(\",\")\n\n            if (dt > 0){\n                node.warn(\"setting dt\")\n                cmd[1] = dt;\n            } \n            else {\n                cmd[1] = -1;\n            }\n            if (ea > 0){\n                node.warn(\"setting ea\")\n                cmd[2] = ea;\n            }\n            else {\n                cmd[2] = -1;\n            }\n            start[i] = cmd.join(\",\");\n        }\n    }\n\n    for (let i = 0; i < resume.length; i++) {\n        if (resume[i].includes(\"iso_start_v2g\")) {\n            let cmd = resume[i].split(\",\")\n            if (dt > 0){\n                node.warn(\"setting dt\")\n                cmd[1] = dt;\n            } \n            else {\n                cmd[1] = -1;\n            }\n            if (ea > 0){\n                node.warn(\"setting ea\")\n                cmd[2] = ea;\n            }\n            else {\n                cmd[2] = -1;\n            }\n            resume[i] = cmd.join(\",\");\n        }\n    }\n\n    start = start.join(\";\")\n    resume = resume.join(\";\")\n\n    flow.set('sim_commands_start', start);\n    flow.set('sim_commands_resume', resume);\n\n}\n\n\nif (msg.topic.indexOf('sim_commands') > -1) {\n    const s = msg.payload.split('#');\n    flow.set('sim_commands_start', s[0]);\n    flow.set('sim_commands_stop', s[1]);\n    flow.set('sim_commands_pause', s[2]);\n    flow.set('sim_commands_resume', s[3]);\n} else if (msg.topic === 'eamount' || msg.topic === 'departure_time') {\n} else if (msg.payload == 'start') {\n    handleDTEAChange();\n    msg.payload = flow.get('sim_commands_start');\n    return msg;\n} else if (msg.payload == 'stop') {\n    msg.payload = flow.get('sim_commands_stop');\n    return msg;\n} else if (msg.payload == 'pause') {\n    msg.payload = flow.get('sim_commands_pause');\n    return msg;\n} else if (msg.payload == 'resume') {\n    msg.payload = flow.get('sim_commands_resume');\n    return msg;\n} else {\n    msg.payload = 'NONE';\n    return msg;\n}\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -2323,11 +2440,11 @@
         "type": "function",
         "z": "a0826fab08a85be9",
         "name": "Set SIM EAmount & DepartureTime",
-        "func": "if (msg.payload == '') {\n    if (msg.topic == 'eamount') {\n        global.set('sim_eamount', 60);\n        return msg;\n    }\n    // topic == 'departure_time'\n    global.set('sim_departure_time', 0);\n    return msg;\n}\nif (msg.topic == 'eamount') {\n    global.set('sim_eamount', msg.payload);\n    return msg;\n}\n\nglobal.set('sim_departure_time', msg.payload);\nreturn msg;",
+        "func": "if (msg.topic == 'eamount') {\n    global.set('sim_eamount', msg.payload);\n    return msg;\n}\n\nglobal.set('sim_departure_time', msg.payload);\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
-        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\nflow.set('sim_eamount', 60);\nflow.set('sim_departure_time', 86400);",
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\n// flow.set('sim_eamount', 60);\n// flow.set('sim_departure_time', 86400);",
         "finalize": "",
         "libs": [],
         "x": 460,
@@ -2351,35 +2468,6 @@
         "x": 725,
         "y": 940,
         "wires": []
-    },
-    {
-        "id": "02c89bb9da8b7c6b",
-        "type": "inject",
-        "z": "a0826fab08a85be9",
-        "name": "Initialize EAmount",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "initialize_eamount",
-        "payload": "60",
-        "payloadType": "num",
-        "x": 150,
-        "y": 960,
-        "wires": [
-            [
-                "2c905996b70be7b2"
-            ]
-        ]
     },
     {
         "id": "bf54d6e7f4407eb4",
@@ -2962,121 +3050,6 @@
         "statusType": "auto",
         "x": 860,
         "y": 1500,
-        "wires": []
-    },
-    {
-        "id": "7039be115bc5d839",
-        "type": "ui_switch",
-        "z": "a0826fab08a85be9",
-        "name": "",
-        "label": "EmergencyStop",
-        "tooltip": "",
-        "group": "b364f7eb4621082b",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "everest_external/nodered/#/carsim/error",
-        "topicType": "str",
-        "style": "",
-        "onvalue": "{\"error_type\":\"MREC8EmergencyStop\",\"raise\":\"true\"}",
-        "onvalueType": "json",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "{\"error_type\":\"MREC8EmergencyStop\",\"raise\":\"false\"}",
-        "offvalueType": "json",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 160,
-        "y": 1900,
-        "wires": [
-            [
-                "84361b05d3d18e86"
-            ]
-        ]
-    },
-    {
-        "id": "f26d901619482f55",
-        "type": "ui_switch",
-        "z": "a0826fab08a85be9",
-        "name": "",
-        "label": "PilotFault",
-        "tooltip": "",
-        "group": "b364f7eb4621082b",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "everest_external/nodered/#/carsim/error",
-        "topicType": "str",
-        "style": "",
-        "onvalue": "{\"error_type\":\"MREC14PilotFault\",\"raise\":\"true\"}",
-        "onvalueType": "json",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "{\"error_type\":\"MREC14PilotFault\",\"raise\":\"false\"}",
-        "offvalueType": "json",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 140,
-        "y": 1940,
-        "wires": [
-            [
-                "84361b05d3d18e86"
-            ]
-        ]
-    },
-    {
-        "id": "84361b05d3d18e86",
-        "type": "change",
-        "z": "a0826fab08a85be9",
-        "name": "Insert Connector Number",
-        "rules": [
-            {
-                "t": "change",
-                "p": "topic",
-                "pt": "msg",
-                "from": "#",
-                "fromt": "str",
-                "to": "connector_number",
-                "tot": "flow"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 430,
-        "y": 1920,
-        "wires": [
-            [
-                "d8cf5673b6db5eb3"
-            ]
-        ]
-    },
-    {
-        "id": "d8cf5673b6db5eb3",
-        "type": "mqtt out",
-        "z": "a0826fab08a85be9",
-        "name": "",
-        "topic": "",
-        "qos": "1",
-        "retain": "false",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "fc8686af.48d178",
-        "x": 670,
-        "y": 1920,
         "wires": []
     },
     {
