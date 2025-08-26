@@ -746,8 +746,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 160,
-        "y": 960,
+        "x": 140,
+        "y": 1180,
         "wires": [
             [
                 "1777b1cd3c9d696d"
@@ -762,8 +762,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 350,
-        "y": 960,
+        "x": 330,
+        "y": 1180,
         "wires": [
             [
                 "624adadaad6b47e5"
@@ -781,8 +781,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 510,
-        "y": 960,
+        "x": 490,
+        "y": 1180,
         "wires": [
             [
                 "802ba2f1665a9e85"
@@ -801,8 +801,8 @@
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 680,
-        "y": 960,
+        "x": 660,
+        "y": 1180,
         "wires": []
     },
     {
@@ -818,8 +818,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 170,
-        "y": 1140,
+        "x": 150,
+        "y": 1300,
         "wires": [
             [
                 "37cae9211f2e38b2"
@@ -834,8 +834,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 350,
-        "y": 1140,
+        "x": 330,
+        "y": 1300,
         "wires": [
             [
                 "69c9b81785a9f15e"
@@ -853,8 +853,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 510,
-        "y": 1140,
+        "x": 490,
+        "y": 1300,
         "wires": [
             [
                 "fd543037ee2d33ab"
@@ -873,8 +873,8 @@
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 690,
-        "y": 1140,
+        "x": 670,
+        "y": 1300,
         "wires": []
     },
     {
@@ -890,8 +890,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 170,
-        "y": 1200,
+        "x": 150,
+        "y": 1360,
         "wires": [
             [
                 "e2d7c1af5d8d0186"
@@ -906,8 +906,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 360,
-        "y": 1200,
+        "x": 340,
+        "y": 1360,
         "wires": [
             [
                 "ab5211ea8ceefe01"
@@ -925,8 +925,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 520,
-        "y": 1200,
+        "x": 500,
+        "y": 1360,
         "wires": [
             [
                 "c5c9a9e9918a34f7"
@@ -945,8 +945,8 @@
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 710,
-        "y": 1200,
+        "x": 690,
+        "y": 1360,
         "wires": []
     },
     {
@@ -962,8 +962,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 140,
-        "y": 1020,
+        "x": 120,
+        "y": 1240,
         "wires": [
             [
                 "94bfdcd30fd97469"
@@ -981,8 +981,8 @@
         "initialize": "// Code added here will be run once\n// whenever the node is started.\nglobal.set(\"state_topics_list\", []);\nglobal.set(\"state_payload_list\", []);",
         "finalize": "",
         "libs": [],
-        "x": 520,
-        "y": 1020,
+        "x": 500,
+        "y": 1240,
         "wires": [
             [
                 "703f01832a52d59a"
@@ -1001,8 +1001,8 @@
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 690,
-        "y": 1020,
+        "x": 670,
+        "y": 1240,
         "wires": []
     },
     {
@@ -1116,6 +1116,121 @@
         "x": 110,
         "y": 40,
         "wires": []
+    },
+    {
+        "id": "e406222ce63042b3",
+        "type": "ui_switch",
+        "z": "663d251dbdfd20aa",
+        "name": "",
+        "label": "EmergencyStop",
+        "tooltip": "",
+        "group": "ebbb0e3f.53fbf",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "everest_external/nodered/#/carsim/error",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "{\"error_type\":\"MREC8EmergencyStop\",\"raise\":\"true\"}",
+        "onvalueType": "json",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "{\"error_type\":\"MREC8EmergencyStop\",\"raise\":\"false\"}",
+        "offvalueType": "json",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 140,
+        "y": 900,
+        "wires": [
+            [
+                "a638b1ea0b091605"
+            ]
+        ]
+    },
+    {
+        "id": "a638b1ea0b091605",
+        "type": "change",
+        "z": "663d251dbdfd20aa",
+        "name": "Insert Connector Number",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "#",
+                "fromt": "str",
+                "to": "1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 900,
+        "wires": [
+            [
+                "ee1bd67b3b34cd99"
+            ]
+        ]
+    },
+    {
+        "id": "ee1bd67b3b34cd99",
+        "type": "mqtt out",
+        "z": "663d251dbdfd20aa",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fc8686af.48d178",
+        "x": 610,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "42d8727567738856",
+        "type": "ui_switch",
+        "z": "663d251dbdfd20aa",
+        "name": "",
+        "label": "PilotFault",
+        "tooltip": "",
+        "group": "ebbb0e3f.53fbf",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "everest_external/nodered/#/carsim/error",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "{\"error_type\":\"MREC14PilotFault\",\"raise\":\"true\"}",
+        "onvalueType": "json",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "{\"error_type\":\"MREC14PilotFault\",\"raise\":\"false\"}",
+        "offvalueType": "json",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 120,
+        "y": 960,
+        "wires": [
+            [
+                "a638b1ea0b091605"
+            ]
+        ]
     },
     {
         "id": "2774a937638309a4",
