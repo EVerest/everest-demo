@@ -1,6 +1,8 @@
 name: core-tests
 
-on: push
+on:
+  schedule:
+    - cron: '0 2 * * *'
 
 jobs:
   run-core-tests:
