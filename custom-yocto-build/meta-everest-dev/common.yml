@@ -7,7 +7,7 @@ target: core-image-sato
 repos:
   meta-everest:
     url: https://github.com/EVerest/meta-everest.git
-    commit: c9ac56a0c7aa00e2155d1808bec286f8a2800481
+    commit: 1fbec11022e24c82f912914bd879a4baa37fac3d
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded.git
     commit: e8fd97d86af86cdcc5a6eb3f301cbaf6a2084943

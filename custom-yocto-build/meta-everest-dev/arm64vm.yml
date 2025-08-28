@@ -13,9 +13,6 @@ repos:
       meta-arm:
       meta-arm-toolchain:
       meta-arm-bsp:
-  meta-raspberrypi:
-    url: https://git.yoctoproject.org/meta-raspberrypi.git
-    commit: 48452445d779b0f69bf1ead12b3850d50eb8920d
 
 local_conf_header:
   fstypes: |
