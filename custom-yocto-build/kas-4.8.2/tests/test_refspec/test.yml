@@ -1,0 +1,22 @@
+header:
+  version: 15
+
+repos:
+  this:
+
+  kas:
+    url: https://github.com/siemens/kas.git
+    commit: 907816a5c4094b59a36aec12226e71c461c05b77
+
+  kas2:
+    url: https://github.com/siemens/kas.git
+    branch: master
+
+  kas3:
+    url: https://github.com/siemens/kas.git
+    tag: 3.0.1
+    commit: 229310958b17dc2b505b789c1cc1d0e2fddccc44
+
+  kas4:
+    url: https://github.com/siemens/kas.git
+    branch: master
