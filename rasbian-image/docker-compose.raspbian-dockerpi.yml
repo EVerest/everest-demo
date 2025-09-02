@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  raspbian-everest:
+    container_name: raspbian-everest
+    image: lukechilds/dockerpi:vm
+    volumes:
+      - /path/to/1688039802-2023-06-29-belaybox.img:/sdcard/filesystem.img
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "4"
+    #       memory: "1024M"
+    stdin_open: true
+    tty: true
