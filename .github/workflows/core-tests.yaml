@@ -8,6 +8,8 @@ jobs:
   run-core-tests:
     runs-on: ubuntu-latest
     steps:
+      - name: Get docker info
+        run: docker info
       - uses: actions/checkout@v4
       - name: Get container tag
         run: cat .env >> $GITHUB_ENV
@@ -16,7 +18,7 @@ jobs:
       - name: Pull manager
         run: docker pull ghcr.io/everest/everest-demo/manager:${TAG}
       - name: Create docker network
-        run: docker network create everest
+        run: docker network create --ipv6 everest
       - name: Start mqtt-server
         run: docker run --network everest --name mqtt-server -d ghcr.io/everest/everest-demo/mqtt-server:${TAG}
       - name: Run core tests
