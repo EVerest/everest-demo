@@ -18,7 +18,7 @@ jobs:
       - name: Pull manager
         run: docker pull ghcr.io/everest/everest-demo/manager:${TAG}
       - name: Create docker network
-        run: docker network create --ipv6 everest
+        run: docker network create everest
       - name: Start mqtt-server
         run: docker run --network everest --name mqtt-server -d ghcr.io/everest/everest-demo/mqtt-server:${TAG}
       - name: Run core tests
