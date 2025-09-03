@@ -5,24 +5,10 @@ header:
 
 local_conf_header:
   random: |
-    PACKAGE_CLASSES ?= "package_rpm"
-    EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-openssh"
-    USER_CLASSES ?= "buildstats"
-    PATCHRESOLVE = "noop"
-    PREFERRED_VERSION_linux-raspberrypi = "6.1%"
     ENABLE_SPI_BUS = "1"
     ENABLE_I2C = "1"
     ENABLE_UART = "1"
-    KERNEL_IMAGETYPE = "zImage"
-    KERNEL_BOOTCMD = "bootz"
     KERNEL_MODULE_AUTOLOAD:rpi:append = " qcaspi qca7000 drm "
-    INHERIT += "license"
-  systemd: |
-    DISTRO_FEATURES:append = " systemd usrmerge "
-    DISTRO_FEATURES:append = " pam"    
-    DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
-    VIRTUAL-RUNTIME_init_manager = "systemd"
-    VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
   devicetree: |
     KERNEL_DEVICETREE:append = " \
     overlays/anyspi.dtbo \

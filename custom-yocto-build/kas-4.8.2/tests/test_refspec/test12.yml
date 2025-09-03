@@ -1,9 +1,0 @@
-header:
-  version: 15
-
-repos:
-  this:
-
-  kas:
-    url: https://github.com/siemens/kas.git
-    commit: abd109469

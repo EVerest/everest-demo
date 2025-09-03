@@ -2,10 +2,12 @@ header:
   version: 19
   includes:
     - common.yml
-
-machine: genericarm64
+    - yeti-yak.yml
 
 repos:
+  meta-raspberrypi:
+    url: https://git.yoctoproject.org/meta-raspberrypi.git
+    commit: 3afc9728b1f4ba0f5be1af34883d6582966133a1
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm.git
     commit: 8e0f8af90fefb03f08cd2228cde7a89902a6b37c
@@ -14,7 +16,5 @@ repos:
       meta-arm-toolchain:
       meta-arm-bsp:
 
-local_conf_header:
-  fstypes: |
-    IMAGE_FSTYPES += " wic.vmdk"
+machine: raspberrypi4-64
 

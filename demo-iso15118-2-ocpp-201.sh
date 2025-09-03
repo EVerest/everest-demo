@@ -67,7 +67,7 @@ fi
 
 
 delete_temporary_directory() { rm -rf "${DEMO_DIR}"; }
-trap delete_temporary_directory EXIT
+# trap delete_temporary_directory EXIT
 
 
 echo "DEMO REPO:        $DEMO_REPO"
@@ -107,7 +107,7 @@ fi
   echo "CSMS_SP2_BASE:     $CSMS_SP2_BASE"
   echo "CSMS_SP3_BASE:     $CSMS_SP3_BASE"
 
-  if ! docker compose --project-name "${DEMO_CSMS}"-csms up -d; then
+  if ! docker compose --project-name "${DEMO_CSMS}"-csms up -d --wait; then
       echo "Failed to start ${DEMO_CSMS}"
       exit 1
   fi
@@ -128,6 +128,7 @@ pushd everest-demo || exit 1
 echo "API calls to CSMS finished, Starting everest"
 docker compose --project-name everest-ac-demo --file "${DEMO_COMPOSE_FILE_NAME}" up -d --wait
 docker cp manager/config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/ext/source/config/config-sil-ocpp201-pnc.yaml
+docker cp manager/config-sil-ocpp201-pnc.yaml  everest-ac-demo-manager-1:/tmp/config-sil-ocpp201-pnc.yaml
 docker exec \
         -e DEMO_VERSION="${DEMO_VERSION}" \
         -e CSMS_SP1_BASE="${CSMS_SP1_BASE}" \

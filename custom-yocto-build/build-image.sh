@@ -7,9 +7,9 @@ usage="
 	          build for the Micro Mega Watt Charger
 "
 
-MACHINE="arm64vm"
+MACHINE="umwc"
 
-while getopts ':cnh' option; do
+while getopts 'c:m:nh' option; do
 	case "$option" in
 		n)  NREL_CERTS=1 ;;
 		c)  CUSTOM_CERTS="$OPTARG" ;;
@@ -44,7 +44,11 @@ docker exec --user root everest-kas chown -R builder:builder /workdir
 
 docker cp meta-everest-dev everest-kas:/builder
 
+echo $MACHINE
+
 docker exec --user builder --workdir /workdir everest-kas kas build /builder/meta-everest-dev/${MACHINE}.yml
+
+docker cp everest-kas:/workdir/build/tmp/deploy/images .
 
 docker compose -f docker-compose.kas.yml down
 

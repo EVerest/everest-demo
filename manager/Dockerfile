@@ -1,6 +1,6 @@
 FROM ghcr.io/catarial/everest-ci/build-kit-base:v1.5.2
 
-ARG EVEREST_VERSION=2025.3.0
+ARG EVEREST_VERSION=2025.6.0
 ENV EVEREST_VERSION=${EVEREST_VERSION}
 
 RUN echo "Copying compile-time patches before starting compile"
@@ -41,5 +41,6 @@ RUN echo "Applying Post-Build patches..."
 RUN bash /tmp/demo-patch-scripts/apply-runtime-patches.sh
 
 COPY run-test.sh /ext/source/tests/run-test.sh
+COPY run-ocpp-tests.sh /ext/source/tests/run-ocpp-tests.sh
 
 LABEL org.opencontainers.image.source=https://github.com/everest/everest-demo

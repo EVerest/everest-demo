@@ -1,6 +1,6 @@
 services:
   kas:
-    build: kas-4.8.2
+    image: ghcr.io/siemens/kas/kas:4.8.2
     entrypoint: "tail -f /dev/null"
     container_name: everest-kas
     volumes:
