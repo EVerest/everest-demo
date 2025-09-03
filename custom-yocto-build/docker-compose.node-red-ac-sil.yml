@@ -1,0 +1,11 @@
+services:
+  node-red:
+    image: ghcr.io/everest/everest-demo/nodered:${TAG}
+    environment:
+      - MQTT_SERVER_ADDRESS=10.0.0.101
+      - FLOWS=/config/config-sil-flow.json
+    ports:
+      - 1880:1880
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+
