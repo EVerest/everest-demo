@@ -5,7 +5,7 @@ on:
     - cron: '0 2 * * *'
 
 jobs:
-  run-core-tests (no ipv6):
+  run-core-tests-no-ipv6:
     runs-on: ubuntu-latest
     steps:
       - name: Get docker info
@@ -23,7 +23,7 @@ jobs:
         run: docker run --network everest --name mqtt-server -d ghcr.io/everest/everest-demo/mqtt-server:${TAG}
       - name: Run core tests
         run: docker run --network everest --name manager --workdir /ext/source/tests --env MQTT_SERVER_ADDRESS=mqtt-server ghcr.io/everest/everest-demo/manager:${TAG} sh ./run-test.sh
-  run-core-tests (with ipv6):
+  run-core-tests-with-ipv6:
     runs-on: ubuntu-latest
     steps:
       - name: Get docker info
