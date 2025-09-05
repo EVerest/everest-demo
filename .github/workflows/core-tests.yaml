@@ -5,9 +5,11 @@ on:
     - cron: '0 2 * * *'
 
 jobs:
-  run-core-tests:
+  run-core-tests-no-ipv6:
     runs-on: ubuntu-latest
     steps:
+      - name: Get docker info
+        run: docker info
       - uses: actions/checkout@v4
       - name: Get container tag
         run: cat .env >> $GITHUB_ENV
@@ -17,6 +19,24 @@ jobs:
         run: docker pull ghcr.io/everest/everest-demo/manager:${TAG}
       - name: Create docker network
         run: docker network create everest
+      - name: Start mqtt-server
+        run: docker run --network everest --name mqtt-server -d ghcr.io/everest/everest-demo/mqtt-server:${TAG}
+      - name: Run core tests
+        run: docker run --network everest --name manager --workdir /ext/source/tests --env MQTT_SERVER_ADDRESS=mqtt-server ghcr.io/everest/everest-demo/manager:${TAG} sh ./run-test.sh
+  run-core-tests-with-ipv6:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get docker info
+        run: docker info
+      - uses: actions/checkout@v4
+      - name: Get container tag
+        run: cat .env >> $GITHUB_ENV
+      - name: Pull mqtt-server
+        run: docker pull ghcr.io/everest/everest-demo/mqtt-server:${TAG}
+      - name: Pull manager
+        run: docker pull ghcr.io/everest/everest-demo/manager:${TAG}
+      - name: Create docker network
+        run: docker network create --ipv6 everest
       - name: Start mqtt-server
         run: docker run --network everest --name mqtt-server -d ghcr.io/everest/everest-demo/mqtt-server:${TAG}
       - name: Run core tests
