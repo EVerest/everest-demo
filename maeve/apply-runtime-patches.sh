@@ -16,3 +16,5 @@ export CSMS_SP3_BASE="wss://host.docker.internal/ws"
     patch -p1 -i maeve-csms-no-wss.patch
   fi
 
+chmod -R 777 config
+
