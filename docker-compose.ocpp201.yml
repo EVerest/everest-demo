@@ -34,3 +34,12 @@ services:
     environment:
       - MQTT_SERVER_ADDRESS=mqtt-server
       - FLOWS=/config/config-sil-iso15118-ac-flow.json
+
+networks:
+  default:
+    name: everest-ac-demo
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:db8:c::/64
+          gateway: 2001:db8:c::1
