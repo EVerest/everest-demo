@@ -42,8 +42,6 @@ fi
 docker exec --user root everest-kas mkdir -p /usr/include/python3.11
 docker exec --user root everest-kas chown -R builder:builder /workdir
 
-docker cp meta-everest-dev everest-kas:/builder
-
 echo $MACHINE
 
 docker exec --user builder --workdir /workdir everest-kas kas build /builder/meta-everest-dev/${MACHINE}.yml

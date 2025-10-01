@@ -8,7 +8,7 @@ machine: genericarm64
 repos:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm.git
-    commit: 8e0f8af90fefb03f08cd2228cde7a89902a6b37c
+    commit: 0f1e7bf92c89759f0ab74cfa5be4ee47b092ad46
     layers:
       meta-arm:
       meta-arm-toolchain:

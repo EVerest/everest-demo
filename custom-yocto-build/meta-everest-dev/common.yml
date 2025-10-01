@@ -11,7 +11,7 @@ repos:
     commit: 1fbec11022e24c82f912914bd879a4baa37fac3d
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded.git
-    commit: e8fd97d86af86cdcc5a6eb3f301cbaf6a2084943
+    commit: e621da947048842109db1b4fd3917a02e0501aa2
     layers:
       meta-oe:
       meta-python:
@@ -19,13 +19,18 @@ repos:
       meta-gnome:
   poky:
     url: https://git.yoctoproject.org/poky.git
-    commit: ac257900c33754957b2696529682029d997a8f28
+    commit: ec220ae083dba35c279192b2249ad03fe238446e
     layers:
       meta:
       meta-poky:
       meta-yocto-bsp:
 
 local_conf_header:
+  shared-state: |
+    BB_HASHSERVE_UPSTREAM = "wss://hashserv.yoctoproject.org/ws"
+    SSTATE_MIRRORS ?= "file://.* http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH"
+    BB_HASHSERVE = "auto"
+    BB_SIGNATURE_HANDLER = "OEEquivHash"
   wifi: |
     DISTRO_FEATURES:append = " wifi"
   packages: |
