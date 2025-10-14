@@ -3,6 +3,7 @@ services:
     image: ghcr.io/everest/everest-demo/nodered:${TAG}
     environment:
       - FLOWS=/config/config-sil-flow.json
+      - MQTT_SERVER_ADDRESS=
     ports:
       - 1880:1880
     sysctls:

@@ -39,7 +39,7 @@ to the MQTT server.
 
 While you're in the terminal run `manager --config /etc/everest/config-sil.yaml`
 
-Return to the Host OS, edit the `.env` file in `custom-yocto-build` and change
+Return to the Host OS, edit the node red docker compose file in `custom-yocto-build` and change
 the MQTT address to the address you found when running `ip a`. Run
 `docker compose --file docker-compose.node-red-ac-sil.yml up` to start
 node-red. Now you can control the manager in the VM from
