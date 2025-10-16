@@ -1,0 +1,20 @@
+header:
+  version: 19
+  includes:
+    - common.yml
+
+machine: genericarm64
+
+repos:
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm.git
+    commit: 0f1e7bf92c89759f0ab74cfa5be4ee47b092ad46
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+      meta-arm-bsp:
+
+local_conf_header:
+  fstypes: |
+    IMAGE_FSTYPES += " wic.vmdk"
+

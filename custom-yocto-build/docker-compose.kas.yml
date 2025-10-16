@@ -1,0 +1,11 @@
+services:
+  kas:
+    image: ghcr.io/siemens/kas/kas:4.8.2
+    entrypoint: "tail -f /dev/null"
+    container_name: everest-kas
+    volumes:
+      - workdir:/workdir
+      - ./meta-everest-dev:/builder/meta-everest-dev
+
+volumes:
+  workdir:

@@ -1,0 +1,44 @@
+header:
+  version: 19
+
+distro: poky
+target: core-image-sato
+
+repos:
+  meta-everest-dev:
+  meta-everest:
+    url: https://github.com/EVerest/meta-everest.git
+    commit: 1fbec11022e24c82f912914bd879a4baa37fac3d
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded.git
+    commit: e621da947048842109db1b4fd3917a02e0501aa2
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+      meta-gnome:
+  poky:
+    url: https://git.yoctoproject.org/poky.git
+    commit: ec220ae083dba35c279192b2249ad03fe238446e
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+local_conf_header:
+  shared-state: |
+    BB_HASHSERVE_UPSTREAM = "wss://hashserv.yoctoproject.org/ws"
+    SSTATE_MIRRORS ?= "file://.* http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH"
+    BB_HASHSERVE = "auto"
+    BB_SIGNATURE_HANDLER = "OEEquivHash"
+  wifi: |
+    DISTRO_FEATURES:append = " wifi"
+  packages: |
+    CORE_IMAGE_EXTRA_INSTALL += " connman-gnome everest-core mosquitto less vim htop wireshark tzdata python3 python3-iso15118 htop chrony chronyc"
+  password: |
+    INHERIT += "extrausers"
+    EXTRA_USERS_PARAMS = "useradd aria; \
+                          usermod -p '\$1\$x8be6haF\$uKuamZOYwxUMqnwpfsC2x0' aria; \
+                          usermod -a -G sudo aria;"
+  license: |
+    LICENSE_FLAGS_ACCEPTED:append = " synaptics-killswitch"
