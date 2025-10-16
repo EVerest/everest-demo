@@ -12,6 +12,28 @@ It will use A LOT of resources so make sure your Docker settings have the maximu
 amount of resources available and close out of other applications that are using
 a lot of RAM. You will also need 200-300 GB available on your disk.
 
+## Alternative Build Solution
+
+If docker is not working for you, you can try building the image inside a VM.
+I provided a script that starts the build for a Debian 13 environment
+make sure you can run `sudo` by logging into root and adding yourself
+to the sudo group.
+
+```
+# usermod -aG sudo <user>
+```
+
+And run these commands to install NREL root certs if needed
+
+```
+# curl -fsSLk -o /usr/local/share/ca-certificates/nrel_root.crt https://raw.github.nrel.gov/TADA/nrel-certs/v20180329/certs/nrel_root.pem
+# curl -fsSLk -o /usr/local/share/ca-certificates/nrel_xca1.crt https://raw.github.nrel.gov/TADA/nrel-certs/v20180329/certs/nrel_xca1.pem
+# update-ca-certificates
+```
+
+In the debian build script you can edit the environment variables to change
+the build directories and target image.
+
 # Running everest in a VM with VMWare Fusion
 
 Run the `build-image.sh` script with the `-m` flag set to arm64vm or amd64vm depending
