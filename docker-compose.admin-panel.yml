@@ -1,5 +1,14 @@
 version: "3.6"
 
+networks:
+  default:
+    name: everest-demo-admin
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:db8:a::/64
+          gateway: 2001:db8:a::1
+
 services:
   mqtt-server:
     image: ghcr.io/everest/everest-demo/mqtt-server:${TAG}
