@@ -6,8 +6,8 @@ networks:
     enable_ipv6: true
     ipam:
       config:
-        - subnet: 2001:db8:a::/64
-          gateway: 2001:db8:a::1
+        - subnet: 2001:db8:7::/64
+          gateway: 2001:db8:7::1
 
 services:
   mqtt-server:
