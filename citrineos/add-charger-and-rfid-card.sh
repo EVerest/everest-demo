@@ -84,7 +84,7 @@ add_rfid_token() {
     local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     
     # First try to find existing token
-    local existing_query="query { IdTokens(where: {idToken: {_eq: \"$idToken\"}, type: {_eq: \"$idTokenType\"}}) { id idToken type } }"
+    local existing_query="query { Authorizations(where: {idToken: {_eq: \"$idToken\"}, idTokenType: {_eq: \"$idTokenType\"}}) { id idToken idTokenType } }"
     echo "Checking for existing RFID token..." >&2
     local existing_response=$(execute_graphql "$existing_query")
     local existing_id=$(echo "$existing_response" | jq -r '.data.IdTokens[0].id // empty')
@@ -95,13 +95,13 @@ add_rfid_token() {
         return
     fi
     
-    local query="mutation { insert_IdTokens_one(object: { idToken: \"$idToken\", type: \"$idTokenType\", createdAt: \"$timestamp\", updatedAt: \"$timestamp\" }) { id idToken type } }"
+    local query="mutation { insert_Authorizations_one(object: { idToken: \"$idToken\", idTokenType: \"$idTokenType\", createdAt: \"$timestamp\", updatedAt: \"$timestamp\" }) { id idToken idTokenType } }"
     
     echo "Adding RFID token via GraphQL..." >&2
     local response=$(execute_graphql "$query")
     echo "RFID token response: $response" >&2
     
-    local token_id=$(echo "$response" | jq -r '.data.insert_IdTokens_one.id')
+    local token_id=$(echo "$response" | jq -r '.data.insert_Authorizations_one.id')
     echo "$token_id"
 }
 
