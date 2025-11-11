@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  yocto-builder:
+    build:
+      dockerfile: "Dockerfile"
+    stdin_open: true
+    tty: true
