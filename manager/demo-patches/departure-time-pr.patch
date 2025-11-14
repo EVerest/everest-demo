@@ -1,9 +1,8 @@
 diff --git /ext/source/config/config-sil-dc-d20.yaml /ext/source/config/config-sil-dc-d20.yaml
-new file mode 100644
-index 9e07715b..75940e82 100644
+index ed6d2475f..0e17121cf 100644
 --- /ext/source/config/config-sil-dc-d20.yaml
 +++ /ext/source/config/config-sil-dc-d20.yaml
-@@ -65,7 +65,7 @@ active_modules:
+@@ -67,7 +67,7 @@ active_modules:
        connector_id: 1
        auto_enable: true
        auto_exec: false
@@ -13,8 +12,7 @@ index 9e07715b..75940e82 100644
        dc_target_voltage: 400
      connections:
 diff --git /ext/source/config/nodered/config-sil-dc-bpt-flow.json /ext/source/config/nodered/config-sil-dc-bpt-flow.json
-new file mode 100644
-index 89d8ad48..19e7321f 100644
+index 89d8ad48f..19e7321f4 100644
 --- /ext/source/config/nodered/config-sil-dc-bpt-flow.json
 +++ /ext/source/config/nodered/config-sil-dc-bpt-flow.json
 @@ -1789,7 +1789,7 @@
@@ -36,8 +34,7 @@ index 89d8ad48..19e7321f 100644
          "x": 150,
          "y": 1180,
 diff --git /ext/source/config/nodered/config-sil-dc-flow.json /ext/source/config/nodered/config-sil-dc-flow.json
-new file mode 100644
-index 47e39feb..f9c8fcac 100644
+index 47e39febe..f9c8fcac0 100644
 --- /ext/source/config/nodered/config-sil-dc-flow.json
 +++ /ext/source/config/nodered/config-sil-dc-flow.json
 @@ -1789,7 +1789,7 @@
@@ -59,8 +56,7 @@ index 47e39feb..f9c8fcac 100644
          "x": 150,
          "y": 1180,
 diff --git /ext/source/config/nodered/config-sil-energy-management-flow.json /ext/source/config/nodered/config-sil-energy-management-flow.json
-new file mode 100644
-index 251c5bbf..65d11339 100644
+index 251c5bbf3..65d113392 100644
 --- /ext/source/config/nodered/config-sil-energy-management-flow.json
 +++ /ext/source/config/nodered/config-sil-energy-management-flow.json
 @@ -1792,12 +1792,12 @@
@@ -79,8 +75,7 @@ index 251c5bbf..65d11339 100644
              }
          ],
 diff --git /ext/source/config/nodered/config-sil-flow.json /ext/source/config/nodered/config-sil-flow.json
-new file mode 100644
-index 07188d46..b54025ca 100644
+index 07188d465..b54025ca2 100644
 --- /ext/source/config/nodered/config-sil-flow.json
 +++ /ext/source/config/nodered/config-sil-flow.json
 @@ -1867,7 +1867,7 @@
@@ -93,8 +88,7 @@ index 07188d46..b54025ca 100644
              }
          ],
 diff --git /ext/source/config/nodered/config-sil-two-evse-flow.json /ext/source/config/nodered/config-sil-two-evse-flow.json
-new file mode 100644
-index 26f8b6f9..20f000a2 100644
+index 26f8b6f96..20f000a29 100644
 --- /ext/source/config/nodered/config-sil-two-evse-flow.json
 +++ /ext/source/config/nodered/config-sil-two-evse-flow.json
 @@ -2136,12 +2136,12 @@
@@ -113,8 +107,7 @@ index 26f8b6f9..20f000a2 100644
              }
          ],
 diff --git /ext/source/interfaces/ISO15118_ev.yaml /ext/source/interfaces/ISO15118_ev.yaml
-new file mode 100644
-index 47ee463e..2111ee68 100644
+index 9a4e50a1a..a060145c9 100644
 --- /ext/source/interfaces/ISO15118_ev.yaml
 +++ /ext/source/interfaces/ISO15118_ev.yaml
 @@ -9,6 +9,14 @@ cmds:
@@ -132,43 +125,11 @@ index 47ee463e..2111ee68 100644
      result:
        description: Returns true if the evcc simulation started
        type: boolean
-# @@ -37,23 +45,23 @@ cmds:
-#    enable_sae_j2847_v2g_v2h:
-#      description: Enable the SAE J2847 2 V2H V2G
-#  vars:
-# -  V2G_Session_Finished:
-# +  v2g_session_finished:
-#      description: The v2g session between the charger and the car is finished
-#      type: 'null'
-# -  AC_EVPowerReady:
-# +  ev_power_ready:
-#      description: The car is ready for power (HLC)
-#      type: boolean
-# -  AC_EVSEMaxCurrent:
-# +  ac_evse_max_current:
-#      description: EVSE max current per phase
-#      type: number
-#      minimum: 0
-#      maximum: 400
-# -  AC_StopFromCharger:
-# -    description: The charger wants to stop the charging process
-# -    type: 'null'
-# -  DC_PowerOn:
-# +  dc_power_on:
-#      description: The ev wants to close the dc contactors
-#      type: 'null'
-# +  stop_from_charger:
-# +    description: The charger wants to stop the charging process
-# +    type: 'null'
-#    pause_from_charger:
-#      description: The charger wants to pause the session (only d20)
-#      type: 'null'
-diff --git /ext/source/modules/EvManager/EvManager.hpp /ext/source/modules/EvManager/EvManager.hpp
-new file mode 100644
-index fa313713..4b17c5c5 100644
---- /ext/source/modules/EvManager/EvManager.hpp
-+++ /ext/source/modules/EvManager/EvManager.hpp
-@@ -47,6 +47,8 @@ struct Conf {
+diff --git/ext/source/modules/EV/EvManager/EvManager.hpp/ext/source/modules/EV/EvManager/EvManager.hpp
+index 2db0ba953..15655e590 100644
+--- /ext/source/modules/EV/EvManager/EvManager.hpp
++++ /ext/source/modules/EV/EvManager/EvManager.hpp
+@@ -48,6 +48,8 @@ struct Conf {
      int dc_discharge_v2g_minimal_soc;
      double max_current;
      bool three_phases;
@@ -177,11 +138,10 @@ index fa313713..4b17c5c5 100644
      int soc;
      bool keep_cross_boot_plugin_state;
  };
-diff --git /ext/source/modules/EvManager/doc.rst /ext/source/modules/EvManager/doc.rst
-new file mode 100644
-index 1a5e35b3..23896dc3 100644
---- /ext/source/modules/EvManager/doc.rst
-+++ /ext/source/modules/EvManager/doc.rst
+diff --git/ext/source/modules/EV/EvManager/doc.rst/ext/source/modules/EV/EvManager/doc.rst
+index 1a5e35b3c..23896dc30 100644
+--- /ext/source/modules/EV/EvManager/doc.rst
++++ /ext/source/modules/EV/EvManager/doc.rst
 @@ -29,7 +29,7 @@ The module listens to the following MQTT topics:
      | Used to execute a charging session based on the semicolon separated provided command string.
      ::
@@ -191,12 +151,11 @@ index 1a5e35b3..23896dc3 100644
  
      | (For all available commands see: `Simulator Commands`_)
  
-diff --git /ext/source/modules/EvManager/main/car_simulation.cpp /ext/source/modules/EvManager/main/car_simulation.cpp
-new file mode 100644
-index b1a8ab75..0a411a65 100644
---- /ext/source/modules/EvManager/main/car_simulation.cpp
-+++ /ext/source/modules/EvManager/main/car_simulation.cpp
-@@ -268,19 +268,28 @@ bool CarSimulation::iso_dc_power_on(const CmdArguments& arguments) {
+diff --git /ext/source/modules/EV/EvManager/main/car_simulation.cpp/ext/source/modules/EV/EvManager/main/car_simulation.cpp
+index 13ac26b0c..f4dd5c38e 100644
+--- /ext/source/modules/EV/EvManager/main/car_simulation.cpp
++++ /ext/source/modules/EV/EvManager/main/car_simulation.cpp
+@@ -295,19 +295,28 @@ bool CarSimulation::iso_dc_power_on(const CmdArguments& arguments) {
  }
  
  bool CarSimulation::iso_start_v2g_session(const CmdArguments& arguments, bool three_phases) {
@@ -228,11 +187,10 @@ index b1a8ab75..0a411a65 100644
          sim_data.energy_mode = EnergyMode::DC;
          charge_mode = ChargeMode::DC;
      } else {
-diff --git /ext/source/modules/EvManager/main/car_simulatorImpl.cpp /ext/source/modules/EvManager/main/car_simulatorImpl.cpp
-new file mode 100644
-index 03985513..6172724d 100644
---- /ext/source/modules/EvManager/main/car_simulatorImpl.cpp
-+++ /ext/source/modules/EvManager/main/car_simulatorImpl.cpp
+diff --git/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
+index e8d4ef0b7..6e3f69aa7 100644
+---/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
++++/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
 @@ -200,8 +200,22 @@ void car_simulatorImpl::register_all_commands() {
          command_registry->register_command("iso_dc_power_on", 0, [this](const CmdArguments& arguments) {
              return this->car_simulation->iso_dc_power_on(arguments);
@@ -258,11 +216,10 @@ index 03985513..6172724d 100644
          });
          command_registry->register_command("iso_stop_charging", 0, [this](const CmdArguments& arguments) {
              return this->car_simulation->iso_stop_charging(arguments);
-diff --git /ext/source/modules/EvManager/manifest.yaml /ext/source/modules/EvManager/manifest.yaml
-new file mode 100644
-index 6a7ee665..85559011 100644
---- /ext/source/modules/EvManager/manifest.yaml
-+++ /ext/source/modules/EvManager/manifest.yaml
+diff --git /ext/source/modules/EV/EvManager/manifest.yaml/ext/source/modules/EV/EvManager/manifest.yaml
+index 6a7ee665b..85559011a 100644
+--- /ext/source/modules/EV/EvManager/manifest.yaml
++++ /ext/source/modules/EV/EvManager/manifest.yaml
 @@ -80,6 +80,14 @@ config:
      description: Support three phase
      type: boolean
@@ -278,12 +235,11 @@ index 6a7ee665..85559011 100644
    soc:
      description: SoC at start of a simulated charging process
      type: integer
-diff --git /ext/source/modules/EvseV2G/iso_server.cpp /ext/source/modules/EvseV2G/iso_server.cpp
-new file mode 100644
-index 0385a94d..8acfc491 100644
---- /ext/source/modules/EvseV2G/iso_server.cpp
-+++ /ext/source/modules/EvseV2G/iso_server.cpp
-@@ -1146,23 +1146,29 @@ static enum v2g_event handle_iso_charge_parameter_discovery(struct v2g_connectio
+diff --git /ext/source/modules/EVSE/EvseV2G/iso_server.cpp /ext/source/modules/EVSE/EvseV2G/iso_server.cpp
+index 24a9f2b04..c2e4d1cc9 100644
+--- /ext/source/modules/EVSE/EvseV2G/iso_server.cpp
++++ /ext/source/modules/EVSE/EvseV2G/iso_server.cpp
+@@ -1238,23 +1238,29 @@ static enum v2g_event handle_iso_charge_parameter_discovery(struct v2g_connectio
      res->EVSEChargeParameter_isUsed = 0;
      res->EVSEProcessing = (iso2_EVSEProcessingType)conn->ctx->evse_v2g_data.evse_processing[PHASE_PARAMETER];
  
@@ -324,7 +280,7 @@ index 0385a94d..8acfc491 100644
                  populate_physical_value(&conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.array[0]
                                               .PMaxSchedule.PMaxScheduleEntry.array[0]
                                               .PMax,
-@@ -1172,6 +1178,9 @@ static enum v2g_event handle_iso_charge_parameter_discovery(struct v2g_connectio
+@@ -1264,6 +1270,9 @@ static enum v2g_event handle_iso_charge_parameter_discovery(struct v2g_connectio
                      .PMaxSchedule.PMaxScheduleEntry.array[0]
                      .PMax = conn->ctx->evse_v2g_data.evse_maximum_power_limit;
              }
@@ -334,16 +290,16 @@ index 0385a94d..8acfc491 100644
              conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.array[0]
                  .PMaxSchedule.PMaxScheduleEntry.array[0]
                  .RelativeTimeInterval.start = 0;
-@@ -1180,7 +1189,7 @@ static enum v2g_event handle_iso_charge_parameter_discovery(struct v2g_connectio
-                 .RelativeTimeInterval.duration_isUsed = 1;
+@@ -1275,7 +1284,7 @@ static enum v2g_event handle_iso_charge_parameter_discovery(struct v2g_connectio
              conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.array[0]
                  .PMaxSchedule.PMaxScheduleEntry.array[0]
--                .RelativeTimeInterval.duration = SA_SCHEDULE_DURATION;
-+                .RelativeTimeInterval.duration = departure_time_duration;
+                 .RelativeTimeInterval.duration = conn->ctx->evse_v2g_data.no_energy_pause == NoEnergyPauseStatus::None
+-                                                     ? SA_SCHEDULE_DURATION
++                                                     ? departure_time_duration
+                                                      : PAUSE_DURATION;
              conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.array[0]
                  .PMaxSchedule.PMaxScheduleEntry.arrayLen = 1;
-             conn->ctx->evse_v2g_data.evse_sa_schedule_list.SAScheduleTuple.arrayLen = 1;
-@@ -1230,13 +1239,8 @@ static enum v2g_event handle_iso_charge_parameter_discovery(struct v2g_connectio
+@@ -1326,13 +1335,8 @@ static enum v2g_event handle_iso_charge_parameter_discovery(struct v2g_connectio
  
          /* Nominal voltage */
          res->AC_EVSEChargeParameter.EVSENominalVoltage = conn->ctx->evse_v2g_data.evse_nominal_voltage;
@@ -358,8 +314,7 @@ index 0385a94d..8acfc491 100644
          if (res->SAScheduleList_isUsed == (unsigned int)1) {
              for (uint8_t idx = 0; idx < res->SAScheduleList.SAScheduleTuple.arrayLen; idx++) {
 diff --git /ext/source/tests/core_tests/startup_tests.py /ext/source/tests/core_tests/startup_tests.py
-new file mode 100644
-index 894ab0be..bc6ec1d9 100644
+index 66a3205bc..bc6ec1d9a 100644
 --- /ext/source/tests/core_tests/startup_tests.py
 +++ /ext/source/tests/core_tests/startup_tests.py
 @@ -70,9 +70,9 @@ class ProbeModule:
