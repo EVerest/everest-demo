@@ -1,8 +1,7 @@
-diff --git /ext/cache/cpm/libocpp/b10f905a477fb9c9ae21ca2c4a6c77491050a59c/libocpp/lib/ocpp/v2/functional_blocks/smart_charging.cpp /ext/cache/cpm/libocpp/b10f905a477fb9c9ae21ca2c4a6c77491050a59c/libocpp/lib/ocpp/v2/functional_blocks/smart_charging.cpp
-new file mode 100644
+diff --git /ext/cache/cpm/libocpp/a68f6735ebee194bd543386bbf4dbe2f678df268/libocpp/lib/ocpp/v2/functional_blocks/smart_charging.cpp /ext/cache/cpm/libocpp/a68f6735ebee194bd543386bbf4dbe2f678df268/libocpp/lib/ocpp/v2/functional_blocks/smart_charging.cpp
 index 9981492c..8b133d00 100644
---- /ext/cache/cpm/libocpp/b10f905a477fb9c9ae21ca2c4a6c77491050a59c/libocpp/lib/ocpp/v2/functional_blocks/smart_charging.cpp
-+++ /ext/cache/cpm/libocpp/b10f905a477fb9c9ae21ca2c4a6c77491050a59c/libocpp/lib/ocpp/v2/functional_blocks/smart_charging.cpp
+--- /ext/cache/cpm/libocpp/a68f6735ebee194bd543386bbf4dbe2f678df268/libocpp/lib/ocpp/v2/functional_blocks/smart_charging.cpp
++++ /ext/cache/cpm/libocpp/a68f6735ebee194bd543386bbf4dbe2f678df268/libocpp/lib/ocpp/v2/functional_blocks/smart_charging.cpp
 @@ -696,7 +696,7 @@ void SmartCharging::notify_ev_charging_needs_req(const NotifyEVChargingNeedsRequ
  }
  
