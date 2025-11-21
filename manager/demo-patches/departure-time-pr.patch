@@ -125,7 +125,7 @@ index 9a4e50a1a..a060145c9 100644
      result:
        description: Returns true if the evcc simulation started
        type: boolean
-diff --git/ext/source/modules/EV/EvManager/EvManager.hpp/ext/source/modules/EV/EvManager/EvManager.hpp
+diff --git /ext/source/modules/EV/EvManager/EvManager.hpp/ext/source/modules/EV/EvManager/EvManager.hpp
 index 2db0ba953..15655e590 100644
 --- /ext/source/modules/EV/EvManager/EvManager.hpp
 +++ /ext/source/modules/EV/EvManager/EvManager.hpp
@@ -138,7 +138,7 @@ index 2db0ba953..15655e590 100644
      int soc;
      bool keep_cross_boot_plugin_state;
  };
-diff --git/ext/source/modules/EV/EvManager/doc.rst/ext/source/modules/EV/EvManager/doc.rst
+diff --git /ext/source/modules/EV/EvManager/doc.rst/ext/source/modules/EV/EvManager/doc.rst
 index 1a5e35b3c..23896dc30 100644
 --- /ext/source/modules/EV/EvManager/doc.rst
 +++ /ext/source/modules/EV/EvManager/doc.rst
@@ -187,7 +187,7 @@ index 13ac26b0c..f4dd5c38e 100644
          sim_data.energy_mode = EnergyMode::DC;
          charge_mode = ChargeMode::DC;
      } else {
-diff --git/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp /ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
+diff --git /ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp /ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
 index e8d4ef0b7..6e3f69aa7 100644
 ---/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
 +++/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
