@@ -187,7 +187,7 @@ index 13ac26b0c..f4dd5c38e 100644
          sim_data.energy_mode = EnergyMode::DC;
          charge_mode = ChargeMode::DC;
      } else {
-diff --git/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
+diff --git/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp /ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
 index e8d4ef0b7..6e3f69aa7 100644
 ---/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
 +++/ext/source/modules/EV/EvManager/main/car_simulatorImpl.cpp
@@ -216,7 +216,7 @@ index e8d4ef0b7..6e3f69aa7 100644
          });
          command_registry->register_command("iso_stop_charging", 0, [this](const CmdArguments& arguments) {
              return this->car_simulation->iso_stop_charging(arguments);
-diff --git /ext/source/modules/EV/EvManager/manifest.yaml/ext/source/modules/EV/EvManager/manifest.yaml
+diff --git /ext/source/modules/EV/EvManager/manifest.yaml /ext/source/modules/EV/EvManager/manifest.yaml
 index 6a7ee665b..85559011a 100644
 --- /ext/source/modules/EV/EvManager/manifest.yaml
 +++ /ext/source/modules/EV/EvManager/manifest.yaml
