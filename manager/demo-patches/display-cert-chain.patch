@@ -2,16 +2,16 @@ diff --git /ext/cache/cpm/libevse-security/49a83c246b7e50cfaf45ff6845bedec27b5f0
 index 9cd916e..1c7fd0a 100644
 --- /ext/cache/cpm/libevse-security/49a83c246b7e50cfaf45ff6845bedec27b5f042c/libevse-security/lib/evse_security/certificate/x509_bundle.cpp
 +++ /ext/cache/cpm/libevse-security/49a83c246b7e50cfaf45ff6845bedec27b5f042c/libevse-security/lib/evse_security/certificate/x509_bundle.cpp
-@@ -75,8 +75,11 @@ std::vector<X509Wrapper> X509CertificateBundle::split() {
+@@ -77,8 +77,10 @@ std::vector<X509Wrapper> X509CertificateBundle::split() {
  
      // Append all chains
      for (const auto& chains : certificates) {
--        for (const auto& cert : chains.second)
 +        EVLOG_info << "SHANKARI: Considering chain " << chains.first;
-+        for (const auto& cert : chains.second) {
+         for (const auto& cert : chains.second) {
+-            full_certificates.push_back(cert);
 +            EVLOG_info << "SHANKARI: Considering cert " << cert.get_common_name();
-             full_certificates.push_back(cert);
-+        }
++             full_certificates.push_back(cert);
+         }
      }
  
      return full_certificates;
