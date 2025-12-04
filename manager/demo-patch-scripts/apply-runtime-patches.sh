@@ -17,6 +17,3 @@ cp /tmp/demo-patches/power_curve.py \
 /ext/dist/libexec/everest/3rd_party/josev/iso15118/evcc/states/
 
 cp /tmp/demo-patches/enable_evcc_logging.cfg /ext/dist/etc/everest/default_logging.cfg
-
-echo "Applying esdp patch josev iso15118"
-cd / && patch -N -p0 -i /tmp/demo-patches/esdp-iso15118.patch
