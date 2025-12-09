@@ -101,13 +101,14 @@ move to Step 4: Teardown before attempting to start new demo.
 
 |Features| Description |
 | -- | ---- |
-|<img src="img/One_EV_EVSE_UI.png" alt="Demo UI" width="249" height="572"/>| |
 | `CAR PLUGIN` | Starts the charging cycle |
 | `STOP & UNPLUG` | Stops the charging cycle |
 | `EV PAUSE` | Pause the charging session |
 | `EV RESUME` | Resume the charging cycle |
 | `Car Simulation` dropdown | Changes the charging scenario (i.e., chaos testing) |
 | `Max Current` slider | Slide to adjust the current provided to the vehicle |
+| `EAmount` | Set the requested energy amount (kWh) |
+| `DepartureTime` | Set the requested departure time (seconds) |
 
 ### Step 4: Teardown
 
