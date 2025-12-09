@@ -36,7 +36,7 @@ Below is a table of demonstrations that are currently available.
   - No additional steps needed, move to [Install and Set-up](#install-and-set-up)
 - Windows
   - Ensure that you are running Windows 10+
-  - Install [Windows Subsystem for Linux](https:://learn.microsoft.com/en-us/windows/wsl/install)
+  - Install [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
   (recommended version 2.0)
   - Move to [Install and Set-up](#install-and-set-up)
 
