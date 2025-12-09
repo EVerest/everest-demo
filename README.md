@@ -89,7 +89,7 @@ should open the associated containers
 
    - Note: The nodered flows will allow the user to understand how modules
    interact within the demonstrations. For  more information on simulating
-   Everest with software, the simulation GUI, and NODE RED, click [here](https://everest.github.io/nightly/general/03_quick_start_guide.html#simulating-everest)
+   Everest with software, the simulation GUI, and NODE RED, click [here](https://everest.github.io/everest-core/latest/explanation/getting-started/get-started-sw.html#simulating-everest)
 
 ### Step 3: Interact with the Demo
 
@@ -145,7 +145,7 @@ could execute
 export EVEREST_MANAGER_CPUS='2.0' EVEREST_MANAGER_MEMORY='1536mb'
 ```
 
-- This demo can be run independently, and exports [the admin panel](https://everest.github.io/nightly/general/03_quick_start_guide.html#admin-panel-and-simulations)
+- This demo can be run independently, and exports [the admin panel](https://everest.github.io/everest-core/latest/explanation/getting-started/get-started-sw.html#admin-panel-and-simulations)
 as explained [in this video](https://youtu.be/OJ6kjHRPkyY?t=904).It provides a
 visual representation of the configuration and the resulting configurations.
   
