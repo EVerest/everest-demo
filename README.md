@@ -31,14 +31,14 @@ Below is a table of demonstrations that are currently available.
 
 - Mac OS
   - EVerest Demos are currently NOT supported on M1 chips
-  - On x86 chips, no additional steps needed, move to [Install and Set-up](Install-and-Set-up)
+  - On x86 chips, no additional steps needed, move to [Install and Set-up](#install-and-set-up)
 - Linux
-  - No additional steps needed, move to [Install and Set-up](Install-and-Set-up)
+  - No additional steps needed, move to [Install and Set-up](#install-and-set-up)
 - Windows
   - Ensure that you are running Windows 10+
   - Install [Windows Subsystem for Linux](https:://learn.microsoft.com/en-us/windows/wsl/install)
   (recommended version 2.0)
-  - Move to [Install and Set-up](Install-and-Set-up)
+  - Move to [Install and Set-up](#install-and-set-up)
 
 ## Install and Set-up
 
