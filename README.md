@@ -24,21 +24,21 @@ Below is a table of demonstrations that are currently available.
 | **One EV ↔ EVSE (AC Simulation)** | Simple AC charging session with one EV connecting to one Charger (EVSE) | [One EV ↔ EVSE (AC Simulation) Diagram](#one-ev-to-evse-ac-simulation) |
 | **One EV ↔ EVSE (ISO 15118-2 DC)** | ISO 15118-2 compliant charging session with one EV connecting to one EVSE | [One EV ↔ EVSE (ISO 15118-2 DC) Diagram](#one-ev-to-evse-iso-15118-2-dc)|
 | **Two EV ↔ EVSE** | Two EVSE connector points showcasing EVerests ability to work with a CSMS in a multi-station context | [Two EV ↔ EVSE Diagram](#two-ev-to-evse) |
-| **E2E Automated Tests** | Performs an automated test of a full charging session| [E2E Automated Tests Diagram](e2e-automated-tests) |
+| **E2E Automated Tests** | Performs an automated test of a full charging session| [E2E Automated Tests Diagram](#e2e-automated-tests) |
 | **OCPP Demos** | Various OCPP 2.0.1 compliant charging sessions with differing security profiles| [OCPP Demo Diagram](#ocpp-demos)|
 
 ## Operating System Specific Instructions
 
 - Mac OS
   - EVerest Demos are currently NOT supported on M1 chips
-  - On x86 chips, no additional steps needed, move to [Install and Set-up](Install-and-Set-up)
+  - On x86 chips, no additional steps needed, move to [Install and Set-up](#install-and-set-up)
 - Linux
-  - No additional steps needed, move to [Install and Set-up](Install-and-Set-up)
+  - No additional steps needed, move to [Install and Set-up](#install-and-set-up)
 - Windows
   - Ensure that you are running Windows 10+
-  - Install [Windows Subsystem for Linux](https:://learn.microsoft.com/en-us/windows/wsl/install)
+  - Install [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
   (recommended version 2.0)
-  - Move to [Install and Set-up](Install-and-Set-up)
+  - Move to [Install and Set-up](#install-and-set-up)
 
 ## Install and Set-up
 
@@ -89,7 +89,7 @@ should open the associated containers
 
    - Note: The nodered flows will allow the user to understand how modules
    interact within the demonstrations. For  more information on simulating
-   Everest with software, the simulation GUI, and NODE RED, click [here](https://everest.github.io/nightly/general/03_quick_start_guide.html#simulating-everest)
+   Everest with software, the simulation GUI, and NODE RED, click [here](https://everest.github.io/everest-core/latest/explanation/getting-started/get-started-sw.html#simulating-everest)
 
 ### Step 3: Interact with the Demo
 
@@ -101,13 +101,14 @@ move to Step 4: Teardown before attempting to start new demo.
 
 |Features| Description |
 | -- | ---- |
-|<img src="img/One_EV_EVSE_UI.png" alt="Demo UI" width="249" height="572"/>| |
 | `CAR PLUGIN` | Starts the charging cycle |
 | `STOP & UNPLUG` | Stops the charging cycle |
 | `EV PAUSE` | Pause the charging session |
 | `EV RESUME` | Resume the charging cycle |
 | `Car Simulation` dropdown | Changes the charging scenario (i.e., chaos testing) |
 | `Max Current` slider | Slide to adjust the current provided to the vehicle |
+| `EAmount` | Set the requested energy amount (kWh) |
+| `DepartureTime` | Set the requested departure time (seconds) |
 
 ### Step 4: Teardown
 
@@ -144,7 +145,7 @@ could execute
 export EVEREST_MANAGER_CPUS='2.0' EVEREST_MANAGER_MEMORY='1536mb'
 ```
 
-- This demo can be run independently, and exports [the admin panel](https://everest.github.io/nightly/general/03_quick_start_guide.html#admin-panel-and-simulations)
+- This demo can be run independently, and exports [the admin panel](https://everest.github.io/everest-core/latest/explanation/getting-started/get-started-sw.html#admin-panel-and-simulations)
 as explained [in this video](https://youtu.be/OJ6kjHRPkyY?t=904).It provides a
 visual representation of the configuration and the resulting configurations.
   
