@@ -1,0 +1,14 @@
+diff --git /ext/scripts/compile.sh /ext/scripts/compile.sh
+index dcc383e..53b2918
+--- /ext/scripts/compile.sh
++++ /ext/scripts/compile.sh
+@@ -9,7 +9,8 @@ cmake \
+     -DCMAKE_INSTALL_PREFIX="$EXT_MOUNT/dist" \
+     -DWHEEL_INSTALL_PREFIX="$EXT_MOUNT/wheels" \
+     -DBUILD_TESTING=ON \
+-    -DEVEREST_ENABLE_COMPILE_WARNINGS=ON
++    -DEVEREST_ENABLE_COMPILE_WARNINGS=ON \
++    -DEVEREST_EXCLUDE_MODULES="Linux_Systemd_Rauc"
+ retVal=$?
+ if [ $retVal -ne 0 ]; then
+     echo "Configuring failed with return code $retVal"

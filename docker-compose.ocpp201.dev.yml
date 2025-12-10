@@ -22,7 +22,7 @@ services:
     depends_on:
       - mqtt-server
     environment:
-      - EVEREST_VERSION=2025.6.0
+      - EVEREST_VERSION=2025.10.0
       - MQTT_SERVER_ADDRESS=mqtt-server
       - DEMO_CSMS=maeve
       - DEMO_VERSION=v2.0.1-sp1

@@ -1,8 +1,8 @@
-diff --git a/modules/API/API.cpp b/modules/API/API.cpp
-index 68c4900d..03425dc4 100644
---- a/ext/source/modules/API/API.cpp
-+++ b/ext/source/modules/API/API.cpp
-@@ -573,6 +573,7 @@ void API::init() {
+diff --git a/ext/source/modules/API/API/API.cpp b/ext/source/modules/API/API/API.cpp
+index 04ba12460..3b85ce3ad 100644
+--- a/ext/source/modules/API/API/API.cpp
++++ b/ext/source/modules/API/API/API.cpp
+@@ -693,6 +693,7 @@ void API::init() {
      if (this->r_ocpp.size() == 1) {
  
          this->r_ocpp.at(0)->subscribe_is_connected([this](bool is_connected) {
@@ -10,7 +10,7 @@ index 68c4900d..03425dc4 100644
              std::scoped_lock lock(ocpp_data_mutex);
              if (is_connected) {
                  this->ocpp_connection_status = "connected";
-@@ -582,6 +583,7 @@ void API::init() {
+@@ -702,6 +703,7 @@ void API::init() {
          });
  
          this->r_ocpp.at(0)->subscribe_charging_schedules([this, &var_ocpp_schedule](json schedule) {
@@ -18,13 +18,13 @@ index 68c4900d..03425dc4 100644
              std::scoped_lock lock(ocpp_data_mutex);
              this->ocpp_charging_schedule = schedule;
              this->ocpp_charging_schedule_updated = true;
-diff --git a/modules/OCPP201/OCPP201.cpp b/modules/OCPP201/OCPP201.cpp
-index 0c3d953f..16ae318c 100644
---- a/ext/source/modules/OCPP201/OCPP201.cpp
-+++ b/ext/source/modules/OCPP201/OCPP201.cpp
-@@ -1313,6 +1313,9 @@ void OCPP201::process_reservation_end(const int32_t evse_id, const int32_t conne
+diff --git a/ext/source/modules/EVSE/OCPP201/OCPP201.cpp b/ext/source/modules/EVSE/OCPP201/OCPP201.cpp
+index 769bf9f10..520f90c3d 100644
+--- a/ext/source/modules/EVSE/OCPP201/OCPP201.cpp
++++ b/ext/source/modules/EVSE/OCPP201/OCPP201.cpp
+@@ -1641,6 +1641,9 @@ void OCPP201::process_reservation_end(const int32_t evse_id, const int32_t conne
  }
-
+ 
  void OCPP201::publish_charging_schedules(const std::vector<ocpp::v2::CompositeSchedule>& composite_schedules) {
 +    EVLOG_info << "About to publish composite charging schedules: ";
 +    for (ocpp::v2::CompositeSchedule cs: composite_schedules)
