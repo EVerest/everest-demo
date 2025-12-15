@@ -38,7 +38,7 @@ jobs:
             host_namespace: ghcr.io/everest/everest-demo
           - csms: citrineos
             csms_repo: US-JOET/citrineos-core
-            csms_branch: citrine-image-update
+            csms_branch: roll-to-1.8.0
             image_name: citrineos-server
             host_namespace: ghcr.io/everest/everest-demo
             context: ./citrineos-csms/
