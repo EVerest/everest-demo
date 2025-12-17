@@ -1,17 +1,23 @@
 diff --git a/ext/source/modules/EVSE/EvseManager/EvseManager.cpp b/ext/source/modules/EVSE/EvseManager/EvseManager.cpp
-index 538ac24b5..505c0d465 100644
+index 538ac24b..656f661a 100644
 --- a/ext/source/modules/EVSE/EvseManager/EvseManager.cpp
 +++ b/ext/source/modules/EVSE/EvseManager/EvseManager.cpp
-@@ -320,8 +320,10 @@ void EvseManager::ready() {
+@@ -320,8 +320,19 @@ void EvseManager::ready() {
              setup_physical_values.ac_nominal_voltage = config.ac_nominal_voltage;
              r_hlc[0]->call_set_charging_parameters(setup_physical_values);
  
 -            transfer_modes.push_back(types::iso15118::EnergyTransferMode::AC_three_phase_core);
 -            update_supported_energy_transfers(types::iso15118::EnergyTransferMode::AC_three_phase_core);
-+            // transfer_modes.push_back(types::iso15118::EnergyTransferMode::AC_three_phase_core);
-+            // update_supported_energy_transfers(types::iso15118::EnergyTransferMode::AC_three_phase_core);
-+            transfer_modes.push_back(types::iso15118::EnergyTransferMode::AC_single_phase_core);
-+            update_supported_energy_transfers(types::iso15118::EnergyTransferMode::AC_single_phase_core);
- 
-             if (config.supported_iso_ac_bpt) {
-                 transfer_modes.push_back({types::iso15118::EnergyTransferMode::AC_BPT});
++           switch (hw_capabilities.max_phase_count_import) {
++            case 3:
++                transfer_modes.push_back(types::iso15118::EnergyTransferMode::AC_three_phase_core);
++                [[fallthrough]];
++            case 2:
++                transfer_modes.push_back(types::iso15118::EnergyTransferMode::AC_two_phase);
++                [[fallthrough]];
++            case 1:
++                transfer_modes.push_back(types::iso15118::EnergyTransferMode::AC_single_phase_core);
++                break;
++            default:
++                break;
++            }
