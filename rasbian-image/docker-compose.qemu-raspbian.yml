@@ -1,0 +1,21 @@
+version: "3"
+services:
+  qemu:
+    container_name: qemu-raspbian
+    image: qemux/qemu-arm
+    volumes:
+      - /path/to/1688039802-2023-06-29-belaybox.img:/storage/boot.iso
+    environment:
+      # BOOT: "https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/aarch64/alpine-virt-3.19.1-aarch64.iso"
+      KVM: "N"
+      # RAM_SIZE: "2G"
+      # CPU_CORES: "4"
+      # DISK_SIZE: "64G"
+      # devices:
+      #   - /dev/kvm
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8006:8006
+    stop_grace_period: 2m
+    restart: on-failure

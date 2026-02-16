@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  everest-core:
+    container_name: everest-core
+    build:
+      dockerfile: "everest-core.dockerfile"
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "4"
+    #       memory: "1024M"
+
+    stdin_open: true
+    tty: true
