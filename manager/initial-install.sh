@@ -1,5 +1,5 @@
 #!/bin/bash
-git clone https://github.com/EVerest/everest-core.git
+git clone https://github.com/EVerest/EVerest.git everest-core
 cd everest-core
 git checkout "${EVEREST_VERSION}"
 cd ..
