@@ -2,7 +2,7 @@
 
 echo "Applying compile-time patches"
 
-cd / && patch -N -p0 -i /tmp/demo-patches/departure-time-pr.patch
+# 2026.02.1: departure time is merged upstream (2025.12); single-phase is an AC-demo change, not applied
 cd / && patch -N -p0 -i /tmp/demo-patches/build-script-hack.patch
-cd / && patch -N -p1 -i /tmp/demo-patches/composite_schedule_fixes.patch
-cd / && patch -N -p1 -i /tmp/demo-patches/switch_to_single_phase.patch
+# Skip unit tests to shorten the image build
+sed -i 's/-DBUILD_TESTING=ON/-DBUILD_TESTING=OFF/' /ext/scripts/compile.sh

@@ -1,6 +1,4 @@
 #!/bin/bash
 
-echo "Applying library patches"
-
-cd / && patch -N -p0 -i /tmp/demo-patches/enable_ocpp_logging.patch
-cd / && patch -N -p1 -i /tmp/demo-patches/display-cert-chain.patch
+# 2026.02.1: libraries live in the monorepo (lib/everest/*); the old libocpp cache-path patches do not apply
+echo "No library patches for this EVerest version"
